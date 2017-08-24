@@ -1,0 +1,13 @@
+/**
+ * The type of truth values.
+ */
+type bool <: native {
+	def ! : bool <: native;
+	def | (right : bool) : bool <: native;
+	def & (right : bool) : bool <: native;
+	
+	def || (right : bool) : bool <: native;
+	def && (right : bool) : bool <: native;
+
+  // TODO add "def ? (condition : bool, thenBranch : Block[Any], elseBranch : Block[Any]) { if(condition) thenBranch else elseBranch }"
+}

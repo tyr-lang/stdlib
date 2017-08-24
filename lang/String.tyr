@@ -1,0 +1,12 @@
+class String {
+    /**
+     * Prints the given string on std.out.
+     * @note deprecated (will be removed as soon as there is a console class)
+     */
+    def print;
+
+	def + (right : String) : String <: native;
+}
+
+/** the result of a string literal */
+class LiteralString <: String, native, CT;

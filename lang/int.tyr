@@ -1,0 +1,3 @@
+scope tyr.lang;
+
+type int <: Integer(32), native;

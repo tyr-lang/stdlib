@@ -1,0 +1,18 @@
+/**
+ * The general floating point type.
+ *
+ * @author Timm Felden
+ */
+type Float (n: LiteralInt) <: native {
+	def - : Float(n) <: native;
+	def - (right : Float(n)) : Float(n) <: native;
+	def + (right : Float(n)) : Float(n) <: native;
+	def * (right : Float(n)) : Float(n) <: native;
+	def ** (right : Float(n)) : Float(n) <: native;
+	def / (right : Float(n)) : Float(n) <: native;
+	def % (right : Float(n)) : Float(n) <: native;
+}
+
+type float <: Float(32), native;
+
+type double <: Float(64), native;

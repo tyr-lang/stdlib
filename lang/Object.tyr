@@ -1,0 +1,4 @@
+/** the implicit super class of all classes except object itself */
+class Object <: pointer {
+  var type : Class(this.type);
+}
