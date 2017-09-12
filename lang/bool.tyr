@@ -9,5 +9,5 @@ type bool <: native {
 	def || (right : bool) : bool <: native;
 	def && (right : bool) : bool <: native;
 
-  // TODO add "def ? (condition : bool, thenBranch : Block[Any], elseBranch : Block[Any]) { if(condition) thenBranch else elseBranch }"
+  // TODO add "def ? (T : Type <: infered, condition : bool, thenBranch : Block[T], elseBranch : Block[T]) : T { if(condition) thenBranch else elseBranch }"
 }
