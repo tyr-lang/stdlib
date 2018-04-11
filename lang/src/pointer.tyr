@@ -1,0 +1,6 @@
+/**
+ * the super type of all pointers; basically C's "void*"
+ *
+ * @author Timm Felden
+ */
+type pointer <: native;

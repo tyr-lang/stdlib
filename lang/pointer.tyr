@@ -1,2 +1,0 @@
-/** the super type of all pointers; basically C's "void*" */
-type pointer <: native;
