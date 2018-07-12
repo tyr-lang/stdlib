@@ -4,8 +4,6 @@
  * @author Timm Felden
  */
 type integer[size : int] <: native {
-  def ++ : integer[size] <: native, operator.precedence[250], operator.postfix;
-  def -- : integer[size] <: native, operator.precedence[250], operator.postfix;
 
   def - : integer[size] <: native, operator.precedence[200];
   def ~ : integer[size] <: native, operator.precedence[200];
