@@ -1,0 +1,23 @@
+/**
+ * The computation will result in an exception on termination.
+ *
+ * @todo WillThrow inherits from every other type except NoReturn, as any result
+ *       can be produced by throwing an exception before its production.
+ *
+ * @todo Add generic type parameter for exception types that should be expected.
+ *
+ * @note It should be legal to thread an exception at places where a type has to
+ * be supplied. The semantics of such a behaviour would be that the throw
+ * happens before the evaluation of that type. Such unevaluatable types can be
+ * replaced by Class[NoReturn].
+ */
+type WillThrow <: native;
+
+/**
+ * The computation will not terminate, i.e. control flow will somehow not get to
+ * this point. To some it might appear counter-intuitive that the type of a
+ * return expression is NoReturn. This is because the evaluation of a return
+ * cannot be observed from the perspective of the subsequent instruction in the
+ * same function following regular control flow.
+ */
+type NoReturn <: WillThrow, native;

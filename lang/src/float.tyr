@@ -42,7 +42,7 @@ type Float[size : int] <: native {
 /**
  * Literals are subtypes of arbitrary floats.
  */
-type floatLiteral[size : int] <: Float[size];
+type floatLiteral[size : int] <: Float[size], NoVar;
 
 // common Float names
 type float  := Float[8];

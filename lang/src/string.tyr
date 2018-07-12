@@ -4,7 +4,7 @@
 type String {
 }
 
-type StringLiteral <: String, native {
+type StringLiteral <: String, native, NoVar {
   // print the string to std out
   def !! : void <: native, operator.postfix, operator.precedence[10];
 }

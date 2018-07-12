@@ -17,3 +17,15 @@ property EntryPoint;
  * A compile-time value. For now, they are limited to literals.
  */
 property CT;
+
+
+/**
+ * An instance of this type cannot be a var.
+ * This will cause a var with this infered type to be upcasted to its supertype
+ * until a type is found that does not have a NoVar property.
+ *
+ * This property allows usage of types such as "var x = 0; x = x + 1".
+ *
+ * @author Timm Felden
+ */
+property NoVar;

@@ -47,7 +47,7 @@ type integer[size : int] <: native {
  *
  * @author Timm Felden
  */
-type integerLiteral[size : int] <: integer[size] {
+type integerLiteral[size : int] <: integer[size], NoVar {
   test "integerLiteral" {
     // this test is currently used to instantiate the integerLiteral type
     0 == 0i32
