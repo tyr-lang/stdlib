@@ -7,6 +7,6 @@ val type pointer <: native;
 
 /**
  * A reference to a T; basically C++'s &T. Ref is used to type this in object
- * functions in non-native types.
+ * functions. A Ref cannot be null.
  */
 val type Ref[T : Type] <: pointer;
