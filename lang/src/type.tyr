@@ -1,0 +1,10 @@
+/**
+ * The type of a type.
+ *
+ * @todo should be a class
+ *
+ * @todo should be generic (and covariant?) in T
+ *
+ * @note this type is currently used only for typing and has no RT semantics
+ */
+type Type <: native;

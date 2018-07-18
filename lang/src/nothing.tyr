@@ -6,6 +6,10 @@
  *
  * @todo Add generic type parameter for exception types that should be expected.
  *
+ * @todo As soon as type kategory checks ar implemented, this has to be turned
+ * into an interface, as value type interfaces are the only legal subtype of
+ * anything else.
+ *
  * @note It should be legal to thread an exception at places where a type has to
  * be supplied. The semantics of such a behaviour would be that the throw
  * happens before the evaluation of that type. Such unevaluatable types can be
@@ -19,5 +23,9 @@ type WillThrow <: native;
  * return expression is NoReturn. This is because the evaluation of a return
  * cannot be observed from the perspective of the subsequent instruction in the
  * same function following regular control flow.
+ *
+ * @todo As soon as type kategory checks ar implemented, this has to be turned
+ * into an interface, as value type interfaces are the only legal subtype of
+ * anything else.
  */
 type NoReturn <: WillThrow, native;

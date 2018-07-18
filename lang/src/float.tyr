@@ -7,7 +7,7 @@
  *
  * @note we deviate from our naming scheme, because float is a very common name for Float[32]
  */
-type Float[size : int] <: native {
+val type Float[size : int] <: native {
 
   def - : Float[size] <: native, operator.precedence[200];
 
@@ -42,7 +42,7 @@ type Float[size : int] <: native {
 /**
  * Literals are subtypes of arbitrary floats.
  */
-type floatLiteral[size : int] <: Float[size], NoVar;
+val type floatLiteral[size : int] <: Float[size], NoVar;
 
 // common Float names
 type float  := Float[8];

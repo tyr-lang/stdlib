@@ -3,4 +3,10 @@
  *
  * @author Timm Felden
  */
-type pointer <: native;
+val type pointer <: native;
+
+/**
+ * A reference to a T; basically C++'s &T. Ref is used to type this in object
+ * functions in non-native types.
+ */
+val type Ref[T : Type] <: pointer;

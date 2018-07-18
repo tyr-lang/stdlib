@@ -1,0 +1,7 @@
+/**
+ * The top of the type hierarchy. Every entity is an instance of any. Hence, any
+ * has no properties, no functions, not even a storage type. Therefore, direct
+ * usage of any is an error. Its presence is for the purpose of sane type
+ * handling in the compiler and in type level calculations.
+ */
+val type any;
