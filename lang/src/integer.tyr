@@ -3,39 +3,39 @@
  *
  * @author Timm Felden
  */
-val type integer[size : int] <: native {
+val type Integer[size : int] <: native {
 
-  def - : integer[size] <: native, operator.precedence[200];
-  def ~ : integer[size] <: native, operator.precedence[200];
+  def - : Integer[size] <: native, operator.precedence[200];
+  def ~ : Integer[size] <: native, operator.precedence[200];
 
-  def * (x : integer[size]) : integer[size]
+  def * (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[120];
-  def \ (x : integer[size]) : integer[size]
+  def \ (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[120];
-  def % (x : integer[size]) : integer[size]
+  def % (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[120];
 
-  def + (x : integer[size]) : integer[size]
+  def + (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[110];
-  def - (x : integer[size]) : integer[size]
+  def - (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[110];
 
-  def << (x : integer[size]) : bool
+  def << (x : Integer[size]) : bool
         <: native, operator.precedence[100];
-  def >> (x : integer[size]) : bool
+  def >> (x : Integer[size]) : bool
         <: native, operator.precedence[100];
 
-  def < (x : integer[size]) : bool
+  def < (x : Integer[size]) : bool
         <: native, operator.precedence[90];
-  def <= (x : integer[size]) : bool
+  def <= (x : Integer[size]) : bool
         <: native, operator.precedence[90];
-  def > (x : integer[size]) : bool
+  def > (x : Integer[size]) : bool
         <: native, operator.precedence[90];
-  def >= (x : integer[size]) : bool
+  def >= (x : Integer[size]) : bool
         <: native, operator.precedence[90];
 
-  def != (x : integer[size]) : bool <: native, operator.precedence[80];
-  def == (x : integer[size]) : bool <: native, operator.precedence[80];
+  def != (x : Integer[size]) : bool <: native, operator.precedence[80];
+  def == (x : Integer[size]) : bool <: native, operator.precedence[80];
 }
 
 /**
@@ -45,16 +45,16 @@ val type integer[size : int] <: native {
  *
  * @author Timm Felden
  */
-val type integerLiteral[size : int] <: integer[size], NoVar {
-  test "integerLiteral" {
-    // this test is currently used to instantiate the integerLiteral type
+val type IntegerLiteral[size : int] <: Integer[size], noVar {
+  test "IntegerLiteral" {
+    // this test is currently used to instantiate the IntegerLiteral type
     0 == 0i32
   }
 }
 
-// common integer names
-type byte  := integer[8];
-type short := integer[16];
-type int   := integer[32];
-type long  := integer[64];
+// common Integer names
+type byte  := Integer[8];
+type short := Integer[16];
+type int   := Integer[32];
+type long  := Integer[64];
 

@@ -10,7 +10,7 @@ property native;
 /**
  * Flags a function to be an entry point to the program.
  */
-property EntryPoint;
+property entryPoint;
 
 
 /**
@@ -28,4 +28,4 @@ property CT;
  *
  * @author Timm Felden
  */
-property NoVar;
+property noVar;

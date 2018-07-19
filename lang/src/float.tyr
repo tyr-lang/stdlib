@@ -42,7 +42,7 @@ val type Float[size : int] <: native {
 /**
  * Literals are subtypes of arbitrary floats.
  */
-val type floatLiteral[size : int] <: Float[size], NoVar;
+val type FloatLiteral[size : int] <: Float[size], noVar;
 
 // common Float names
 type float  := Float[8];
