@@ -8,5 +8,23 @@ val type pointer <: native;
 /**
  * A reference to a T; basically C++'s &T. Ref is used to type this in object
  * functions. A Ref cannot be null.
+ *
+ * @todo Creation of references requires some sort of checking.
+ * Otherwise, a reference could be abused to manipulate immutable and even
+ * inexistent values.
  */
-val type Ref[T : Type] <: pointer;
+val type Ref[T : Type] <: pointer {
+
+  /**
+   * Create a ref from a T. This function is invoked inplace, i.e. the reference
+   * will point to the values location at call site.
+   */
+  type def from(v : T) : Ref[T] <: native;
+
+  /**
+   * Check that a pointer is not null and convert it into a Ref of the same type
+   * @note can only work for typed Pointers
+   */
+  // TODO type def check(p : Pointer) : Ref[T] <: native;
+ 
+}
