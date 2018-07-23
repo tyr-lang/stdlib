@@ -12,6 +12,8 @@ val type pointer <: any, native;
  * @todo Creation of references requires some sort of checking.
  * Otherwise, a reference could be abused to manipulate immutable and even
  * inexistent values.
+ *
+ * @todo T should be covariant
  */
 val type Ref[T : Type] <: pointer, proxy[T] {
 
