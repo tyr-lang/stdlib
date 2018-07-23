@@ -7,7 +7,7 @@
  *
  * @note we deviate from our naming scheme, because float is a very common name for Float[32]
  */
-val type Float[size : int] <: native {
+val type Float[size : int] <: any, native {
 
   def - : Float[size] <: native, operator.precedence[200];
 

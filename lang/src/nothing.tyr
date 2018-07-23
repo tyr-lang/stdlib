@@ -15,7 +15,7 @@
  * happens before the evaluation of that type. Such unevaluatable types can be
  * replaced by Class[NoReturn].
  */
-type WillThrow <: native;
+type WillThrow <: any, native;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to

@@ -7,14 +7,24 @@
  */
 property native;
 
+
 /**
- * Flags a function to be an entry point to the program.
+ * Iff overload resolution fails on a type with this property, another attempt
+ * is performed in T. This behaviour is recursive.
+ *
+ * @note there is currently no cycle checking
+ *
+ * @note proxy[T] should be used in conjunction with def implicit : T
+ *
+ * @author Timm Felden
  */
-property entryPoint;
+property proxy[T : Type];
 
 
 /**
  * A compile-time value. For now, they are limited to literals.
+ *
+ * @author Timm Felden
  */
 property CT;
 
@@ -29,3 +39,11 @@ property CT;
  * @author Timm Felden
  */
 property noVar;
+
+
+/**
+ * Flags a function to be an entry point to the program.
+ *
+ * @author Timm Felden
+ */
+property entryPoint;

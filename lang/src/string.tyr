@@ -1,7 +1,7 @@
 /**
  * @todo should be class
  */
-type String {
+type String <: any {
 }
 
 type StringLiteral <: String, native, noVar {
