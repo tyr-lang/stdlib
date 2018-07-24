@@ -28,6 +28,18 @@ val type Ref[T : Type] <: pointer, proxy[T] {
    */
   def implicit : T <: native;
 
+
+  /** 
+   * Assign a value to the target of this reference. I.e. the location pointed
+   * to by this will be overwritten by v.
+   *
+   * @note The correct result type would be v.this.type
+   *
+   * @note Overloaded assignments will always win over the predefined one.
+   */
+  def `=` (v : T) : Ref[T]
+          <: native, operator.precedence[20], operator.rightAssociative;
+
   /**
    * Check that a pointer is not null and convert it into a Ref of the same type
    * @note can only work for typed Pointers
