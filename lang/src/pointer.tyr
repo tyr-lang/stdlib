@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-val type pointer <: any, native;
+type pointer <: any, native;
 
 /**
  * A reference to a T; basically C++'s &T. Ref is used to type this in object
@@ -17,7 +17,7 @@ val type pointer <: any, native;
  *
  * @todo T should be covariant
  */
-val type Ref[T : Type] <: pointer, proxy[T], native {
+type Ref[T : Type] <: pointer, proxy[T], native {
 
   /**
    * Create a ref from a T. This function is invoked inplace, i.e. the reference

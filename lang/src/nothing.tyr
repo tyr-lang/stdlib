@@ -15,7 +15,7 @@
  * happens before the evaluation of that type. Such unevaluatable types can be
  * replaced by Class[NoReturn].
  */
-type WillThrow <: any, native;
+var type WillThrow <: any, native;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to
@@ -28,4 +28,4 @@ type WillThrow <: any, native;
  * into an interface, as value type interfaces are the only legal subtype of
  * anything else.
  */
-type NoReturn <: WillThrow, native;
+var type NoReturn <: WillThrow, native;

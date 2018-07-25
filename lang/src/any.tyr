@@ -4,4 +4,4 @@
  * usage of any is an error. Its presence is for the purpose of sane type
  * handling in the compiler and in type level calculations.
  */
-val type any;
+type any;

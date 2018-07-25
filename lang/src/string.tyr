@@ -1,10 +1,10 @@
 /**
  * @todo should be class
  */
-type String <: any {
+var type String <: any {
 }
 
-type StringLiteral <: String, native, noVar {
+var type StringLiteral <: String, native, noVar {
   // print the string to std out
   def !! : void <: native, operator.postfix, operator.precedence[10];
 }

@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-val type Integer[size : int] <: any, native {
+type Integer[size : int] <: any, native {
 
   def - : Integer[size] <: native, operator.precedence[200];
   def ~ : Integer[size] <: native, operator.precedence[200];
@@ -49,7 +49,7 @@ val type Integer[size : int] <: any, native {
  *
  * @author Timm Felden
  */
-val type IntegerLiteral[size : int] <: Integer[size], noVar {
+type IntegerLiteral[size : int] <: Integer[size], noVar {
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type
     0 == 0i32

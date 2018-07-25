@@ -7,4 +7,4 @@
  *
  * @note this type is currently used only for typing and has no RT semantics
  */
-type Type <: any, native;
+var type Type <: any, native;

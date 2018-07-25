@@ -1,4 +1,4 @@
 /**
  * zero space
  */
-val type void <: any, native;
+type void <: any, native;
