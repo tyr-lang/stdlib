@@ -10,7 +10,7 @@ type Integer[size : int] <: any, native {
 
   def * (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[120];
-  def \ (x : Integer[size]) : Integer[size]
+  def / (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[120];
   def % (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[120];
@@ -20,10 +20,18 @@ type Integer[size : int] <: any, native {
   def - (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[110];
 
-  def << (x : Integer[size]) : bool
+  def << (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[100];
-  def >> (x : Integer[size]) : bool
+  def >> (x : Integer[size]) : Integer[size]
         <: native, operator.precedence[100];
+
+  /**
+   * @note in contrast to C, we do not have to assign one precedence to all
+   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   */
+  def & (x : Integer[size]) : Integer[size] <: native, operator.precedence[97];
+  def ^ (x : Integer[size]) : Integer[size] <: native, operator.precedence[95];
+  def | (x : Integer[size]) : Integer[size] <: native, operator.precedence[93];
 
   def < (x : Integer[size]) : bool
         <: native, operator.precedence[90];
@@ -37,9 +45,6 @@ type Integer[size : int] <: any, native {
   def != (x : Integer[size]) : bool <: native, operator.precedence[80];
   def == (x : Integer[size]) : bool <: native, operator.precedence[80];
 
-  def & (x : Integer[size]) : Integer[size] <: native, operator.precedence[70];
-  def ^ (x : Integer[size]) : Integer[size] <: native, operator.precedence[60];
-  def | (x : Integer[size]) : Integer[size] <: native, operator.precedence[50];
 }
 
 /**

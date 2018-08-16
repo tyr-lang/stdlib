@@ -11,6 +11,8 @@ type pointer <: any, native;
  *
  * @note Ref[T] is a native type, as its representation is T* instead of i8*
  *
+ * @note "var x : T" creates a value x of type Ref[T] plus some memory to be modified
+ *
  * @todo Creation of references requires some sort of checking.
  * Otherwise, a reference could be abused to manipulate immutable and even
  * inexistent values.
@@ -20,32 +22,16 @@ type pointer <: any, native;
 type Ref[T : Type] <: pointer, proxy[T], native {
 
   /**
-   * Create a ref from a T. This function is invoked inplace, i.e. the reference
-   * will point to the values location at call site.
-   */
-  type def from(v : T) : Ref[T] <: native;
-
-  /**
    * Implicit dereference allow value types to be used by reference.
    */
   def implicit : T <: native;
-
 
   /** 
    * Assign a value to the target of this reference. I.e. the location pointed
    * to by this will be overwritten by v.
    *
-   * @note The correct result type would be v.this.type
-   *
-   * @note Overloaded assignments will always win over the predefined one.
+   * @todo The correct result type would be v.this.type
    */
-  def `=` (v : T) : Ref[T]
+  def `=` (v : T) : T
           <: native, operator.precedence[20], operator.rightAssociative;
-
-  /**
-   * Check that a pointer is not null and convert it into a Ref of the same type
-   * @note can only work for typed Pointers
-   */
-  // TODO type def check(p : Pointer) : Ref[T] <: native;
- 
 }
