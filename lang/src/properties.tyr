@@ -22,7 +22,14 @@ property proxy[T : Type];
 
 
 /**
- * A compile-time value. For now, they are limited to literals.
+ * A compile-time value. An application of a CT function on CT operands can and
+ * should be evaluated at compile time.
+ *
+ * @note the compiler is free to tag a function whose implementation
+ * depends only on CT operands and its parameters and that has only applications
+ * of CT functions in its body CT. (note: in case of dependency SCCs, this
+ * property has to hold for every member of the the SCC in order to turn the
+ * whole SCC CT)
  *
  * @author Timm Felden
  */
@@ -31,8 +38,9 @@ property CT;
 
 /**
  * An instance of this type cannot be a var.
- * This will cause a var with this infered type to be upcasted to its supertype
- * until a type is found that does not have a NoVar property.
+ * This will cause a var with this infered type to T, if the target has an
+ * isVal[T] property or be upcasted to its supertype  until a type is found that
+ * does not have a noVar property.
  *
  * This property allows usage of types such as "var x = 0; x = x + 1".
  *

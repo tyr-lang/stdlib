@@ -11,8 +11,11 @@ type bool <: any, native {
   def ^ (x : bool) : bool <: native, operator.precedence[60];
   def | (x : bool) : bool <: native, operator.precedence[50];
 
-  // @note RHS should be Block[bool]
-  def && (x : bool) : bool <: native, operator.precedence[40];
-  // @note RHS should be Block[bool]
-  def || (x : bool) : bool <: native, operator.precedence[30];
+  /* the standard semantics of this operator in any common language */
+  def && (x : Block[bool]) : bool <: operator.precedence[40] =
+    if this x.eval() else this
+
+  /* the standard semantics of this operator in any common language */
+  def || (x : Block[bool]) : bool <: operator.precedence[30] =
+    if this this else x.eval()
 }
