@@ -41,11 +41,6 @@ type Block[T : Type] <: any, CT, native, noVar, proxy[T] {
    * Implicit conversion at compile time into regular execution of an expression.
    */
   def eval : T <: CT, native;
-
-  /**
-   * The result of a block can be silently discarded.
-   */
-  def implicit : Block[void] <: CT, native;
 }
 
 /**
