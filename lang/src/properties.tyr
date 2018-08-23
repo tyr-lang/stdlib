@@ -37,6 +37,20 @@ property CT;
 
 
 /**
+ * A call to an inline function will be treated by the front-end. A back-end
+ * will not create a representation for such a function.
+ *
+ * @note It is the responsibility of the caller to ensure that the call graph is
+ *       acyclic.
+ *
+ * @note Functions taking Block-Parameters receive an implicit inline property.
+ *
+ * @author Timm Felden
+ */
+property inline;
+
+
+/**
  * An instance of this type cannot be a var.
  * This will cause a var with this infered type to T, if the target has an
  * isVal[T] property or be upcasted to its supertype  until a type is found that

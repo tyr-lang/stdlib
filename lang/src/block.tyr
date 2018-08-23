@@ -39,6 +39,9 @@ type Block[T : Type] <: any, CT, native, noVar, proxy[T] {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression.
+   *
+   * @note this function cannot be inline, as it would make function bodys using
+   *       blocks unrealizable
    */
   def eval : T <: CT, native;
 }
