@@ -6,5 +6,5 @@ var type String <: any {
 
 var type StringLiteral <: String, native, noVar {
   // print the string to std out
-  def !! : void <: native, operator.postfix, operator.precedence[10];
+  type def !!(v : StringLiteral) : void <: native, operator.postfix, operator.precedence[10];
 }
