@@ -35,7 +35,7 @@
  *
  * @author Timm Felden
  */
-type Block[T : Type] <: any, CT, native, noVar, proxy[T] {
+type Block[T : Type] <: any, CT, native, noVar {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression.
