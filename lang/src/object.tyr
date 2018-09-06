@@ -3,7 +3,7 @@
  * Null is the bottom element of the class latice.
  * Object are represented by pointers.
  */
-class Object <: pointer {
+class Object <: pointer, abstract {
   /**
    * The runtime class of this object
    *
@@ -16,8 +16,13 @@ class Object <: pointer {
    * Release resources held by this object including its memory.
    *
    * @note Object.delete will just release the memory owned by this
+   *
+   * @note delete is always a dispatching call
+   *
+   * @note it is always an error to use a deleted object, even if its memory is
+   *       not returned to the OS
    */
-  def delete <: native;
+  delete <: native;
 }
 
 /**
