@@ -6,16 +6,17 @@
  *
  * @todo Add generic type parameter for exception types that should be expected.
  *
- * @todo As soon as type kategory checks ar implemented, this has to be turned
- * into an interface, as value type interfaces are the only legal subtype of
- * anything else.
+ * @todo Check that only NoReturn implements WillThrow
  *
- * @note It should be legal to thread an exception at places where a type has to
+ * @note It should be legal to throw an exception at places where a type has to
  * be supplied. The semantics of such a behaviour would be that the throw
  * happens before the evaluation of that type. Such unevaluatable types can be
  * replaced by Class[NoReturn].
+ *
+ * @note this is an interface, as value type interfaces are the only legal
+ * subtype of anything else.
  */
-var type WillThrow <: any, native;
+interface WillThrow <: any, native;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to
@@ -24,8 +25,7 @@ var type WillThrow <: any, native;
  * cannot be observed from the perspective of the subsequent instruction in the
  * same function following regular control flow.
  *
- * @todo As soon as type kategory checks ar implemented, this has to be turned
- * into an interface, as value type interfaces are the only legal subtype of
- * anything else.
+ * @note this is an interface, as value type interfaces are the only legal
+ * subtype of anything else.
  */
-var type NoReturn <: WillThrow, native;
+interface NoReturn <: WillThrow, native;

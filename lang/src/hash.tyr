@@ -1,0 +1,68 @@
+/**
+ * A hash code is a projection of a value v : T to a hash code. The projection
+ * must respect equivalence classes of an eqr.
+ *
+ * Furthermore, there are two rules originating from mutable state:
+ *
+ * - consistent: for any mutable value x : T, x.hash() returns identical values 
+ * irrespective of the number of invocations or modifications of x
+ * - total: an invocation of equals must terminate and return either true or false
+ *
+ * The latter two are usually required to by users of EQRs to provide a consistent
+ * behaviour.
+ *
+ * @note we do not use math syntax (i.e. ~), as this conflicts with common
+ * negation on integers.
+ *
+ * @note in contrast to other languages, a user is not expected to perform an
+ * identity check first. The identity check has to performed by the EQR
+ * implementation if desired.
+ */
+interface Hash[T : Type] <: EQR[T] {
+  def hash : hashCode;
+}
+
+/**
+ * @todo should be Unsigned[64]
+ */
+type hashCode := int;
+
+/**
+ * The minimal Hash i.e. bitcasting to hashCode.
+ *
+ * @note Using this hash for values larger than hashCode such as raw strings may
+ * not be a viable solution.
+ */
+type IdentityHash[T : Type] <: MinEQR[T] {
+  def hash : hashCode <: native;
+}
+
+/**
+ * This is the well known and massively criticised version of EQR from Java.
+ * The only reason to have it in Tyr is, that it is not as dangerous as in Java
+ * if it is not introduced by Object.
+ * Also, there are some natural applications to it, where it is actually
+ * possible to provide a correct implementation. In these scenarios, the type
+ * hierarchy below T should be sealed and all redefinitions of eq should be
+ * aware of each other.
+ *
+ * @note the hash code of null is 0 to be consistent with IdentityHash
+ */
+interface InheritedHash[T : Class] <: InheritedEQR[T] {
+  /**
+   * Dispatching implementation of eq. Dispatching is performed on this unless
+   * this is null. In that case dispathing is performed on v.
+   */
+  def hashed(v : T);
+
+  /**
+   * Perform the required null-check.
+   * @todo Requires the type checker to realize that instances of T : Class are at least Objects
+   */
+  def hash : bool {
+/* TODO   if(null == this)
+      0
+    else */
+      hashed()
+  }
+}

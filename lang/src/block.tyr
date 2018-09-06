@@ -35,7 +35,7 @@
  *
  * @author Timm Felden
  */
-type Block[T : Type] <: any, CT, native, noVar {
+type Block[T : Type] <: CT, native, noVar {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression.
@@ -60,7 +60,7 @@ type Block[T : Type] <: any, CT, native, noVar {
  *
  * @author Timm Felden
  */
-type BlockParameter[T : Type] <: any, native, CT, noVar {
+type BlockParameter[T : Type] <: native, CT, noVar {
 
   /** 
    * Update a block parameter.

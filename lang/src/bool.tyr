@@ -1,7 +1,7 @@
 /**
  * a truth type
  */
-type bool <: any, native {
+type bool <: native {
   def ! : bool <: native, operator.precedence[250];
 
   def != (x : bool) : bool <: native, operator.precedence[80];

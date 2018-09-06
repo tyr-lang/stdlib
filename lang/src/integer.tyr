@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-type Integer[size : int] <: any, native {
+type Integer[size : int] <: native {
 
   def - : Integer[size] <: native, operator.precedence[200];
   def ~ : Integer[size] <: native, operator.precedence[200];

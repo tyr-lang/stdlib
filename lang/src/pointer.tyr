@@ -1,9 +1,18 @@
 /**
  * the super type of all pointers; basically C's "void*"
  *
+ * @note in contrast to C, C++ and Java, arbitrary pointers do not have a null.
+ *       This is because some pointer like types such as ref do not have a null.
+ *
  * @author Timm Felden
  */
-type pointer <: any, native;
+type pointer <: any, native {
+
+  /* flat value comparison. Can also be used if this == null */
+  def != (v : pointer) : bool <: native, operator.precedence[80];
+  /* flat value comparison. Can also be used if this == null */
+  def == (v : pointer) : bool <: native, operator.precedence[80];
+}
 
 /**
  * A reference to a T; basically C++'s &T. Ref is used to type this in object

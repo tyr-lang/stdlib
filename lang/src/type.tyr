@@ -1,13 +1,13 @@
 /**
  * The type of a type.
  *
- * @todo should be a class
- *
  * @todo should be generic (and covariant?) in T
+ *
+ * @todo should be limited to types below Object
  *
  * @note this type is currently used only for typing and has no RT semantics
  */
-var type Type <: any, native {
+class Type <: Object, native {
 
   //def isa := ?:
   //def cast := !:

@@ -7,6 +7,23 @@
  */
 property native;
 
+/**
+ * Make the target type abstract, i.e. no instances of it can be constructed.
+ */
+property abstract;
+
+/**
+ * Dissallow subtyping/overriding on the target declaration.
+ */
+property final;
+
+/**
+ * Flag a function to override a function of a super type.
+ * TODO should take an opotional type argument to ensure that a specific function
+ * is overridden.
+ */
+property overrides;
+
 
 /**
  * Iff overload resolution fails on a type with this property, another attempt
