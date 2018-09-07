@@ -53,7 +53,7 @@ interface InheritedHash[T : Class] <: InheritedEQR[T] {
    * Dispatching implementation of eq. Dispatching is performed on this unless
    * this is null. In that case dispathing is performed on v.
    */
-  def hashed(v : T);
+  def hashed(v : T) : hashCode;
 
   /**
    * Perform the required null-check.
