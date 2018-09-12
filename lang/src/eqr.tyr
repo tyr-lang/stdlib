@@ -60,6 +60,7 @@ interface InheritedEQR[T : Class] <: Object, EQR[T] {
     else if(null == this)
       v.eq(null)
     else */
-      eq(v)
+      // TODO eq(v)
+    false
   }
 }

@@ -14,10 +14,12 @@ type bool <: native {
   /* the standard semantics of this operator in any common language */
   def && (x : Block[bool]) : bool
          <: operator.precedence[40], operator.rightAssociative =
-    if this x.eval() else this
+    // TODO if this x.eval() else this
+    false
 
   /* the standard semantics of this operator in any common language */
   def || (x : Block[bool]) : bool
          <: operator.precedence[30], operator.rightAssociative =
-    if this this else x.eval()
+    // TODO if this this else x.eval()
+    false
 }

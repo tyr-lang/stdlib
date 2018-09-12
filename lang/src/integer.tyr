@@ -57,7 +57,7 @@ type Integer[size : int] <: native {
 type IntegerLiteral[size : int] <: Integer[size], noVar {
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type
-    0 == 0i32
+    0 // TODO == 0i32
   }
 }
 

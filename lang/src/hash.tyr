@@ -59,10 +59,11 @@ interface InheritedHash[T : Class] <: InheritedEQR[T] {
    * Perform the required null-check.
    * @todo Requires the type checker to realize that instances of T : Class are at least Objects
    */
-  def hash : bool {
+  def hash : hashCode {
 /* TODO   if(null == this)
       0
     else */
-      hashed()
+    // TODO  hashed()
+    -1
   }
 }
