@@ -8,7 +8,7 @@
  *       string onto hashCode. I.e. if hashCode were 8 bytes long, every 8 bytes
  *       shall be converted to a hashCode and all hashCodes shall be xored.
  */
-class String <: InheritedHash, abstract {
+class String <: InheritedHash[String], abstract {
 }
 
 class StringLiteral <: String, native, noVar {
