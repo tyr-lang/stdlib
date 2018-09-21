@@ -18,7 +18,7 @@
  * identity check first. The identity check has to performed by the EQR
  * implementation if desired.
  */
-interface Hash[T : Type] <: EQR[T] {
+interface Hash[T : Type] <: any, EQR[T] {
   def hash : hashCode;
 }
 
@@ -33,7 +33,7 @@ type hashCode := int;
  * @note Using this hash for values larger than hashCode such as raw strings may
  * not be a viable solution.
  */
-type IdentityHash[T : Type] <: MinEQR[T] {
+type IdentityHash[T : Type] <: MinEQR[T], Hash[T] {
   def hash : hashCode <: native;
 }
 
@@ -48,7 +48,7 @@ type IdentityHash[T : Type] <: MinEQR[T] {
  *
  * @note the hash code of null is 0 to be consistent with IdentityHash
  */
-interface InheritedHash[T : Class] <: InheritedEQR[T] {
+interface InheritedHash[T : Class] <: Object, InheritedEQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless
    * this is null. In that case dispathing is performed on v.

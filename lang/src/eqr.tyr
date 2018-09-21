@@ -30,7 +30,7 @@ interface EQR[T : Type] <: any {
  * The minimal EQR on T, i.e. comparison of the raw bits. Corresponds to == of
  * many types.
  */
-type MinEQR[T : Type] <: EQR[T] {
+type MinEQR[T : Type] <: any, EQR[T] {
   def equals (v : T) : bool <: native;
 }
 

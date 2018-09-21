@@ -28,7 +28,7 @@ type pointer <: any, native {
  *
  * @todo T should be covariant
  */
-type Ref[T : Type] <: pointer, proxy[T], native {
+type Ref[T : Type] <: pointer, proxy[T], joinImplicit, native {
 
   /**
    * Implicit dereference allow value types to be used by reference.

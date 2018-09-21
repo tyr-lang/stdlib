@@ -39,6 +39,29 @@ property proxy[T : Type];
 
 
 /**
+ * An instance must hold a single implicit conversion that will be executed
+ * before performing a join.
+ * This property is required to implement a natural behaviour for proxies that
+ * do not have a common supertype with their targets, such as Ref[T].
+ *
+ * @note This property is ignored, if all argument type applications have the same target
+ *
+ * @example:
+ *  var x = ""
+ *  val y = if phi "" else x // we would expect y to be a String and not pointer
+ *
+ * @example:
+ *  var x = ""
+ *  var y = ""
+ *  val z = if phi x else y
+ *  // here we get z : Ref[String], because all joins have the form Ref[?]
+ *
+ * @author Timm Felden
+ */
+property joinImplicit;
+
+
+/**
  * A compile-time value. An application of a CT function on CT operands can and
  * should be evaluated at compile time.
  *

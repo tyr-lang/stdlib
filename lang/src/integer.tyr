@@ -5,6 +5,11 @@
  */
 type Integer[size : int] <: native {
 
+  type def ++ (this : Ref[Integer[size]]) : Integer[size]
+              <: native, operator.precedence[210];
+  type def -- (this : Ref[Integer[size]]) : Integer[size]
+              <: native, operator.precedence[210];
+
   def - : Integer[size] <: native, operator.precedence[200];
   def ~ : Integer[size] <: native, operator.precedence[200];
 
@@ -57,7 +62,7 @@ type Integer[size : int] <: native {
 type IntegerLiteral[size : int] <: Integer[size], noVar {
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type
-    0 // TODO == 0i32
+    0 == 0i32
   }
 }
 

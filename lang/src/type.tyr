@@ -7,7 +7,7 @@
  *
  * @note this type is currently used only for typing and has no RT semantics
  */
-class Type <: Object, native {
+class Type/*[T : Type[any] <: covariant]*/ <: Object, native {
 
   //def isa := ?:
   //def cast := !:
@@ -19,7 +19,7 @@ class Type <: Object, native {
   /**
    * dynamic type checking
    *
-   * @todo should be v : Some[S, S >: T]
+   * @todo should be v : some S do(S >= T)
    */
   def ?: (v : any) : bool
          <: native, operator.precedence[90];

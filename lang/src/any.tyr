@@ -12,4 +12,11 @@ type any <: abstract {
    * @note should be Type[this.type]
    */
   //TODO def type : Type <: native;
+
+  /* TODO
+  def TODO(msg : String = "") : NoReturn {
+    console.out.println(msg) // tell what is to be done
+    system.printStackTrace() // tell the programmer where
+    system.exit(false) // failure
+  }*/
 }
