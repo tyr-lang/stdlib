@@ -6,6 +6,9 @@
  * @todo should be limited to types below Object
  *
  * @note this type is currently used only for typing and has no RT semantics
+ *
+ * @note if well-typed, Type and Class are, like IntegerLiteral,
+ *       recursive and require special treatment by the compiler
  */
 class Type/*[T : Type[any] <: covariant]*/ <: Object, native {
 
@@ -23,6 +26,16 @@ class Type/*[T : Type[any] <: covariant]*/ <: Object, native {
    */
   def ?: (v : any) : bool
          <: native, operator.precedence[90];
+
+  /**
+   * Equality on types is a subrelation of equalit on pointers, because
+   * identical types can exist at most once. Further, it can be decided at
+   * compile time for compile-time types.
+   *
+   * @todo add with CT in 0.7
+   */
+  // type def == (this : Type, that : Type) : bool
+  //            <: CT, native, operator.precedence[80];
 
   /**
    * dynamic type casting

@@ -44,7 +44,7 @@ property proxy[T : Type];
  * This property is required to implement a natural behaviour for proxies that
  * do not have a common supertype with their targets, such as Ref[T].
  *
- * @note This property is ignored, if all argument type applications have the same target
+ * @note This property is ignored, if all arguments have the same type
  *
  * @example:
  *  var x = ""
@@ -54,7 +54,7 @@ property proxy[T : Type];
  *  var x = ""
  *  var y = ""
  *  val z = if phi x else y
- *  // here we get z : Ref[String], because all joins have the form Ref[?]
+ *  // here we get z : Ref[StringLiteral], because x and y have the same type
  *
  * @author Timm Felden
  */

@@ -26,7 +26,7 @@ type pointer <: any, native {
  * Otherwise, a reference could be abused to manipulate immutable and even
  * inexistent values.
  *
- * @todo T should be covariant
+ * @note T cannot be covariant, it is the promised minimal content pointed to.
  */
 type Ref[T : Type] <: pointer, proxy[T], joinImplicit, native {
 
