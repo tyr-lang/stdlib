@@ -43,7 +43,7 @@ type MinEQR[T : Type] <: any, EQR[T] {
  * hierarchy below T should be sealed and all redefinitions of eq should be
  * aware of each other.
  */
-interface InheritedEQR[T : Class] <: Object, EQR[T] {
+interface InheritedEQR[T : Type/*Class*/] <: Object, EQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless
    * this is null. In that case dispathing is performed on v.
