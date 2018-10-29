@@ -3,7 +3,7 @@
  * Null is the bottom element of the class latice.
  * Object are represented by pointers.
  */
-class Object <: pointer, abstract {
+class Object <: observablePointer, abstract {
   /**
    * The runtime class of this object
    *
