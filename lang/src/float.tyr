@@ -18,6 +18,10 @@ type Float[size : IntegerLiteral[32]] <: native {
         <: native, operator.precedence[120];
   def \ (x : Float[size]) : Float[size]
         <: native, operator.precedence[120];
+  /**
+   * extension of mod to Floats: this - (this / x).floor() * x
+   * @note this has been taken from Lua 5.1
+   */
   def % (x : Float[size]) : Float[size]
         <: native, operator.precedence[120];
 
@@ -37,6 +41,9 @@ type Float[size : IntegerLiteral[32]] <: native {
 
   def != (x : Float[size]) : bool <: native, operator.precedence[80];
   def == (x : Float[size]) : bool <: native, operator.precedence[80];
+
+  def ceil : Float[size] <: native;
+  def floor : Float[size] <: native;
 }
 
 /**
