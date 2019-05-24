@@ -5,24 +5,33 @@
  */
 class Object <: observablePointer, abstract {
   /**
+   * Does nothing. The field class is initialized before calling the first
+   * constructor.
+   */
+  new <: native;
+
+  /**
    * The runtime class of this object
    *
    * @note this value is set by the back-end on object construction
    * @note should be Class[this.type]
    */
-  //val class : Class;
+  val class : Class;
 
   /**
    * Release resources held by this object including its memory.
    *
-   * @note Object.delete will just release the memory owned by this
+   * @note memory management is detatched from new/delete to allow local
+   *       overrides such as placement new or may-ownership-based automatic
+   *       memory management (Rust must-ownership type system will never be
+   *       added to Tyr as it is inherently broken)
    *
    * @note delete is always a dispatching call
    *
    * @note it is always an error to use a deleted object, even if its memory is
    *       not returned to the OS
    */
-  delete <: native;
+  delete {};
 }
 
 /**
