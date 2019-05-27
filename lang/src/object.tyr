@@ -10,7 +10,7 @@ class Object <: observablePointer, abstract {
    *
    * @note this is always implicit and typed as this.type
    *
-   * @note delete is always a dispatching call
+   * @note new is always a static call
    */
   new <: native;
 
