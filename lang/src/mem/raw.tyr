@@ -1,0 +1,33 @@
+/**
+ * This type groups helper functions for raw memory management.
+ *
+ * @note these functions are not intended for direct use
+ *
+ * @author Timm Felden
+ */
+type raw {
+  /**
+   * Fill an unitialized value with heap-allocated memory of adequate size.
+   *
+   * @note this is essentially Cs malloc(sizeof(T)) except that the operation
+   *       ensures that user code stays well-typed
+   *
+   * @note the argument is a BOL which cannot be caused by a user
+   *
+   * @note memory managed by Tyr is either produced by a call to this function
+   *       or stack-local
+   *
+   * @return a pointer to the new memory
+   */ 
+  type def `new`(ref : any) : any <: native;
+
+  /**
+   * Release heap-allocated memory.
+   * If the argument is null, nothing will happen.
+   * If the argument is a ref, it will be set to null afterwards.
+   *
+   * @note any result of a call to `new` shall eventually be destroyed by a call
+   *       to `delete`
+   */
+  type def `delete`(ref : any) : void <: native;
+}
