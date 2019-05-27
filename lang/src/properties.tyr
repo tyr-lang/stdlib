@@ -3,6 +3,8 @@
  * If an entity has this property and is not known by the compiler, the package
  * will be rejected.
  *
+ * @note it is not possible to hold a pointer to a native function
+ *
  * @author Timm Felden
  */
 property native;

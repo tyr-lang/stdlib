@@ -7,6 +7,10 @@ class Object <: observablePointer, abstract {
   /**
    * Does nothing. The field class is initialized before calling the first
    * constructor.
+   *
+   * @note this is always implicit and typed as this.type
+   *
+   * @note delete is always a dispatching call
    */
   new <: native;
 
@@ -16,7 +20,7 @@ class Object <: observablePointer, abstract {
    * @note this value is set by the back-end on object construction
    * @note should be Class[this.type]
    */
-  val class : Class;
+  val `class` : Class;
 
   /**
    * Release resources held by this object including its memory.
@@ -31,7 +35,7 @@ class Object <: observablePointer, abstract {
    * @note it is always an error to use a deleted object, even if its memory is
    *       not returned to the OS
    */
-  delete {};
+  delete;
 }
 
 /**
