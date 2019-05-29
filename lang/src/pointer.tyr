@@ -41,6 +41,9 @@ type observablePointer <: pointer {
  * inexistent values.
  *
  * @note T cannot be covariant, it is the promised minimal content pointed to.
+ *
+ * @note it is of paramount importance that neither Ref nor any super type of
+ *       Object declare any class fields
  */
 type Ref[T : Type] <: pointer, proxy[T], joinImplicit, native {
 

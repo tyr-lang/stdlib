@@ -12,14 +12,15 @@ type raw {
    * @note this is essentially Cs malloc(sizeof(T)) except that the operation
    *       ensures that user code stays well-typed
    *
-   * @note the argument is a BOL which cannot be caused by a user
+   * @note in future versions of Tyr, we will perevent the user from calling
+   *       this function directly
    *
    * @note memory managed by Tyr is either produced by a call to this function
    *       or stack-local
    *
    * @return a pointer to the new memory
    */ 
-  type def `new`(ref : any) : any <: native;
+  type def `new`(t : Type) : any <: native;
 
   /**
    * Release heap-allocated memory.

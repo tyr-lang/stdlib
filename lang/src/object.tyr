@@ -28,7 +28,9 @@ class Object <: observablePointer, abstract {
    * @note memory management is detatched from new/delete to allow local
    *       overrides such as placement new or may-ownership-based automatic
    *       memory management (Rust must-ownership type system will never be
-   *       added to Tyr as it is inherently broken)
+   *       added to Tyr as it is inherently broken).
+   *       Also, this allows to call parent destructors explicitly in the middle
+   *       of a child destructor.
    *
    * @note delete is always a dispatching call
    *
