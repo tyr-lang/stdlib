@@ -1,5 +1,77 @@
 /**
  * The type of a class.
+ *
+ * @todo iTable, iTypes
+ *
+ * @note we use Schubert et. al. 83 as a type checking algorithm because it has
+ *       unparalleled performance and the current approach requires static
+ *       linking anyway. This also means, that we will change that as soon as we
+ *       start to implement a dynamic linking approach.
+ *       (note to self: my initial SKilL next pointer algorithm was sufficient)
+ *
+ * @note Class shall eventually get a generic invariant type paramater that
+ *       represents the represented type at CT. That type parameter cannot be a
+ *       regulare CT parameter, because it would make type representation
+ *       infinite.
+ *
+ * @note Implementiations of classes are actually anonymous sub types of Class
+ *       whose class is the Class of classes.
+ *
+ * @author Timm Felden
  */
 class Class <: Type, native {
+
+  /**
+   * Class initialization is performed by the back-end globally.
+   * The initialization of Class values happens even before evaluation of global
+   * initialization.
+   *
+   * @todo make it private
+   */
+  new <: native;
+
+  /**
+   * The first Type ID associated with this type.
+   */
+  val minTID : int;
+
+  /**
+   * The last Type ID associated with any subtype of this type. If this type
+   * has no subtype then maxTID == minTid.
+   *
+   * @inv minTID <= maxTID
+   *
+   * @note for any subtype S of T: T.minTID < S.minTID && S.maxTID <= T.maxTID.
+   * @note TIDs are dense, i.e. a type T has exactly maxTID - minTID - 1
+   *       transitive subtypes
+   */
+  val maxTID : int;
+
+  /**
+   * Check if this is a subtype or equal to super
+   *
+   * @note that must not be null
+   *
+   * @note we have to check both borders. Otherwise, we would accept unrelated
+   *       types
+   *
+   * @note the class order is partial, i.e. it is possible that:
+   *       (! T <= U && ! U <= T) == true
+   *       An example of this is String and Type.
+   */
+  def <= (super : Class) : bool
+         <: native, operator.precedence[90] =
+    super.minTID <= minTID && maxTID <= super.maxTID
+
+  /**
+   * Check if this is a subtype and not equal to super
+   *
+   * @note that must not be null
+   *
+   * @note we have to check both borders. Otherwise, we would accept unrelated
+           types
+   */
+  def < (super : Class) : bool
+        <: native, operator.precedence[90] =
+    super.minTID < minTID && maxTID <= super.maxTID
 }

@@ -4,6 +4,15 @@
  * Object are represented by pointers.
  */
 class Object <: observablePointer, abstract {
+
+  /**
+   * The runtime class of this object
+   *
+   * @note this value is set by the back-end on object construction
+   * @note should be Class[this.type]
+   */
+  val `class` : Class;
+
   /**
    * Does nothing. The field class is initialized before calling the first
    * constructor.
@@ -13,14 +22,6 @@ class Object <: observablePointer, abstract {
    * @note new is always a static call
    */
   new <: native;
-
-  /**
-   * The runtime class of this object
-   *
-   * @note this value is set by the back-end on object construction
-   * @note should be Class[this.type]
-   */
-  val `class` : Class;
 
   /**
    * Release resources held by this object including its memory.
@@ -38,6 +39,40 @@ class Object <: observablePointer, abstract {
    *       not returned to the OS
    */
   delete;
+
+  /**
+   * Check if this is exactly of the argument type
+   *
+   * @note null is not of any Class type
+   *
+   * @todo implement CT-evaluation
+   *
+   * @note type checks have the same precedence as integer less
+   */
+  type def =:= (this : Object, cls : Class) : bool
+               <: native, operator.precedence[90] =
+    if (null == this) false
+    else cls == this.class
+
+  /**
+   * Check if this is of the argument type, i.e. assignable without conversion
+   *
+   * @note true for null
+   */
+  type def <:= (this : Object, cls : Class) : bool
+               <: native, operator.precedence[90] =
+    if (null == this) true
+    else cls <= this.class
+
+  /**
+   * Check if this is instance of a subtype of cls
+   *
+   * @note true for null
+   */
+  type def <:< (this : Object, cls : Class) : bool
+               <: native, operator.precedence[90] =
+    if (null == this) true
+    else cls < this.class
 }
 
 /**
