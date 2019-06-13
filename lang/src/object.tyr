@@ -50,7 +50,7 @@ class Object <: observablePointer, abstract {
    * @note type checks have the same precedence as integer less
    */
   type def =:= (this : Object, cls : Class) : bool
-               <: native, operator.precedence[90] =
+               <: operator.precedence[90] =
     if (null == this) false
     else cls == this.class
 
@@ -60,7 +60,7 @@ class Object <: observablePointer, abstract {
    * @note true for null
    */
   type def <:= (this : Object, cls : Class) : bool
-               <: native, operator.precedence[90] =
+               <: operator.precedence[90] =
     if (null == this) true
     else cls <= this.class
 
@@ -70,7 +70,7 @@ class Object <: observablePointer, abstract {
    * @note true for null
    */
   type def <:< (this : Object, cls : Class) : bool
-               <: native, operator.precedence[90] =
+               <: operator.precedence[90] =
     if (null == this) true
     else cls < this.class
 }

@@ -19,7 +19,7 @@
  *
  * @author Timm Felden
  */
-class Class <: Type, native {
+class Class <: Type {
 
   /**
    * Class initialization is performed by the back-end globally.

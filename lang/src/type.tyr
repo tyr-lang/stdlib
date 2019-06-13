@@ -10,7 +10,7 @@
  * @note if well-typed, Type and Class are, like IntegerLiteral,
  *       recursive and require special treatment by the compiler
  */
-class Type/*[T : Type[any] <: covariant]*/ <: Object, native {
+class Type/*[T : Type[any] <: covariant]*/ <: Object {
 
   //def isa := ?:
   //def cast := !:
@@ -24,8 +24,8 @@ class Type/*[T : Type[any] <: covariant]*/ <: Object, native {
    *
    * @todo should be v : some S do(S >= T)
    */
-  def ?: (v : any) : bool
-         <: native, operator.precedence[90];
+  //def ?: (v : any) : bool
+  //       <: native, operator.precedence[90];
 
   /**
    * Equality on types is a subrelation of equalit on pointers, because
