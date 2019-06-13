@@ -62,7 +62,7 @@ class Object <: observablePointer, abstract {
   type def <:= (this : Object, cls : Class) : bool
                <: operator.precedence[90] =
     if (null == this) true
-    else cls <= this.class
+    else this.class <= cls
 
   /**
    * Check if this is instance of a subtype of cls
@@ -72,7 +72,7 @@ class Object <: observablePointer, abstract {
   type def <:< (this : Object, cls : Class) : bool
                <: operator.precedence[90] =
     if (null == this) true
-    else cls < this.class
+    else this.class < cls
 }
 
 /**

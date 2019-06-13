@@ -60,7 +60,7 @@ class Class <: Type {
    *       An example of this is String and Type.
    */
   def <= (super : Class) : bool
-         <: native, operator.precedence[90] =
+         <: operator.precedence[90] =
     super.minTID <= minTID && maxTID <= super.maxTID
 
   /**
@@ -72,6 +72,6 @@ class Class <: Type {
            types
    */
   def < (super : Class) : bool
-        <: native, operator.precedence[90] =
+        <: operator.precedence[90] =
     super.minTID < minTID && maxTID <= super.maxTID
 }
