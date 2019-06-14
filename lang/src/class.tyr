@@ -61,7 +61,7 @@ class Class <: Type {
    */
   def <= (super : Class) : bool
          <: operator.precedence[90] =
-    super.minTID <= minTID && maxTID <= super.maxTID
+    (super.minTID <= minTID) & maxTID <= super.maxTID
 
   /**
    * Check if this is a subtype and not equal to super
@@ -73,5 +73,5 @@ class Class <: Type {
    */
   def < (super : Class) : bool
         <: operator.precedence[90] =
-    super.minTID < minTID && maxTID <= super.maxTID
+    (super.minTID < minTID) & maxTID <= super.maxTID
 }
