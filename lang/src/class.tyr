@@ -17,6 +17,8 @@
  * @note Implementiations of classes are actually anonymous sub types of Class
  *       whose class is the Class of classes.
  *
+ * @note it is not possible for class to have (object) def or class members
+ *
  * @author Timm Felden
  */
 class Class <: Type {
@@ -59,9 +61,9 @@ class Class <: Type {
    *       (! T <= U && ! U <= T) == true
    *       An example of this is String and Type.
    */
-  def <= (super : Class) : bool
+  type def <= (this : Class, super : Class) : bool
          <: operator.precedence[90] =
-    (super.minTID <= minTID) & maxTID <= super.maxTID
+    (super.minTID <= this.minTID) & this.maxTID <= super.maxTID
 
   /**
    * Check if this is a subtype and not equal to super
@@ -71,7 +73,7 @@ class Class <: Type {
    * @note we have to check both borders. Otherwise, we would accept unrelated
            types
    */
-  def < (super : Class) : bool
+  type def < (this : Class, super : Class) : bool
         <: operator.precedence[90] =
-    (super.minTID < minTID) & maxTID <= super.maxTID
+    (super.minTID < this.minTID) & this.maxTID <= super.maxTID
 }

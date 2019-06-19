@@ -37,6 +37,9 @@ class Object <: observablePointer, abstract {
    *
    * @note it is always an error to use a deleted object, even if its memory is
    *       not returned to the OS
+   *
+   * @note delete is the only dispatching function in Object and has, hence,
+   *       always the ID 0
    */
   delete;
 
