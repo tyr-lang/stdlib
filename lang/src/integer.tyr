@@ -5,54 +5,65 @@
  *
  * @author Timm Felden
  */
-type Integer[size : IntegerLiteral[32]] <: native {
+type Integer[Size : IntegerLiteral[32]] <: native {
 
   /** as in C,C++,Java */
-  type def ++ (this : Ref[Integer[size]]) : Integer[size]
+  type def ++ (this : Ref[Integer[Size]]) : Integer[Size]
               <: native, operator.precedence[210];
   /** as in C,C++,Java */
-  type def -- (this : Ref[Integer[size]]) : Integer[size]
+  type def -- (this : Ref[Integer[Size]]) : Integer[Size]
               <: native, operator.precedence[210];
 
-  def - : Integer[size] <: native, operator.precedence[200];
-  def ~ : Integer[size] <: native, operator.precedence[200];
+  def - : Integer[Size] <: native, operator.precedence[200];
+  def ~ : Integer[Size] <: native, operator.precedence[200];
 
-  def * (x : Integer[size]) : Integer[size]
+  def * (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[120];
-  def / (x : Integer[size]) : Integer[size]
+  def / (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[120];
-  def % (x : Integer[size]) : Integer[size]
+  def % (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[120];
 
-  def + (x : Integer[size]) : Integer[size]
+  def + (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[110];
-  def - (x : Integer[size]) : Integer[size]
+  def - (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[110];
 
-  def << (x : Integer[size]) : Integer[size]
+  def << (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[100];
-  def >> (x : Integer[size]) : Integer[size]
+  def >> (x : Integer[Size]) : Integer[Size]
         <: native, operator.precedence[100];
 
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix Cs historical errors.
    */
-  def & (x : Integer[size]) : Integer[size] <: native, operator.precedence[97];
-  def ^ (x : Integer[size]) : Integer[size] <: native, operator.precedence[95];
-  def | (x : Integer[size]) : Integer[size] <: native, operator.precedence[93];
+  def & (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[97];
+  def ^ (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[95];
+  def | (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[93];
 
-  def < (x : Integer[size]) : bool
+  def < (x : Integer[Size]) : bool
         <: native, operator.precedence[90];
-  def <= (x : Integer[size]) : bool
+  def <= (x : Integer[Size]) : bool
         <: native, operator.precedence[90];
-  def > (x : Integer[size]) : bool
+  def > (x : Integer[Size]) : bool
         <: native, operator.precedence[90];
-  def >= (x : Integer[size]) : bool
+  def >= (x : Integer[Size]) : bool
         <: native, operator.precedence[90];
 
-  def != (x : Integer[size]) : bool <: native, operator.precedence[80];
-  def == (x : Integer[size]) : bool <: native, operator.precedence[80];
+  def != (x : Integer[Size]) : bool <: native, operator.precedence[80];
+  def == (x : Integer[Size]) : bool <: native, operator.precedence[80];
+
+  /**
+   * Resize the argument value to the desired new size.
+   * Truncate if NewSize < Size;
+   * Signextend if NewSize > Size;
+   * nop if NewSize == Size.
+   */
+  // TODO blocker 0.7 def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: native;
+  // TODO note: requires processing of CTParams in function definitions
+
+  // TODO blocker 0.6 unsign : Unsigned[Size] <: native // this is a nop
 }
 
 /**
@@ -64,7 +75,7 @@ type Integer[size : IntegerLiteral[32]] <: native {
  *
  * @author Timm Felden
  */
-type IntegerLiteral[size : IntegerLiteral[32]] <: Integer[size], noVar {
+type IntegerLiteral[Size : IntegerLiteral[32]] <: Integer[Size], noVar {
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type
     // @note this instantiation is required to solve the cyclic elaboration

@@ -24,6 +24,7 @@ interface Hash[T : Type] <: any, EQR[T] {
 
 /**
  * @todo should be Unsigned[64]
+ * TODO blocker 0.6
  */
 type hashCode := int;
 
@@ -47,23 +48,22 @@ type IdentityHash[T : Type] <: MinEQR[T], Hash[T] {
  * aware of each other.
  *
  * @note the hash code of null is 0 to be consistent with IdentityHash
- */
-interface InheritedHash[T : Type/*Class*/] <: Object, InheritedEQR[T] {
+ *//* TODO blocker 0.7
+interface InheritedHash[T : Class] <: Object, InheritedEQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless
    * this is null. In that case dispathing is performed on v.
-   */
+   * /
   def hashed(v : T) : hashCode;
 
   /**
    * Perform the required null-check.
    * @todo Requires the type checker to realize that instances of T : Class are at least Objects
-   */
-  def hash : hashCode {
-/* TODO   if(null == this)
+   * /
+  type def hash(this : InheritedHash[T]) : hashCode {
+    if(null == this)
       0
-    else */
-    // TODO  hashed()
-    -1
+    else
+      hashed()
   }
-}
+}*/

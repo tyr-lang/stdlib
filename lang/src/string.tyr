@@ -8,7 +8,9 @@
  *       string onto hashCode. I.e. if hashCode were 8 bytes long, every 8 bytes
  *       shall be converted to a hashCode and all hashCodes shall be xored.
  */
-class String <: Object, InheritedHash[String], abstract {
+class String <: Object/* TODO blocker 0.7
+                , InheritedHash[String]
+                */, abstract {
 }
 
 /**

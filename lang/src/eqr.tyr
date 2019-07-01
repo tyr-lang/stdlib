@@ -19,11 +19,12 @@
  * negation on integers.
  *
  * @note in contrast to other languages, a user is not expected to perform an
- * identity check first. The identity check has to performed by the EQR
+ * identity check first. The identity check has to be performed by the EQR
  * implementation if desired.
  */
 interface EQR[T : Type] <: any {
-  def equals (v : T) : bool;
+  /** equals is stateless */
+  type def equals (left : T, right : T) : bool;
 }
 
 /**
@@ -31,8 +32,22 @@ interface EQR[T : Type] <: any {
  * many types.
  */
 type MinEQR[T : Type] <: any, EQR[T] {
-  def equals (v : T) : bool <: native;
+  type def equals (left : T, right : T) : bool <: native;
 }
+
+/**
+ * Derive consistent == and != from an equivalence relation.
+ *//* TODO blocker 0.7
+interface EQOps[T : Type, E : EQR[T]] <: any {
+
+  type def != (left : T, right : T) : bool
+              <: inline, operator.precedence[80]
+              = !E.equals(left, right)
+
+  type def == (left : T, right : T) : bool
+              <: inline, operator.precedence[80]
+              = E.equals(left, right)
+}*/
 
 /**
  * This is the well known and massively criticised version of EQR from Java.
@@ -42,25 +57,24 @@ type MinEQR[T : Type] <: any, EQR[T] {
  * possible to provide a correct implementation. In these scenarios, the type
  * hierarchy below T should be sealed and all redefinitions of eq should be
  * aware of each other.
- */
-interface InheritedEQR[T : Type/*Class*/] <: Object, EQR[T] {
+ *//* TODO blocker 0.7
+interface InheritedEQR[T : Class] <: Object, EQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless
    * this is null. In that case dispathing is performed on v.
-   */
+   * /
   def eq(v : T) : bool;
 
   /**
    * Perform the required null-check and reordering to work with null.equals(v).
    * @todo Requires the type checker to realize that instances of T : Class are at least Objects
-   */
-  def equals (v : T) : bool {
-/* TODO   if(this == v)
+   * /
+  type def equals (left : T, right : T) : bool {
+    if(left == right)
       true
-    else if(null == this)
-      v.eq(null)
-    else */
-      // TODO eq(v)
-    false
+    else if(null == left)
+      right.eq(left)
+    else
+      left.eq(right)
   }
-}
+}*/
