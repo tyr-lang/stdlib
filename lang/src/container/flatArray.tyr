@@ -1,0 +1,68 @@
+/**
+ * An array of Ts. In essence, this corresponds to C's T[].
+ * The array is heap-allocated unless the optimizer chooses stack allocation.
+ * This optimization requires a proper call to delete.
+ */
+type FlatArray[T : Type] <: pointer, native {
+
+  /**
+   * Create a new array with undefined contents.
+   */
+  new (size : size_t) <: native;
+
+  /**
+   * Release the memory required to represent this array.
+   */
+  delete <: native;
+
+  /**
+   * Return the element at the given index (starting at 0).
+   * @note it is the callers obligation to ensure that the index is valid
+   */
+  def apply(index : size_t) : T <: native;
+
+  /**
+   * Update the element at the given index with v and return v (starting at 0).
+   * @note it is the callers obligation to ensure that the index is valid
+   *
+   * @todo should be [S <: T](size_t, S) : S
+   */
+  def update(index : size_t, v : T) : T <: native;
+}
+
+/**
+ * An array of Ts. In essence, this corresponds to C's T[Size].
+ * The representation of the array is truely flat, i.e. it can be embedded into
+ * other containers.
+ * It is legal to have Size == 0, but not Size < 0.
+ * A flat zero-sized array is only useful to index-access fields of the arrays
+ * base type following its definition.
+ * It would be nice if the compiler could provide diagnostics for this pattern
+ * as it is the only useful application, but a very useful one when it comes to
+ * generic algorithm implementations.
+ */
+type FlatSizedArray[T : Type, Size : size_t] <: any, native {
+
+  /**
+   * create an array with undefined contents.
+   */
+  new;
+
+  // we do not require a delete as it would be a nop anyway
+
+  /**
+   * Return the element at the given index (starting at 0).
+   * @note it is the callers obligation to ensure that the index is valid
+   * @note accessing elements of an array can only be done, if it has an adress
+   */
+  def apply(this : Ref[FlatSizedArray[T, Size]], index : size_t) : T <: native;
+
+  /**
+   * Return the element at the given index (starting at 0).
+   * @note it is the callers obligation to ensure that the index is valid
+   * @note accessing elements of an array can only be done, if it has an adress
+   *
+   * @todo should be [S <: T](size_t, S) : S
+   */
+  def update(this : Ref[FlatSizedArray[T, Size]], index : size_t, v : T) : T <: native;
+}
