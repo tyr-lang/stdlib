@@ -1,0 +1,14 @@
+/**
+ * The base class of sequential containers.
+ *
+ * @note This class is a view. As such it is covariant but offers no update.
+ */
+class Seq[T : Type] <: Iterable[T] {
+
+  /**
+   * The number of elements in this container.
+   *
+   * @inv size() == { var i = 0L; foreach x do {i++}; i }
+   */
+  def size : size_t;
+}

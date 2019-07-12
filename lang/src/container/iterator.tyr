@@ -1,0 +1,82 @@
+/**
+ * Abstraction of iteration over a container.
+ *
+ * @note Iterator has currently no map, because the resulting container would
+ *       likely result in a memory leak. This statement may no longer be true
+ *       when escape-based auto delete is implemented.
+ *
+ * @author Timm Felden
+ */
+class Iterator[T : Type] {
+
+  /**
+   * retrieve the next element and move the iterator by one element
+   *
+   * @pre hasNext
+   */
+  def next : T;
+
+  /**
+   * check if the iterator can provide a next element
+   */
+  def hasNext : bool;
+
+  /**
+   * Perform action for each remaining element of the iterator
+   *
+   * @post !hasNext
+   */
+  def foreach (x : BlockParameter[T], action : Block[any]) : void {
+    while(hasNext()) {
+      x = next()
+      action.eval()
+    }
+  }
+
+  /**
+   * Check predicate until the predicate is false or the iterator is empty
+   *
+   * @post !result || !hasNext
+   */
+  def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
+    while(hasNext()) {
+      x = next()
+      if(!predicate.eval())
+        return false;
+    }
+    return true;
+  }
+
+  /**
+   * Check predicate until the predicate is true or the iterator is empty
+   *
+   * @post result || !hasNext
+   */
+  def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
+    while(hasNext()) {
+      x = next()
+      if(predicate.eval())
+        return true;
+    }
+    return false;
+  }
+
+  /**
+   * fold left on all remaining elements
+   *
+   * @post !hasNext
+   */
+  def fold (initial : T,
+            left : BlockParameter[T], right : BlockParameter[T],
+            step : Block[T]) : T {
+    var r = initial;
+    while(hasNext) {
+      left = r;
+      right = next();
+      r = step.eval();
+    }
+    r
+  }
+
+  // TODO toBuffer : Buffer[T]
+}

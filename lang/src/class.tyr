@@ -3,6 +3,8 @@
  *
  * @todo iTable, iTypes
  *
+ * @todo checked downcast akin C++'s dynamic_cast
+ *
  * @note we use Schubert et. al. 83 as a type checking algorithm because it has
  *       unparalleled performance and the current approach requires static
  *       linking anyway. This also means, that we will change that as soon as we
@@ -17,7 +19,7 @@
  * @note Implementiations of classes are actually anonymous sub types of Class
  *       whose class is the Class of classes.
  *
- * @note it is not possible for class to have (object) def or class members
+ * @note it is not possible for Class to have (object) def or class members
  *
  * @author Timm Felden
  */

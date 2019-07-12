@@ -1,0 +1,69 @@
+/**
+ * The base of the standard container library.
+ *
+ * It provides rather general but inefficient implementations of standard
+ * operations on containers. Operations are usually overriden by far better
+ * versions in concrete classes. Hence, try to tell the compiler which kind of
+ * container you are currently using.
+ *
+ * @note This class is a view. As such it is covariant but offers no update.
+ *
+ * @author Timm Felden
+ */
+// TODO type interface IterableOnce
+class Iterable[T : Type] {
+
+  /**
+   * retrieve an iterator over the elements of this collection
+   */
+  def iterator : Iterator[T];
+
+  /**
+   * Perform action for each element
+   */
+  def foreach (x : BlockParameter[T], action : Block[any]) : void {
+    val iter = iterator()
+    // TODO iter.foreach (x, action)
+    iter.foreach y : T do { x = y; action.eval() }
+    delete iter
+  }
+
+  /**
+   * Check predicate until the predicate is false or all elements have been checked
+   */
+  def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
+    val iter = iterator()
+    // TODO val r = iter.forall (x, predicate)
+    val r = iter.forall y : T do { x = y; predicate.eval() }
+    delete iter
+    r
+  }
+
+  /**
+   * Check predicate until the predicate is false or all elements have been checked
+   */
+  def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
+    val iter = iterator()
+    // TODO val r = iter.exists (x, predicate)
+    val r = iter.exists y : T do { x = y; predicate.eval() }
+    delete iter
+    r
+  }
+
+  /**
+   * fold elements of this container
+   */
+  def fold (initial : T,
+            left : BlockParameter[T], right : BlockParameter[T],
+            step : Block[T]) : T {
+    val iter = iterator()
+    // TODO val r = iter.fold (initial, left, right, step)
+    val r = iter.fold (initial) L : T, R : T do {
+      left = L
+      right = R
+      step.eval()
+    }
+    delete iter
+    r
+  }
+}

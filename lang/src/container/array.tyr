@@ -1,0 +1,47 @@
+/**
+ * An array that knows its size and type.
+ *
+ * @author Timm Felden
+ */
+class Array[T : Type] <: Seq[T] {
+  val length : size_t;
+  var data : FlatArray[T];
+
+  new (length := size : size_t) {
+    data = new FlatArray[T](size)
+  }
+
+  delete {
+    delete data;
+  }
+
+  def iterator : ArrayIterator[T] = new ArrayIterator[T](this)
+
+  def apply(index : size_t) : T = data(index)
+  def update(index : size_t, v : T) : T = data.update(index, v)
+
+  def isDefined(index : size_t) : bool = 0L <= index && index < length
+
+  def size : size_t = length
+}
+
+/**
+ * Iterator of Array
+ */
+class ArrayIterator[T : Type] <: Iterator[T] {
+  val self : Array[T];
+  var i : size_t;
+
+  new (self := self : Array[T]){
+    i = 0L;
+  }
+  delete;
+
+  def next : T {
+    val r = self(i)
+    ++i
+    r
+  }
+
+  def hasNext : bool = i < self.length
+}
