@@ -1,4 +1,10 @@
 /**
- * zero space
+ * The most common form of zero space.
+ *
+ * @note There are a lot of language/compiler rules that allow conversions of
+ *       any result to void. This is sane, because it means that the result is
+ *       simply discarded.
+ *
+ * @note The compiler shall issue a warning if a void var/val/Ref is created.
  */
 type void <: any, native;
