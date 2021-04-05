@@ -8,14 +8,14 @@
  * irrespective of the number of invocations or modifications of x
  * - total: an invocation of equals must terminate and return either true or false
  *
- * The latter two are usually required to by users of EQRs to provide a consistent
+ * The latter two are also required by users of EQRs to provide a consistent
  * behaviour.
  *
  * @note we do not use math syntax (i.e. ~), as this conflicts with common
  * negation on integers.
  *
  * @note in contrast to other languages, a user is not expected to perform an
- * identity check first. The identity check has to performed by the EQR
+ * identity check first. The identity check has to be performed by the EQR
  * implementation if desired.
  */
 interface Hash[T : Type] <: any, EQR[T] {

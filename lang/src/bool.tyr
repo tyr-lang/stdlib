@@ -22,4 +22,19 @@ type bool <: native {
     if this this else x.eval()
 
   // TODO type val unknown <: native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
+
+  test "trivial cfg" {
+    false || true
+  }
+
+  test "simple cfg" {
+    (false || true) && !(!true)
+  }
+
+  test "valid cfg" {
+    val t = false || true
+    val f = !true
+
+    t && !f
+  }
 }

@@ -4,8 +4,8 @@
  * @author Timm Felden
  */
 class Array[T : Type] <: Seq[T] {
-  val length : size_t;
-  var data : FlatArray[T];
+  public val length : size_t;
+  private var data : FlatArray[T];
 
   new (length := size : size_t) {
     data = new FlatArray[T](size)

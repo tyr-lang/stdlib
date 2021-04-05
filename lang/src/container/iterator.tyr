@@ -70,7 +70,7 @@ class Iterator[T : Type] {
             left : BlockParameter[T], right : BlockParameter[T],
             step : Block[T]) : T {
     var r = initial;
-    while(hasNext) {
+    while(hasNext()) {
       left = r;
       right = next();
       r = step.eval();

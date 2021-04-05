@@ -29,7 +29,8 @@ class Iterable[T : Type] {
   }
 
   /**
-   * Check predicate until the predicate is false or all elements have been checked
+   * Check predicate until the predicate is false or all elements have been
+   * checked
    */
   def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
     val iter = iterator()
@@ -40,7 +41,8 @@ class Iterable[T : Type] {
   }
 
   /**
-   * Check predicate until the predicate is false or all elements have been checked
+   * Check predicate until the predicate is false or all elements have been
+   * checked
    */
   def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
     val iter = iterator()
