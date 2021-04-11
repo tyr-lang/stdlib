@@ -20,6 +20,10 @@ property abstract;
 
 /**
  * Dissallow subtyping/overriding on the target declaration.
+ *
+ * @note In contrast to the semantics of other languages, it is perfectly fine
+ *       to have a type which is both abstract and final, i.e. that cannot have
+ *       any instance.
  */
 property final;
 
