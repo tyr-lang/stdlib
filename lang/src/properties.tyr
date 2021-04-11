@@ -11,6 +11,10 @@ property native;
 
 /**
  * Make the target type abstract, i.e. no instances of it can be constructed.
+ *
+ * @note This is done on a best-effort level. It is not possible to prevent
+ *       anybody from allocating memory and forcing it into a state that behaves
+ *       like an instance of an abstract type.
  */
 property abstract;
 
