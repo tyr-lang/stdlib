@@ -20,20 +20,16 @@ class Interface <: Type {
    * Interface initialization is performed by the back-end globally.
    * The initialization of Interface values happens even before evaluation of
    * global initialization.
-   *
-   * @todo make it private
    */
-  new <: native;
+  private new <: native;
 }
 
 /* TODO 0.7
 class ITypes {
   /**
-   * Initiallization is perform while Classes are constructed.
-   *
-   * @todo make it private
+   * Initiallization is performed while Classes are constructed.
    * /
-  new <: native;
+  private new <: native;
 
   val implemenets : Array[Interface]
   val next : ITypes
@@ -49,7 +45,7 @@ class ITypes {
  * Abstract layout is 
  * record ITable { ITable* super; int size; (ITableKey, Offset)[0] entries }
  *
- * Conccrete layout is
+ * Concrete layout is
  * record _TIT:*** { ITable info; (ITableKey, Offset)[size] }
  *
  * @author Timm Felden

@@ -29,10 +29,8 @@ class Class <: Type {
    * Class initialization is performed by the back-end globally.
    * The initialization of Class values happens even before evaluation of global
    * initialization.
-   *
-   * @todo make it private
    */
-  new <: native;
+  private new <: native;
 
   /**
    * The first Type ID associated with this type.
