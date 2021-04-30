@@ -48,6 +48,13 @@ class Class <: Type {
    *       transitive subtypes
    */
   val maxTID : int;
+  
+  /**
+   * This is a pointer to an itable. It is null if no interface is implemented.
+   * We silently assume all interface member calls to be correct. Hence, there
+   * is no need to add any checks here.
+   */
+  private val itable : ITable;
 
   /**
    * Check if this is a subtype or equal to super

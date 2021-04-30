@@ -48,23 +48,44 @@ class ITypes {
  * Concrete layout is
  * record _TIT:*** { ITable info; (ITableKey, Offset)[size] }
  *
+ * @note instances of this type can only be created by sleipnir
+ *
  * @author Timm Felden
  */
 type ITable <: native {
-/*
-  the ITable access algorithm is basically:
-
-  def get(ITK key) : Offset {
-    entries.foreach p : (ITK, Offset) do { if(p.1 == key) return p.2 }
-    super.get(key)
+  val super : ITable;
+  
+  val size : container.size_t;
+  
+  var entries : container.FlatSizedArray[ITableEntry, 0L];
+  
+  /**
+   * the ITable access algorithm is basically:
+   *
+   * @note it requires that the front-end has proven that the itable will
+   *       contain the requested key
+   *
+   * @note the GEP instruction usually used to perform the access is replaced by
+   *       calling get at runtime, casting this to i8*, performing GEP with the
+   *       result, casting that result back to the expected type and continue
+   *       afterwards as if a static access had happened
+   */
+  type def get(it : ITable, key : int) : int {
+    // note: no null checking is required, because the key is always found in a 
+    // type-correct program
+    var i = it.size
+    while (0L != i) {
+      --i
+      var e = it.entries(i)
+      if(key == e.ITableKey)
+        return e.offset
+    }
+    return get(it.super, key)
   }
+}
 
-  @note it requires that the front-end has proven that the itable will contain
-        the requested key
-
-  @note the GEP instruction usually used to perform the access is replaced by
-        calling get at runtime, casting this to i8*, performing GEP with the
-        result, casting that result back to the expected type and continue
-        afterwards as if a static access had happened
-*/
+/* created by sleipnir */
+type ITableEntry <: native {
+  val ITableKey : int;
+  val offset : int;
 }
