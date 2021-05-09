@@ -18,6 +18,10 @@ class String <: Object/* TODO blocker 0.7
  * StringLiteral!
  */
 class StringLiteral <: String, native, noVar {
-  // print the string to std out
+  /**
+   * print the string to std out
+   *
+   * @note this operator will be removed eventually
+   */
   type def !!(v : StringLiteral) : void <: native, operator.postfix, operator.precedence[10];
 }
