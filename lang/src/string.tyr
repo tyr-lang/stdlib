@@ -11,6 +11,9 @@
 class String <: Object/* TODO blocker 0.7
                 , InheritedHash[String]
                 */, abstract {
+
+  // TODO size : size_t
+  // TODO bytes : Iterator[byte]
 }
 
 /**
