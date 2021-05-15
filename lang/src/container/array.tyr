@@ -35,7 +35,6 @@ class ArrayIterator[T : Type] <: Iterator[T] {
   new (self := self : Array[T]){
     i = 0L;
   }
-  delete;
 
   def next : T {
     val r = self(i)
