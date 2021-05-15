@@ -12,8 +12,21 @@ class String <: Object/* TODO blocker 0.7
                 , InheritedHash[String]
                 */, abstract {
 
-  // TODO size : size_t
-  // TODO bytes : Iterator[byte]
+  /**
+   * @return the number of bytes required to represent this string in UTF-8.
+   */
+  def size : container.size_t;
+
+  /**
+   * @return exactly size bytes representing this string as UTF-8 byte sequence.
+   *
+   * @note if the string is zero-terminated and the zero is considered part of
+   *       the string, it has to be taken into account when returning size
+   *
+   * @note Generally speaking, it is legal to return zero bytes in the middle of
+   *       a string. Nonetheless, some subclasses will not be able to do that.
+   */
+  def bytes : container.Iterator[byte];
 }
 
 /**
@@ -21,6 +34,11 @@ class String <: Object/* TODO blocker 0.7
  * StringLiteral!
  */
 class StringLiteral <: String, native, noVar {
+
+  def size : container.size_t <: native;
+
+  def bytes : container.size_t <: native;
+
   /**
    * print the string to std out
    *
