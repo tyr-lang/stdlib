@@ -70,7 +70,7 @@ class Class <: Type, mem.eternal {
    */
   type def <= (this : Class, super : Class) : bool
          <: operator.precedence[90] =
-    (super.minTID <= this.minTID) & this.maxTID <= super.maxTID
+    (super.minTID <= this.minTID) &! this.maxTID <= super.maxTID
 
   /**
    * Check if this is a subtype and not equal to super
@@ -82,5 +82,5 @@ class Class <: Type, mem.eternal {
    */
   type def < (this : Class, super : Class) : bool
         <: operator.precedence[90] =
-    (super.minTID < this.minTID) & this.maxTID <= super.maxTID
+    (super.minTID < this.minTID) &! this.maxTID <= super.maxTID
 }
