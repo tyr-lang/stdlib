@@ -63,7 +63,12 @@ type Integer[Size : IntegerLiteral[32]] <: native {
   // TODO blocker 0.7 def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: native;
   // TODO note: requires processing of CTParams in function definitions
 
-  // TODO blocker 0.6 unsign : Unsigned[Size] <: native // this is a nop
+  /**
+   * Transform the value to an unsigned integer.
+   *
+   * @note this is a nop
+   */
+  def unsign : Unsigned[Size] <: native;
 }
 
 /**

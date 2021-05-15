@@ -1,0 +1,88 @@
+/**
+ * This is the unsigned integer type of n bits.
+ *
+ * @author Timm Felden
+ */
+type Unsigned[Size : IntegerLiteral[32]] <: native {
+
+  /** as in C,C++,Java */
+  type def ++ (this : Ref[Unsigned[Size]]) : Unsigned[Size]
+              <: native, operator.precedence[210];
+  /** as in C,C++,Java */
+  type def -- (this : Ref[Unsigned[Size]]) : Unsigned[Size]
+              <: native, operator.precedence[210];
+
+  def ~ : Unsigned[Size] <: native, operator.precedence[200];
+
+  def * (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[120];
+  def / (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[120];
+  def % (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[120];
+
+  def + (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[110];
+  def - (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[110];
+
+  def << (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[100];
+  def >> (x : Unsigned[Size]) : Unsigned[Size]
+        <: native, operator.precedence[100];
+
+  /**
+   * @note in contrast to C, we do not have to assign one precedence to all
+   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   */
+  def & (x : Unsigned[Size]) : Unsigned[Size] <: native, operator.precedence[97];
+  /**
+   * @note in contrast to C, we do not have to assign one precedence to all
+   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   */
+  def ^ (x : Unsigned[Size]) : Unsigned[Size] <: native, operator.precedence[95];
+  /**
+   * @note in contrast to C, we do not have to assign one precedence to all
+   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   */
+  def | (x : Unsigned[Size]) : Unsigned[Size] <: native, operator.precedence[93];
+
+  def < (x : Unsigned[Size]) : bool
+        <: native, operator.precedence[90];
+  def <= (x : Unsigned[Size]) : bool
+        <: native, operator.precedence[90];
+  def > (x : Unsigned[Size]) : bool
+        <: native, operator.precedence[90];
+  def >= (x : Unsigned[Size]) : bool
+        <: native, operator.precedence[90];
+
+  def != (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
+  def == (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
+
+  /**
+   * Resize the argument value to the desired new size.
+   * Truncate if NewSize < Size;
+   * Signextend if NewSize > Size;
+   * nop if NewSize == Size.
+   */
+  // TODO blocker 0.7 def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize] <: native;
+  // TODO note: requires processing of CTParams in function definitions
+
+  /**
+   * Transform the value to a signed integer.
+   *
+   * @note this is a nop
+   */
+  def sign : Integer[Size] <: native;
+}
+
+/**
+ * An unsigned integer literal.
+ * This type is used to allow compile-time type modifications with unsigned
+ * arguments.
+ * The type is part of the type theory and can serve as a type argument.
+ *
+ * @author Timm Felden
+ */
+type UnsignedLiteral[Size : IntegerLiteral[32]] <: Unsigned[Size], noVar;
+
