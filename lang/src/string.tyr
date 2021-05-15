@@ -34,10 +34,14 @@ class String <: Object/* TODO blocker 0.7
  * StringLiteral!
  */
 class StringLiteral <: String, native, noVar, mem.eternal {
+  // TODO It would make much more sense to have only the constructor as native
+  //      function and to make everything else language-defined. This would also
+  //      fix current issues with StringLiterals passed around in vals
+  // e.g. private new <: native;
 
   def size : container.size_t <: native;
 
-  def bytes : container.size_t <: native;
+  def bytes : container.Iterator[byte] <: native;
 
   /**
    * print the string to std out
