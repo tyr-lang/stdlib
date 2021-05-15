@@ -14,7 +14,7 @@
  *
  * @author Timm Felden
  */
-class Interface <: Type {
+class Interface <: Type, mem.eternal {
 
   /**
    * Interface initialization is performed by the back-end globally.

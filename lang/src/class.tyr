@@ -23,7 +23,7 @@
  *
  * @author Timm Felden
  */
-class Class <: Type {
+class Class <: Type, mem.eternal {
 
   /**
    * Class initialization is performed by the back-end globally.

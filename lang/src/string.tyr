@@ -33,7 +33,7 @@ class String <: Object/* TODO blocker 0.7
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
  */
-class StringLiteral <: String, native, noVar {
+class StringLiteral <: String, native, noVar, mem.eternal {
 
   def size : container.size_t <: native;
 

@@ -1,6 +1,17 @@
 // Semi-automatic memory management properties.
 
 /**
+ * Instances of this type cannot or must not be deleted.
+ *
+ * @note For classes, delete remains abstract, but will not count as abstract
+ *       member. That way, one will get an NPE at runtime when trying to delete
+ *       an eternal object.
+ *
+ * @appliesTo type, class
+ */
+property eternal;
+
+/**
  * An object returned by the function is new and it is the responsibility of the
  * caller to delete it.
  *
