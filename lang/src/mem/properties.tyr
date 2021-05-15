@@ -4,6 +4,8 @@
  * An object returned by the function is new and it is the responsibility of the
  * caller to delete it.
  *
+ * @appliesTo typeDef, classDef, def
+ *
  * @example The result of a factory method.
  */
 property make;
@@ -11,9 +13,21 @@ property make;
 /**
  * An object passed here is eventually deleted by the callee.
  *
+ * @appliesTo RTParam
+ *
  * @example A Job passed to a ThreadPool
  */
 property free;
+
+/**
+ * An object def with this property will consume this on call. I.e. it will
+ * unconditionally call delete before returning.
+ *
+ * @appliesTo def
+ *
+ * @note this is a short hand for an explicit this with a free property
+ */
+property consumed;
 
 /**
  * An object passed here is owned by the target, i.e. it has to be deleted when
