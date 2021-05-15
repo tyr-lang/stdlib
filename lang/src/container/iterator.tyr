@@ -6,6 +6,8 @@
  *       when escape-based auto delete is implemented.
  *
  * @author Timm Felden
+ *
+ * @todo binder calls should consume the iterator, i.e. it should be deleted
  */
 class Iterator[T : Type] {
 
