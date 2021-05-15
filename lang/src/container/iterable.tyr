@@ -11,7 +11,7 @@
  * @author Timm Felden
  */
 // TODO type interface IterableOnce
-class Iterable[T : Type] {
+class Iterable[T : Type] <: abstract {
 
   /**
    * retrieve an iterator over the elements of this collection

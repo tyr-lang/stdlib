@@ -9,7 +9,7 @@
  *
  * @todo binder calls should consume the iterator, i.e. it should be deleted
  */
-class Iterator[T : Type] {
+class Iterator[T : Type] <: abstract {
 
   /**
    * retrieve the next element and move the iterator by one element
