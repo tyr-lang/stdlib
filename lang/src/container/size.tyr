@@ -9,6 +9,10 @@ type size_t := Unsigned[64];
  *
  * @note instances cannot be created and it has no operation whatsoever to avoid
  *       unwanted implicit conversions
+ *
+ * @note if signed indices were correct for a container type, this can still be
+ *       realized with index_t and a sign call, because Integer.implicit will
+ *       sign extend values on conversion.
  */
 type index_t {
   public val unpack : size_t;
