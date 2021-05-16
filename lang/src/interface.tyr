@@ -74,7 +74,7 @@ type ITable <: native {
     // note: no null checking is required, because the key is always found in a 
     // type-correct program
     var i = it.size
-    while (0L != i) {
+    while (0u64 != i) {
       --i
       var e = it.entries(i)
       if(key == e.ITableKey)

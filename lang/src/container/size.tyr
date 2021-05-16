@@ -1,6 +1,15 @@
 /**
  * The type used for size() in sized containers.
- *
- * TODO should be Unsigned[64]
  */
-type size_t := long;
+type size_t := Unsigned[64];
+
+/**
+ * The type can be used to allow arbitrary integer literals to be passed as
+ * parameter.
+ *
+ * @note instances cannot be created and it has no operation whatsoever to avoid
+ *       unwanted implicit conversions
+ */
+type index_t {
+  public val unpack : size_t;
+}

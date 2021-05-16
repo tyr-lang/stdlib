@@ -69,6 +69,11 @@ type Integer[Size : IntegerLiteral[32]] <: native {
    * @note this is a nop
    */
   def unsign : Unsigned[Size] <: native;
+
+  /**
+   * truncate/sign extend the value to 64 and unsign it then
+   */
+  def implicit : container.index_t <: native;
 }
 
 /**
