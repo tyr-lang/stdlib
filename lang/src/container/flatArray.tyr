@@ -2,6 +2,8 @@
  * An array of Ts. In essence, this corresponds to C's T[].
  * The array is heap-allocated unless the optimizer chooses stack allocation.
  * This optimization requires a proper call to delete.
+ *
+ * @note represented as T*
  */
 type FlatArray[T : Type] <: pointer, native {
 

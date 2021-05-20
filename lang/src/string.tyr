@@ -33,20 +33,27 @@ class String <: Object/* TODO blocker 0.7
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
  */
-class StringLiteral <: String, native, noVar, mem.eternal {
-  // TODO It would make much more sense to have only the constructor as native
-  //      function and to make everything else language-defined. This would also
-  //      fix current issues with StringLiterals passed around in vals
-  // e.g. private new <: native;
+class StringLiteral <: String, noVar, mem.eternal {
 
-  def size : container.size_t <: native;
+  private new <: native;
+  
+  public val length : container.size_t;
 
-  def bytes : container.Iterator[byte] <: native;
+  private val data : container.FlatArray[byte];
+
+  public def size : container.size_t = length;
+  
+  public def bytes : container.Iterator[byte] = null;
 
   /**
    * print the string to std out
    *
    * @note this operator will be removed eventually
    */
-  type def !!(v : StringLiteral) : void <: native, operator.postfix, operator.precedence[10];
+  public type def !!(v : StringLiteral) : void 
+                  <: native, operator.postfix, operator.precedence[10];
+  
+  test "show" {
+    "show!\n"!!
+  }
 }
