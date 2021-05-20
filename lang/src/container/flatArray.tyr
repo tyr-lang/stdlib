@@ -8,7 +8,7 @@ type FlatArray[T : Type] <: pointer, native {
   /**
    * Create a new array with undefined contents.
    */
-  new (size : size_t) <: native;
+  new (size : index_t) <: native;
 
   /**
    * Release the memory required to represent this array.
@@ -19,7 +19,7 @@ type FlatArray[T : Type] <: pointer, native {
    * Return the element at the given index (starting at 0).
    * @note it is the callers obligation to ensure that the index is valid
    */
-  def apply(index : size_t) : T <: native;
+  def apply(index : index_t) : T <: native;
 
   /**
    * Update the element at the given index with v and return v (starting at 0).
@@ -27,7 +27,7 @@ type FlatArray[T : Type] <: pointer, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  def update(index : size_t, v : T) : T <: native;
+  def update(index : index_t, v : T) : T <: native;
 }
 
 /**
@@ -55,7 +55,7 @@ type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    * @note it is the callers obligation to ensure that the index is valid
    * @note accessing elements of an array can only be done, if it has an adress
    */
-  def apply(this : Ref[FlatSizedArray[T, Size]], index : size_t) : T <: native;
+  def apply(this : Ref[FlatSizedArray[T, Size]], index : index_t) : T <: native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -64,5 +64,5 @@ type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  def update(this : Ref[FlatSizedArray[T, Size]], index : size_t, v : T) : T <: native;
+  def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T <: native;
 }
