@@ -1,0 +1,21 @@
+/**
+ * Iterator over a FlatArray
+ */
+class FlatArrayIterator[T : Type] <: Iterator[T] {
+  val self : FlatArray[T];
+  val size : size_t;
+  var i : size_t;
+
+  new (self := self : FlatArray[T], size : index_t){
+    this.size = size.unpack
+    i = 0U
+  }
+
+  def next : T {
+    val r = self(i)
+    ++i
+    r
+  }
+
+  def hasNext : bool = i < size
+}

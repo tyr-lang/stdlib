@@ -43,7 +43,8 @@ class StringLiteral <: String, noVar, mem.eternal {
 
   public def size : container.size_t = length;
   
-  public def bytes : container.Iterator[byte] = null;
+  public def bytes : container.Iterator[byte] =
+    new container.FlatArrayIterator[byte](data, length);
 
   /**
    * print the string to std out
