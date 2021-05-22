@@ -108,6 +108,9 @@ property noVar;
 /**
  * Flags a function to be an entry point to the program.
  *
+ * @note An entry point must be a type def without parameters. It can return
+ *       either void or int
+ *
  * @author Timm Felden
  */
 property entryPoint;
