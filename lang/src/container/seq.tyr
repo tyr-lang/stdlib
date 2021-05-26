@@ -11,6 +11,11 @@ class Seq[T : Type] <: Iterable[T], abstract {
    * @inv size() == { var i = 0L; foreach x do {i++}; i }
    */
   def size : size_t;
+
+  /**
+   * @return true if 0 == size()
+   */
+  type def empty(this : Seq[T]) : bool = 0U == size();
 }
 
 // TODO add an OrderedSeq[T, (T,T) : bool] ensuring that an iterator will return next elements for which the argument function evaluated with the current element as first argument will return true. E.g [int, int.<=].
