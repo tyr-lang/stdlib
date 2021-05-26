@@ -16,32 +16,12 @@ class Array[T : Type] <: Seq[T] {
     delete data;
   }
 
-  def iterator : ArrayIterator[T] = new ArrayIterator[T](this)
+  def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
 
-  def apply(index : index_t) : T = data(index.unpack)
-  def update(index : index_t, v : T) : T = data.update(index.unpack, v)
+  def apply(index : index_t) : T = data(index);
+  def update(index : index_t, v : T) : T = data.update(index, v);
 
-  def isDefined(index : index_t) : bool = 0u64 <= index.unpack && index.unpack < length
+  def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
 
   def size : size_t = length
-}
-
-/**
- * Iterator of Array
- */
-class ArrayIterator[T : Type] <: Iterator[T] {
-  val self : Array[T];
-  var i : size_t;
-
-  new (self := self : Array[T]){
-    i = 0u64;
-  }
-
-  def next : T {
-    val r = self(i)
-    ++i
-    r
-  }
-
-  def hasNext : bool = i < self.length
 }
