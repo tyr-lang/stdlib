@@ -1,0 +1,182 @@
+/**
+ * An array-backed buffer that knows its size and can be resized.
+ *
+ * @author Timm Felden
+ */
+class ArrayBuffer[T : Type] <: Seq[T] {
+  /**
+   * The number of valid elements in the buffer.
+   *
+   * @inv length <= capacity
+   */
+  private var length : size_t;
+
+  /**
+   * The current length of data.
+   */
+  private var capacity : size_t;
+
+  /**
+   * The backing array.
+   */
+  private var data : FlatArray[T];
+
+  /**
+   * Create a new array buffer.
+   *
+   * @param size the initial capacity of the buffer.
+   */
+  new (size : index_t = 8.implicit()) {
+    length = 0U
+    capacity = size.unpack
+    data = new FlatArray[T](capacity)
+  }
+
+  delete {
+    delete data;
+  }
+
+  def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
+
+  /**
+   * Access element without checking if it exists
+   */
+  def apply(index : index_t) : T = data(index.unpack)
+  /**
+   * Update element without checking if it exists
+   */
+  def update(index : index_t, v : T) : T = data.update(index.unpack, v)
+
+  /**
+   * Check if an index is defined
+   */
+  def isDefined(index : index_t) : bool {
+    0U <= index.unpack && index.unpack < length
+  }
+
+  def size : size_t = length;
+
+  type def += (this: ArrayBuffer[T], v : T) : void
+           <: operator.precedence[20], operator.rightAssociative
+           := append;
+
+  /**
+   * Insert an element at the end of the buffer.
+   */
+  def append(v : T) : void {
+    val n = length + 1U
+    if(n < capacity)
+      this.grow(n)
+
+    this.data(length) = v
+    length = n
+  }
+
+  /**
+   * Insert all elements at the end of the buffer.
+   */
+  def appendAll(vs : Seq[T]) : void {
+    val n = length + vs.size()
+    if(n == length)
+      return;
+
+    if(n < capacity)
+      this.grow(n)
+
+    vs.foreach v do {
+      this.data(length) = v;
+      ++length
+    }
+  }
+
+  type def removeLast(this : ArrayBuffer[T]) : void = remove(length - 1U);
+
+  def remove (index : index_t) : void {
+    var i = index.unpack
+    --length
+    while(i < length) {
+      data.update(i, this.data(i+1U))
+      ++i
+    }
+    this.shrink(length)
+  }
+
+  def remove (index : index_t, n : index_t) : void {
+    var i = index.unpack
+    length -= n.unpack
+    while(i < length) {
+      data.update(i, this.data(i+n.unpack))
+      ++i
+    }
+    this.shrink(length)
+  }
+
+  type def last(this : ArrayBuffer[T]) : T = this.data(length - 1U);
+
+
+  /**
+   * Ensure that at least n elements can be stored in the buffer.
+   */
+  public type def ensureCapacity(this: ArrayBuffer[T], n : index_t) : void {
+    if(this.capacity < n.unpack)
+      this.grow(n.unpack)
+  }
+
+  /**
+   * Remove all elements from the container
+   */
+  public def clear() : void {
+    length = 0U
+  }
+
+  /**
+   * Resize the backing array to size() if it has unused capacity.
+   */
+  public def trimToSize() : void {
+    if(length != capacity)
+      this.resize(length)
+  }
+
+  /**
+   * If capacity < after, resize to hold at least after elements.
+   */
+  private type def grow(this: ArrayBuffer[T], after : size_t) : void {
+    var to = if(0U == capacity) 8U else capacity * 2U;
+    while(to < after)
+        to = to * 2U
+
+    this.resize(to)
+  }
+
+  /**
+   * If capacity/2 > after, release elements to hold at most after elements.
+   *
+   * @note will keep 8 elements; if releasing them as well is a good idea, the
+   *       user has to call trimToSize explicitly
+   */
+  private type def shrink(this: ArrayBuffer[T], after : size_t) : void {
+    if(capacity / 2U > after)
+      this.resize(if (8U > after) 8U else after)
+  }
+
+  /**
+   * Calculate a new capacity and replace data by copying all elements to a new
+   * array.
+   *
+   * @pre length < after
+   * @post if exact capacity == after
+   */
+  private type def resize(this: ArrayBuffer[T], after : size_t) : void {
+    if(after == capacity)
+      return
+
+    var n = new FlatArray[T](after);
+    var i = 0U;
+    while(i < length) {
+      n(i) = data(i);
+      ++i
+    }
+    delete data
+    data = n
+  }
+}
