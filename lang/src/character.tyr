@@ -1,0 +1,37 @@
+/**
+ * A character in unicode codepoint representation.
+ * Valid codepoints range from 0x0u21 to 0x10FFFFu21.
+ * Using invalid codepoints has undefined semantics.
+ * The same holds for codepoints not assigned in a supported unicode standard.
+ *
+ * @note Semantics of codepoints and operations on them will be provided by
+ *       tyr.text because the required code and mapping tables would blow up
+ *       tyr.lang too much.
+ *
+ * @author Timm Felden
+ */
+type Character <: Unsigned[21] {
+
+  /**
+   * Read a character form a UTF-8 encoded byte iterator.
+   *
+   * @todo should throw a broken encoding exception if from has to few bytes or
+   *       happens to be not in valid UTF-8
+   */
+  new(from : container.Iterator[byte]) {
+    // this = Character !! 0u21 
+    // TODO requires resize on integers which, in turn, requires template
+    // functions currently scheduled for 0.7
+  }
+
+  // TODO def toInt = resize[32].sign
+
+  // TODO def toString = new CharString(this)
+
+  // TODO def encodedLength : size_t
+
+  // return 4 bytes where bytes [0, encodedLength] contain bytes such that
+  //  adding them from 0 onward to a byte stream will result in a valid UTF-8
+  //  byte stream
+  // TODO def encodedBytes : FlatSizedArray[byte, 4]
+}
