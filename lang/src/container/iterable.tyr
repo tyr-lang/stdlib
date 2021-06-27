@@ -29,6 +29,17 @@ class Iterable[T : Type] <: abstract {
   }
 
   /**
+   * Count the number of elements fulfilling predicate
+   */
+  def count (x : BlockParameter[T], predicate : Block[bool]) : int {
+    val iter = iterator()
+    // TODO val r = iter.count (x, predicate)
+    val r = iter.count y : T do { x = y; predicate.eval() }
+    delete iter
+    r
+  }
+
+  /**
    * Check predicate until the predicate is false or all elements have been
    * checked
    */

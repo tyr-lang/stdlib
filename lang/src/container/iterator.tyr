@@ -36,6 +36,21 @@ class Iterator[T : Type] <: abstract {
   }
 
   /**
+   * Count the number of elements fulfilling predicate
+   *
+   * @post !hasNext
+   */
+  def count (x : BlockParameter[T], predicate : Block[bool]) : int {
+    var r = 0
+    while(hasNext()) {
+      x = next()
+      if(predicate.eval())
+        ++r;
+    }
+    return r;
+  }
+
+  /**
    * Check predicate until the predicate is false or the iterator is empty
    *
    * @post !result || !hasNext

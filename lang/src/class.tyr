@@ -1,7 +1,7 @@
 /**
  * The type of a class.
  *
- * @todo iTable, iTypes
+ * @todo iTypes
  *
  * @todo checked downcast akin C++'s dynamic_cast
  *
@@ -78,7 +78,7 @@ class Class <: Type, mem.eternal {
    * @note that must not be null
    *
    * @note we have to check both borders. Otherwise, we would accept unrelated
-           types
+   *       types
    */
   type def < (this : Class, super : Class) : bool
         <: operator.precedence[90] =
