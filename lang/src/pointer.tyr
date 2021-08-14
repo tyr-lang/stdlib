@@ -34,7 +34,8 @@ type observablePointer <: pointer {
  *
  * @note Ref[T] is a native type, as its representation is T* instead of i8*
  *
- * @note "var x : T" creates a value x of type Ref[T] plus some memory to be modified
+ * @note "var x : T" creates a value x of type Ref[T] plus some memory to be
+ *       modified
  *
  * @todo Creation of references requires some sort of checking.
  * Otherwise, a reference could be abused to manipulate immutable and even

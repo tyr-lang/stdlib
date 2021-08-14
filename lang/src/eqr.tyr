@@ -23,8 +23,13 @@
  * implementation if desired.
  */
 interface EQR[T : Type] <: any {
-  /** equals is stateless */
-  type def equals (left : T, right : T) : bool;
+  /**
+   * equals is stateless.
+   *
+   * @note a class def on a type interface is the promise of a static function
+   *       existing in the implementing type (this comment is to be deleted)
+   */
+  public /*TODO 0.6: class*/ def equals (left : T, right : T) : bool;
 }
 
 /**
@@ -32,7 +37,11 @@ interface EQR[T : Type] <: any {
  * many types.
  */
 type MinEQR[T : Type] <: any, EQR[T] {
-  type def equals (left : T, right : T) : bool <: native;
+  // note to self: types do not have a RT representation
+  // note to self: It could be, that there still is a difference wrt. variant
+  // types. In that case, we could introduce class members on types with a
+  // similar semantics as their counterparts in other kinds.
+  override type def equals (left : T, right : T) : bool <: native;
 }
 
 /**
