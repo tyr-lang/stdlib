@@ -3,20 +3,8 @@
  * has no properties, no functions, not even a storage type. Therefore, direct
  * usage of any is an error. Its presence is for the purpose of sane type
  * handling in the compiler and in type level calculations.
+ *
+ * @note It is safe to assume that any will never have a member. Not even a type
+ *       member.
  */
-type any <: abstract {
-  /**
-   * The static type of this object
-   *
-   * @note the result is computed by the front-end.
-   * @note should be Type[this.type]
-   */
-  //TODO def type : Type <: native;
-
-  /* TODO
-  type def TODO(msg : String = "") : NoReturn {
-    console.out.println(msg) // tell what is to be done
-    system.printStackTrace() // tell the programmer where
-    system.exit(false) // failure
-  }*/
-}
+type any <: abstract;
