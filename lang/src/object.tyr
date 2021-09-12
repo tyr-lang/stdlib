@@ -47,7 +47,7 @@ public class Object <: observablePointer, abstract {
    * @note delete is the only dispatching function in Object and has, hence,
    *       always the ID 0
    */
-  delete;
+  public delete;
 
   /**
    * Check if this is exactly of the argument type
@@ -58,7 +58,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note type checks have the same precedence as integer less
    */
-  type def =:= (this : Object, cls : Class) : bool
+  public type def =:= (this : Object, cls : Class) : bool
                <: operator.precedence[90] =
     if (null == this) false
     else cls == this.class
@@ -68,7 +68,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note true for null
    */
-  type def <:= (this : Object, cls : Class) : bool
+  public type def <:= (this : Object, cls : Class) : bool
                <: operator.precedence[90] =
     if (null == this) true
     else this.class <= cls
@@ -78,7 +78,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note true for null
    */
-  type def <:< (this : Object, cls : Class) : bool
+  public type def <:< (this : Object, cls : Class) : bool
                <: operator.precedence[90] =
     if (null == this) true
     else this.class < cls
