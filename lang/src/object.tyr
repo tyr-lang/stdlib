@@ -3,7 +3,7 @@
  * Null is the bottom element of the class latice.
  * Object are represented by pointers.
  */
-class Object <: observablePointer, abstract {
+public class Object <: observablePointer, abstract {
 
   /**
    * The runtime class of this object
@@ -12,6 +12,12 @@ class Object <: observablePointer, abstract {
    * @note should be Class[this.type]
    */
   val `class` : Class;
+
+  /**
+   * Same as accessing class directly or via a x.class expression.
+   * This function is mainly used as an implicit conversion from object to type.
+   */
+  public type def getClass(this : Object) : Class <: inline = this.class;
 
   /**
    * Does nothing. The field class is initialized before calling the first
