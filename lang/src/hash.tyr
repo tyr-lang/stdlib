@@ -22,11 +22,7 @@ interface Hash[T : Type] <: any, EQR[T] {
   def hash : hashCode;
 }
 
-/**
- * @todo should be Unsigned[64]
- * TODO blocker 0.6
- */
-type hashCode := int;
+type hashCode := Unsigned[64];
 
 /**
  * The minimal Hash i.e. bitcasting to hashCode.
