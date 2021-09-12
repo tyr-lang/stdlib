@@ -29,7 +29,7 @@ interface EQR[T : Type] <: any {
    * @note a class def on a type interface is the promise of a static function
    *       existing in the implementing type (this comment is to be deleted)
    */
-  public /*TODO 0.6: class*/ def equals (left : T, right : T) : bool;
+  public class def equals (left : T, right : T) : bool;
 }
 
 /**
