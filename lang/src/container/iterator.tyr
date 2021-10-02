@@ -83,9 +83,9 @@ class Iterator[T : Type] <: abstract {
    *
    * @post !hasNext
    */
-  def fold (initial : T,
-            left : BlockParameter[T], right : BlockParameter[T],
-            step : Block[T]) : T {
+  public def fold (initial : T,
+                   left : BlockParameter[T], right : BlockParameter[T],
+                   step : Block[T]) : T {
     var r = initial;
     while(hasNext()) {
       left = r;
@@ -95,5 +95,16 @@ class Iterator[T : Type] <: abstract {
     r
   }
 
-  // TODO toBuffer : Buffer[T]
+  /**
+   * Take all elements from this iterator, add them to an ArrayBuffer and delete
+   * the iterator.
+   */
+  public def toBuffer : ArrayBuffer[T] <: mem.consumed {
+    var r = new ArrayBuffer[T]
+    while(hasNext()) {
+      r += next()
+    }
+    delete this
+    r
+  }
 }
