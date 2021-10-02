@@ -5,61 +5,61 @@
  *
  * @author Timm Felden
  */
-type Integer[Size : IntegerLiteral[32]] <: native {
+public type Integer[Size : IntegerLiteral[32]] <: native {
 
   /** as in C,C++,Java */
-  type def ++ (this : Ref[Integer[Size]]) : Integer[Size]
+  public type def ++ (this : Ref[Integer[Size]]) : Integer[Size]
               <: native, operator.precedence[210];
   /** as in C,C++,Java */
-  type def -- (this : Ref[Integer[Size]]) : Integer[Size]
+  public type def -- (this : Ref[Integer[Size]]) : Integer[Size]
               <: native, operator.precedence[210];
 
-  def - : Integer[Size] <: native, operator.precedence[200];
-  def ~ : Integer[Size] <: native, operator.precedence[200];
+  public def - : Integer[Size] <: native, operator.precedence[200];
+  public def ~ : Integer[Size] <: native, operator.precedence[200];
 
-  def * (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[120];
-  def / (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[120];
-  def % (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[120];
+  public def * (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[120];
+  public def / (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[120];
+  public def % (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[120];
 
-  def + (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[110];
-  def - (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[110];
+  public def + (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[110];
+  public def - (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[110];
 
-  def << (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[100];
-  def >> (x : Integer[Size]) : Integer[Size]
-        <: native, operator.precedence[100];
+  public def << (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[100];
+  public def >> (x : Integer[Size]) : Integer[Size]
+         <: native, operator.precedence[100];
 
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix Cs historical errors.
    */
-  def & (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[97];
-  def ^ (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[95];
-  def | (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[93];
+  public def & (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[97];
+  public def ^ (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[95];
+  public def | (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[93];
 
-  def < (x : Integer[Size]) : bool
-        <: native, operator.precedence[90];
-  def <= (x : Integer[Size]) : bool
-        <: native, operator.precedence[90];
-  def > (x : Integer[Size]) : bool
-        <: native, operator.precedence[90];
-  def >= (x : Integer[Size]) : bool
-        <: native, operator.precedence[90];
+  public def < (x : Integer[Size]) : bool
+         <: native, operator.precedence[90];
+  public def <= (x : Integer[Size]) : bool
+         <: native, operator.precedence[90];
+  public def > (x : Integer[Size]) : bool
+         <: native, operator.precedence[90];
+  public def >= (x : Integer[Size]) : bool
+         <: native, operator.precedence[90];
 
-  def != (x : Integer[Size]) : bool <: native, operator.precedence[80];
-  def == (x : Integer[Size]) : bool <: native, operator.precedence[80];
+  public def != (x : Integer[Size]) : bool <: native, operator.precedence[80];
+  public def == (x : Integer[Size]) : bool <: native, operator.precedence[80];
 
-  type def += (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+  public type def += (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
            <: operator.precedence[20], operator.rightAssociative {
     this = this + v;
   }
 
-  type def -= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+  public type def -= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
            <: operator.precedence[20], operator.rightAssociative {
     this = this - v;
   }
@@ -78,12 +78,12 @@ type Integer[Size : IntegerLiteral[32]] <: native {
    *
    * @note this is a nop
    */
-  def unsign : Unsigned[Size] <: native;
+  public def unsign : Unsigned[Size] <: native;
 
   /**
    * truncate/sign extend the value to 64 and unsign it then
    */
-  def implicit : container.index_t <: native;
+  public def implicit : container.index_t <: native;
 }
 
 /**
@@ -95,7 +95,7 @@ type Integer[Size : IntegerLiteral[32]] <: native {
  *
  * @author Timm Felden
  */
-type IntegerLiteral[Size : IntegerLiteral[32]] <: Integer[Size], noVar {
+public type IntegerLiteral[Size : IntegerLiteral[32]] <: Integer[Size], noVar {
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type
     // @note this instantiation is required to solve the cyclic elaboration
@@ -105,8 +105,8 @@ type IntegerLiteral[Size : IntegerLiteral[32]] <: Integer[Size], noVar {
 }
 
 // common Integer names
-type byte  := Integer[8];
-type short := Integer[16];
-type int   := Integer[32];
-type long  := Integer[64];
+public type byte  := Integer[8];
+public type short := Integer[16];
+public type int   := Integer[32];
+public type long  := Integer[64];
 

@@ -3,19 +3,19 @@
  *
  * @note This class is a view. As such it is covariant but offers no update.
  */
-class Seq[T : Type] <: Iterable[T], abstract {
+public class Seq[T : Type] <: Iterable[T], abstract {
 
   /**
    * The number of elements in this container.
    *
    * @inv size() == { var i = 0L; foreach x do {i++}; i }
    */
-  def size : size_t;
+  public def size : size_t;
 
   /**
    * @return true if 0 == size()
    */
-  type def empty(this : Seq[T]) : bool = 0U == size();
+  public type def empty(this : Seq[T]) : bool = 0U == size();
 }
 
 // TODO add an OrderedSeq[T, (T,T) : bool] ensuring that an iterator will return next elements for which the argument function evaluated with the current element as first argument will return true. E.g [int, int.<=].

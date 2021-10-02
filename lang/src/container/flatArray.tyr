@@ -5,12 +5,12 @@
  *
  * @note represented as T*
  */
-type FlatArray[T : Type] <: pointer, native {
+public type FlatArray[T : Type] <: pointer, native {
 
   /**
    * Create a new array with undefined contents.
    */
-  new (size : index_t) <: native;
+  public new (size : index_t) <: native;
 
   /**
    * Release the memory required to represent this array.
@@ -21,7 +21,7 @@ type FlatArray[T : Type] <: pointer, native {
    * Return the element at the given index (starting at 0).
    * @note it is the callers obligation to ensure that the index is valid
    */
-  def apply(index : index_t) : T <: native;
+  public def apply(index : index_t) : T <: native;
 
   /**
    * Update the element at the given index with v and return v (starting at 0).
@@ -29,7 +29,7 @@ type FlatArray[T : Type] <: pointer, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  def update(index : index_t, v : T) : T <: native;
+  public def update(index : index_t, v : T) : T <: native;
 }
 
 /**
@@ -43,12 +43,12 @@ type FlatArray[T : Type] <: pointer, native {
  * as it is the only useful application, but a very useful one when it comes to
  * generic algorithm implementations.
  */
-type FlatSizedArray[T : Type, Size : size_t] <: any, native {
+public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
 
   /**
    * create an array with undefined contents.
    */
-  new;
+  public new;
 
   // we do not require a delete as it would be a nop anyway
 
@@ -57,7 +57,7 @@ type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    * @note it is the callers obligation to ensure that the index is valid
    * @note accessing elements of an array can only be done, if it has an adress
    */
-  def apply(this : Ref[FlatSizedArray[T, Size]], index : index_t) : T <: native;
+  public def apply(this : Ref[FlatSizedArray[T, Size]], index : index_t) : T <: native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -66,5 +66,5 @@ type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T <: native;
+  public def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T <: native;
 }

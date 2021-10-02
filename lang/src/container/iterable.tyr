@@ -11,17 +11,17 @@
  * @author Timm Felden
  */
 // TODO type interface IterableOnce
-class Iterable[T : Type] <: abstract {
+public class Iterable[T : Type] <: abstract {
 
   /**
    * retrieve an iterator over the elements of this collection
    */
-  def iterator : Iterator[T];
+  public def iterator : Iterator[T];
 
   /**
    * Perform action for each element
    */
-  def foreach (x : BlockParameter[T], action : Block[any]) : void {
+  public def foreach (x : BlockParameter[T], action : Block[any]) : void {
     val iter = iterator()
     // TODO iter.foreach (x, action)
     iter.foreach y : T do { x = y; action.eval() }
@@ -31,7 +31,7 @@ class Iterable[T : Type] <: abstract {
   /**
    * Count the number of elements fulfilling predicate
    */
-  def count (x : BlockParameter[T], predicate : Block[bool]) : int {
+  public def count (x : BlockParameter[T], predicate : Block[bool]) : int {
     val iter = iterator()
     // TODO val r = iter.count (x, predicate)
     val r = iter.count y : T do { x = y; predicate.eval() }
@@ -43,7 +43,7 @@ class Iterable[T : Type] <: abstract {
    * Check predicate until the predicate is false or all elements have been
    * checked
    */
-  def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
+  public def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
     val iter = iterator()
     // TODO val r = iter.forall (x, predicate)
     val r = iter.forall y : T do { x = y; predicate.eval() }
@@ -55,7 +55,7 @@ class Iterable[T : Type] <: abstract {
    * Check predicate until the predicate is false or all elements have been
    * checked
    */
-  def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
+  public def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
     val iter = iterator()
     // TODO val r = iter.exists (x, predicate)
     val r = iter.exists y : T do { x = y; predicate.eval() }
@@ -66,7 +66,7 @@ class Iterable[T : Type] <: abstract {
   /**
    * fold elements of this container
    */
-  def fold (initial : T,
+  public def fold (initial : T,
             left : BlockParameter[T], right : BlockParameter[T],
             step : Block[T]) : T {
     val iter = iterator()

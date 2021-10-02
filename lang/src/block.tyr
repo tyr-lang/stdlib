@@ -35,7 +35,7 @@
  *
  * @author Timm Felden
  */
-type Block[T : Type] <: CT, native, noVar {
+public type Block[T : Type] <: CT, native, noVar {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression.
@@ -43,7 +43,7 @@ type Block[T : Type] <: CT, native, noVar {
    * @note this function cannot be inline, as it would make function bodys using
    *       blocks unrealizable
    */
-  def eval : T <: CT, native;
+  public def eval : T <: CT, native;
 }
 
 /**
@@ -56,7 +56,7 @@ type Block[T : Type] <: CT, native, noVar {
  *
  * @author Timm Felden
  */
-type ABlockParameter <: noVar;
+public type ABlockParameter <: noVar;
 
 /**
  * A block prameter can be constructed from the name of a local variable.
@@ -72,11 +72,11 @@ type ABlockParameter <: noVar;
  *
  * @author Timm Felden
  */
-type BlockParameter[T : Type] <: ABlockParameter, native, CT, noVar {
+public type BlockParameter[T : Type] <: ABlockParameter, native, CT, noVar {
 
   /** 
    * Update a block parameter.
    */
-  def `=` (v : T) : void
-          <: CT, native, operator.precedence[20], operator.rightAssociative;
+  public def `=` (v : T) : void
+         <: CT, native, operator.precedence[20], operator.rightAssociative;
 }

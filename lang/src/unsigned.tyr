@@ -3,68 +3,71 @@
  *
  * @author Timm Felden
  */
-type Unsigned[Size : IntegerLiteral[32]] <: native {
+public type Unsigned[Size : IntegerLiteral[32]] <: native {
 
   /** as in C,C++,Java */
-  type def ++ (this : Ref[Unsigned[Size]]) : Unsigned[Size]
+  public type def ++ (this : Ref[Unsigned[Size]]) : Unsigned[Size]
               <: native, operator.precedence[210];
   /** as in C,C++,Java */
-  type def -- (this : Ref[Unsigned[Size]]) : Unsigned[Size]
+  public type def -- (this : Ref[Unsigned[Size]]) : Unsigned[Size]
               <: native, operator.precedence[210];
 
-  def ~ : Unsigned[Size] <: native, operator.precedence[200];
+  public def ~ : Unsigned[Size] <: native, operator.precedence[200];
 
-  def * (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[120];
-  def / (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[120];
-  def % (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[120];
+  public def * (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[120];
+  public def / (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[120];
+  public def % (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[120];
 
-  def + (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[110];
-  def - (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[110];
+  public def + (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[110];
+  public def - (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[110];
 
-  def << (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[100];
-  def >> (x : Unsigned[Size]) : Unsigned[Size]
-        <: native, operator.precedence[100];
+  public def << (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[100];
+  public def >> (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[100];
 
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
-   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   * incarnations of an operator symbol. Hence, we fix C's historical errors.
    */
-  def & (x : Unsigned[Size]) : Unsigned[Size] <: native, operator.precedence[97];
+  public def & (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[97];
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
-   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   * incarnations of an operator symbol. Hence, we fix C's historical errors.
    */
-  def ^ (x : Unsigned[Size]) : Unsigned[Size] <: native, operator.precedence[95];
+  public def ^ (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[95];
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
-   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   * incarnations of an operator symbol. Hence, we fix C's historical errors.
    */
-  def | (x : Unsigned[Size]) : Unsigned[Size] <: native, operator.precedence[93];
+  public def | (x : Unsigned[Size]) : Unsigned[Size]
+         <: native, operator.precedence[93];
 
-  def < (x : Unsigned[Size]) : bool
+  public def < (x : Unsigned[Size]) : bool
         <: native, operator.precedence[90];
-  def <= (x : Unsigned[Size]) : bool
+  public def <= (x : Unsigned[Size]) : bool
         <: native, operator.precedence[90];
-  def > (x : Unsigned[Size]) : bool
+  public def > (x : Unsigned[Size]) : bool
         <: native, operator.precedence[90];
-  def >= (x : Unsigned[Size]) : bool
+  public def >= (x : Unsigned[Size]) : bool
         <: native, operator.precedence[90];
 
-  def != (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
-  def == (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
+  public def != (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
+  public def == (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
 
-  type def += (this : Ref[Unsigned[Size]], v : Unsigned[Size]) : Unsigned[Size]
+  public type def += (this : Ref[Unsigned[Size]], v : Unsigned[Size]) : Unsigned[Size]
            <: operator.precedence[20], operator.rightAssociative {
     this = this + v;
   }
 
-  type def -= (this : Ref[Unsigned[Size]], v : Unsigned[Size]) : Unsigned[Size]
+  public type def -= (this : Ref[Unsigned[Size]], v : Unsigned[Size]) : Unsigned[Size]
            <: operator.precedence[20], operator.rightAssociative {
     this = this - v;
   }
@@ -83,12 +86,12 @@ type Unsigned[Size : IntegerLiteral[32]] <: native {
    *
    * @note this is a nop
    */
-  def sign : Integer[Size] <: native;
+  public def sign : Integer[Size] <: native;
 
   /**
    * truncate/zero extend the value to 64 and unsign it then
    */
-  def implicit : container.index_t <: native;
+  public def implicit : container.index_t <: native;
 }
 
 /**
@@ -99,5 +102,5 @@ type Unsigned[Size : IntegerLiteral[32]] <: native {
  *
  * @author Timm Felden
  */
-type UnsignedLiteral[Size : IntegerLiteral[32]] <: Unsigned[Size], noVar;
+public type UnsignedLiteral[Size : IntegerLiteral[32]] <: Unsigned[Size], noVar;
 

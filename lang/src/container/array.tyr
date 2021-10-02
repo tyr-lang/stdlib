@@ -3,11 +3,11 @@
  *
  * @author Timm Felden
  */
-class Array[T : Type] <: Seq[T] {
+public class Array[T : Type] <: Seq[T] {
   public val length : size_t;
   private var data : FlatArray[T];
 
-  new (size : index_t) {
+  public new (size : index_t) {
     length = size.unpack
     data = new FlatArray[T](length)
   }
@@ -16,12 +16,12 @@ class Array[T : Type] <: Seq[T] {
     delete data;
   }
 
-  def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
+  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
 
-  def apply(index : index_t) : T = data(index);
-  def update(index : index_t, v : T) : T = data.update(index, v);
+  public def apply(index : index_t) : T = data(index);
+  public def update(index : index_t, v : T) : T = data.update(index, v);
 
-  def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
+  public def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
 
-  def size : size_t = length
+  public def size : size_t = length
 }

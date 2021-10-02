@@ -7,4 +7,4 @@
  * @note It is safe to assume that any will never have a member. Not even a type
  *       member.
  */
-type any <: abstract;
+public type any <: abstract;

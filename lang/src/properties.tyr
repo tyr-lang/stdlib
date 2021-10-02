@@ -7,7 +7,7 @@
  *
  * @author Timm Felden
  */
-property native;
+public property native;
 
 /**
  * Make the target type abstract, i.e. no instances of it can be constructed.
@@ -16,7 +16,7 @@ property native;
  *       anybody from allocating memory and forcing it into a state that behaves
  *       like an instance of an abstract type.
  */
-property abstract;
+public property abstract;
 
 /**
  * Dissallow subtyping/overriding on the target declaration.
@@ -25,7 +25,7 @@ property abstract;
  *       to have a type which is both abstract and final, i.e. that cannot have
  *       any instance.
  */
-property final;
+public property final;
 
 /**
  * Iff overload resolution fails on a type with this property, another attempt
@@ -37,7 +37,7 @@ property final;
  *
  * @author Timm Felden
  */
-property proxy[T : Type];
+public property proxy[T : Type];
 
 
 /**
@@ -60,7 +60,7 @@ property proxy[T : Type];
  *
  * @author Timm Felden
  */
-property joinImplicit;
+public property joinImplicit;
 
 
 /**
@@ -75,7 +75,7 @@ property joinImplicit;
  *
  * @author Timm Felden
  */
-property CT;
+public property CT;
 
 
 /**
@@ -89,7 +89,7 @@ property CT;
  *
  * @author Timm Felden
  */
-property inline;
+public property inline;
 
 
 /**
@@ -102,7 +102,7 @@ property inline;
  *
  * @author Timm Felden
  */
-property noVar;
+public property noVar;
 
 
 /**
@@ -113,4 +113,4 @@ property noVar;
  *
  * @author Timm Felden
  */
-property entryPoint;
+public property entryPoint;

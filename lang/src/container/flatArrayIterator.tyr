@@ -1,12 +1,12 @@
 /**
  * Iterator over a FlatArray
  */
-class FlatArrayIterator[T : Type] <: Iterator[T] {
-  val self : FlatArray[T];
-  val size : size_t;
-  var i : size_t;
+public class FlatArrayIterator[T : Type] <: Iterator[T] {
+  private val self : FlatArray[T];
+  private val size : size_t;
+  private var i : size_t;
 
-  new (self := self : FlatArray[T], size : index_t){
+  public new (self := self : FlatArray[T], size : index_t){
     this.size = size.unpack
     i = 0U
   }

@@ -16,7 +16,7 @@
  * @note this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
  */
-interface WillThrow[T : Type/*Class/*[Exception] <: covariant*/] <: any, native;
+public interface WillThrow[T : Type/*Class/*[Exception] <: covariant*/] <: any, native;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to
@@ -28,4 +28,4 @@ interface WillThrow[T : Type/*Class/*[Exception] <: covariant*/] <: any, native;
  * @note this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
  */
-interface NoReturn <: any, WillThrow[Null], native;
+public interface NoReturn <: any, WillThrow[Null], native;

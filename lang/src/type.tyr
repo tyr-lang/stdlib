@@ -10,7 +10,7 @@
  * @note if well-typed, Type and Class are, like IntegerLiteral,
  *       recursive and require special treatment by the compiler
  */
-class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
+public class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
 
   //def isa := ?:
   //def cast := !:

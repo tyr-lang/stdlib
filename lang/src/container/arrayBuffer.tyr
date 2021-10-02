@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-class ArrayBuffer[T : Type] <: Seq[T] {
+public class ArrayBuffer[T : Type] <: Seq[T] {
   /**
    * The number of valid elements in the buffer.
    *
@@ -26,7 +26,7 @@ class ArrayBuffer[T : Type] <: Seq[T] {
    *
    * @param size the initial capacity of the buffer.
    */
-  new (size : index_t = 8.implicit()) {
+  public new (size : index_t = 8.implicit()) {
     length = 0U
     capacity = size.unpack
     data = new FlatArray[T](capacity)
@@ -36,34 +36,35 @@ class ArrayBuffer[T : Type] <: Seq[T] {
     delete data;
   }
 
-  def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
+  public def iterator : FlatArrayIterator[T]
+         = new FlatArrayIterator[T](data, length)
 
   /**
    * Access element without checking if it exists
    */
-  def apply(index : index_t) : T = data(index.unpack)
+  public def apply(index : index_t) : T = data(index.unpack)
   /**
    * Update element without checking if it exists
    */
-  def update(index : index_t, v : T) : T = data.update(index.unpack, v)
+  public def update(index : index_t, v : T) : T = data.update(index.unpack, v)
 
   /**
    * Check if an index is defined
    */
-  def isDefined(index : index_t) : bool {
+  public def isDefined(index : index_t) : bool {
     0U <= index.unpack && index.unpack < length
   }
 
-  def size : size_t = length;
+  public def size : size_t = length;
 
-  type def += (this: ArrayBuffer[T], v : T) : void
-           <: operator.precedence[20], operator.rightAssociative
-           := append;
+  public type def += (this: ArrayBuffer[T], v : T) : void
+              <: operator.precedence[20], operator.rightAssociative
+              := append;
 
   /**
    * Insert an element at the end of the buffer.
    */
-  def append(v : T) : void {
+  public def append(v : T) : void {
     val n = length + 1U
     if(n < capacity)
       this.grow(n)
@@ -75,7 +76,7 @@ class ArrayBuffer[T : Type] <: Seq[T] {
   /**
    * Insert all elements at the end of the buffer.
    */
-  def appendAll(vs : Seq[T]) : void {
+  public def appendAll(vs : Seq[T]) : void {
     val n = length + vs.size()
     if(n == length)
       return;
@@ -89,9 +90,9 @@ class ArrayBuffer[T : Type] <: Seq[T] {
     }
   }
 
-  type def removeLast(this : ArrayBuffer[T]) : void = remove(length - 1U);
+  public type def removeLast(this : ArrayBuffer[T]) : void = remove(length - 1U);
 
-  def remove (index : index_t) : void {
+  public def remove (index : index_t) : void {
     var i = index.unpack
     --length
     while(i < length) {
@@ -101,7 +102,7 @@ class ArrayBuffer[T : Type] <: Seq[T] {
     this.shrink(length)
   }
 
-  def remove (index : index_t, n : index_t) : void {
+  public def remove (index : index_t, n : index_t) : void {
     var i = index.unpack
     length -= n.unpack
     while(i < length) {
@@ -111,7 +112,7 @@ class ArrayBuffer[T : Type] <: Seq[T] {
     this.shrink(length)
   }
 
-  type def last(this : ArrayBuffer[T]) : T = this.data(length - 1U);
+  public type def last(this : ArrayBuffer[T]) : T = this.data(length - 1U);
 
 
   /**

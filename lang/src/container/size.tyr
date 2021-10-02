@@ -1,7 +1,7 @@
 /**
  * The type used for size() in sized containers.
  */
-type size_t := Unsigned[64];
+public type size_t := Unsigned[64];
 
 /**
  * The type can be used to allow arbitrary integer literals to be passed as
@@ -14,6 +14,6 @@ type size_t := Unsigned[64];
  *       realized with index_t and a sign call, because Integer.implicit will
  *       sign extend values on conversion.
  */
-type index_t {
+public type index_t {
   public val unpack : size_t;
 }

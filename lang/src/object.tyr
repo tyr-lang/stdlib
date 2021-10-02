@@ -87,4 +87,4 @@ public class Object <: observablePointer, abstract {
 /**
  * The type of null. This is the bottom element of the class latice.
  */
-interface Null <: Object;
+public interface Null <: Object;

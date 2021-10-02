@@ -8,14 +8,14 @@
  *       string onto hashCode. I.e. if hashCode were 8 bytes long, every 8 bytes
  *       shall be converted to a hashCode and all hashCodes shall be xored.
  */
-class String <: Object/* TODO blocker 0.7
+public class String <: Object/* TODO blocker 0.7
                 , InheritedHash[String]
                 */, abstract {
 
   /**
    * @return the number of bytes required to represent this string in UTF-8.
    */
-  def size : container.size_t;
+  public def size : container.size_t;
 
   /**
    * @return exactly size bytes representing this string as UTF-8 byte sequence.
@@ -26,14 +26,14 @@ class String <: Object/* TODO blocker 0.7
    * @note Generally speaking, it is legal to return zero bytes in the middle of
    *       a string. Nonetheless, some subclasses will not be able to do that.
    */
-  def bytes : container.Iterator[byte];
+  public def bytes : container.Iterator[byte];
 }
 
 /**
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
  */
-class StringLiteral <: String, noVar, mem.eternal {
+public class StringLiteral <: String, noVar, mem.eternal {
 
   private new <: native;
   

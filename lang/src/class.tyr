@@ -23,7 +23,7 @@
  *
  * @author Timm Felden
  */
-class Class <: Type, mem.eternal {
+public class Class <: Type, mem.eternal {
 
   /**
    * Class initialization is performed by the back-end globally.
@@ -68,7 +68,7 @@ class Class <: Type, mem.eternal {
    *       (! T <= U && ! U <= T) == true
    *       An example of this is String and Type.
    */
-  type def <= (this : Class, super : Class) : bool
+  public type def <= (this : Class, super : Class) : bool
          <: operator.precedence[90] =
     (super.minTID <= this.minTID) &! this.maxTID <= super.maxTID
 
@@ -80,7 +80,7 @@ class Class <: Type, mem.eternal {
    * @note we have to check both borders. Otherwise, we would accept unrelated
    *       types
    */
-  type def < (this : Class, super : Class) : bool
+  public type def < (this : Class, super : Class) : bool
         <: operator.precedence[90] =
     (super.minTID < this.minTID) &! this.maxTID <= super.maxTID
 }

@@ -9,7 +9,7 @@
  *
  * @appliesTo type, class
  */
-property eternal;
+public property eternal;
 
 /**
  * An object returned by the function is new and it is the responsibility of the
@@ -19,7 +19,7 @@ property eternal;
  *
  * @example The result of a factory method.
  */
-property make;
+public property make;
 
 /**
  * An object passed here is eventually deleted by the callee.
@@ -28,7 +28,7 @@ property make;
  *
  * @example A Job passed to a ThreadPool
  */
-property free;
+public property free;
 
 /**
  * An object def with this property will consume this on call. I.e. it will
@@ -38,7 +38,7 @@ property free;
  *
  * @note this is a short hand for an explicit this with a free property
  */
-property consumed;
+public property consumed;
 
 /**
  * An object passed here is owned by the target, i.e. it has to be deleted when
@@ -49,19 +49,19 @@ property consumed;
  * @example The local state of a function; internal representation of data
  *          structures.
  */
-property owned;
+public property owned;
 
 /**
  * An object passed here may outlive the caller. In contrast to verification
  * systems, share can, in combination with other code, mean that the object is
  * freed before the termination of the caller. A safe reaction to shared
  * resource usage is a shared pointer -- acylclicity provided. A sane and
- * efficient reaction is a user employed ownership based policy using explicit
+ * efficient reaction is a user-employed ownership-based policy using explicit
  * calls to delete.
  *
  * @example An object stored in a collection
  */
-property share;
+public property share;
 
 /**
  * The pointer to an object passed here does not escape the call.
@@ -69,4 +69,4 @@ property share;
  * @example The collection itself for most operations on collections (foreach,
  *          fold, map, size, add, remove, ...) but not e.g. iterator().
  */
-property peek;
+public property peek;

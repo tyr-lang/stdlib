@@ -10,7 +10,7 @@
  *
  * @author Timm Felden
  */
-type Character <: Unsigned[21] {
+public type Character <: Unsigned[21] {
 
   /**
    * Read a character form a UTF-8 encoded byte iterator.
@@ -18,7 +18,7 @@ type Character <: Unsigned[21] {
    * @todo should throw a broken encoding exception if from has to few bytes or
    *       happens to be not in valid UTF-8
    */
-  new(from : container.Iterator[byte]) {
+  public new(from : container.Iterator[byte]) {
     // this = Character !! 0u21 
     // TODO requires resize on integers which, in turn, requires template
     // functions currently scheduled for 0.7
