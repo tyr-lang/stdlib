@@ -15,7 +15,7 @@ public type FlatArray[T : Type] <: pointer, native {
   /**
    * Release the memory required to represent this array.
    */
-  delete <: native;
+  public delete <: native;
 
   /**
    * Return the element at the given index (starting at 0).

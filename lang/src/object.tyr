@@ -27,7 +27,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note new is always a static call
    */
-  new <: native;
+  protected new <: native;
 
   /**
    * Release resources held by this object including its memory.

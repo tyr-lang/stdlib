@@ -20,7 +20,7 @@ type raw {
    *
    * @return a pointer to the new memory
    */ 
-  type def `new`(t : Type) : any <: native;
+  public type def `new`(t : Type) : any <: native;
 
   /**
    * Release heap-allocated memory.
@@ -30,5 +30,5 @@ type raw {
    * @note any result of a call to `new` shall eventually be destroyed by a call
    *       to `delete`
    */
-  type def `delete`(ref : any) : void <: native;
+  public type def `delete`(ref : any) : void <: native;
 }

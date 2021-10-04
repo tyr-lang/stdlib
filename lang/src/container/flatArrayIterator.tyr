@@ -11,6 +11,8 @@ public class FlatArrayIterator[T : Type] <: Iterator[T] {
     i = 0U
   }
 
+  delete;
+
   def next : T {
     val r = self(i)
     ++i
