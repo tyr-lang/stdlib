@@ -25,7 +25,6 @@ public class Iterable[T : Type] <: abstract {
     val iter = iterator()
     // TODO iter.foreach (x, action)
     iter.foreach y : T do { x = y; action.eval() }
-    delete iter
   }
 
   /**
@@ -34,9 +33,7 @@ public class Iterable[T : Type] <: abstract {
   public def count (x : BlockParameter[T], predicate : Block[bool]) : int {
     val iter = iterator()
     // TODO val r = iter.count (x, predicate)
-    val r = iter.count y : T do { x = y; predicate.eval() }
-    delete iter
-    r
+    iter.count y : T do { x = y; predicate.eval() }
   }
 
   /**
@@ -71,12 +68,10 @@ public class Iterable[T : Type] <: abstract {
             step : Block[T]) : T {
     val iter = iterator()
     // TODO val r = iter.fold (initial, left, right, step)
-    val r = iter.fold (initial) L : T, R : T do {
+    iter.fold (initial) L : T, R : T do {
       left = L
       right = R
       step.eval()
     }
-    delete iter
-    r
   }
 }

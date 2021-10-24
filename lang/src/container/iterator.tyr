@@ -5,9 +5,9 @@
  *       likely result in a memory leak. This statement may no longer be true
  *       when escape-based auto delete is implemented.
  *
- * @author Timm Felden
+ * @note All exhaustive binder calls consume the iterator
  *
- * @todo binder calls should consume the iterator, i.e. it should be deleted
+ * @author Timm Felden
  */
 public class Iterator[T : Type] <: abstract {
 
@@ -24,29 +24,34 @@ public class Iterator[T : Type] <: abstract {
   public def hasNext : bool;
 
   /**
-   * Perform action for each remaining element of the iterator
+   * Perform action for each remaining element of the iterator and delete the
+   * iterator
    *
    * @post !hasNext
    */
-  public def foreach (x : BlockParameter[T], action : Block[any]) : void {
+  public def foreach (x : BlockParameter[T], action : Block[any]) : void
+          <: mem.consumed  {
     while(hasNext()) {
       x = next()
       action.eval()
     }
+    delete this
   }
 
   /**
-   * Count the number of elements fulfilling predicate
+   * Count the number of elements fulfilling predicate and delete the iterator
    *
    * @post !hasNext
    */
-  public def count (x : BlockParameter[T], predicate : Block[bool]) : int {
+  public def count (x : BlockParameter[T], predicate : Block[bool]) : int
+          <: mem.consumed  {
     var r = 0
     while(hasNext()) {
       x = next()
       if(predicate.eval())
         ++r;
     }
+    delete this
     return r;
   }
 
@@ -54,6 +59,8 @@ public class Iterator[T : Type] <: abstract {
    * Check predicate until the predicate is false or the iterator is empty
    *
    * @post !result || !hasNext
+   *
+   * @note does not consume the iterator as it may still be non-empty
    */
   public def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
     while(hasNext()) {
@@ -68,6 +75,8 @@ public class Iterator[T : Type] <: abstract {
    * Check predicate until the predicate is true or the iterator is empty
    *
    * @post result || !hasNext
+   *
+   * @note does not consume the iterator as it may still be non-empty
    */
   public def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
     while(hasNext()) {
@@ -79,19 +88,20 @@ public class Iterator[T : Type] <: abstract {
   }
 
   /**
-   * fold left on all remaining elements
+   * fold left on all remaining elements and delete the iterator
    *
    * @post !hasNext
    */
   public def fold (initial : T,
                    left : BlockParameter[T], right : BlockParameter[T],
-                   step : Block[T]) : T {
+                   step : Block[T]) : T <: mem.consumed  {
     var r = initial;
     while(hasNext()) {
       left = r;
       right = next();
       r = step.eval();
     }
+    delete this
     r
   }
 
