@@ -83,4 +83,14 @@ public class Class <: Type, mem.eternal {
   public type def < (this : Class, super : Class) : bool
         <: operator.precedence[90] =
     (super.minTID < this.minTID) &! this.maxTID <= super.maxTID
+
+  /**
+   * Check if ref is an instance of this type
+   *
+   * @note true if null is passed
+   */
+  public type def ? (this : Class, ref : Object) : bool
+        <: operator.precedence[90] =
+    null == ref ||
+    ((this.minTID <= ref.class.minTID) &! ref.class.maxTID <= this.maxTID)
 }

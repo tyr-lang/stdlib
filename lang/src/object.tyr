@@ -82,6 +82,15 @@ public class Object <: observablePointer, abstract {
                <: operator.precedence[90] =
     if (null == this) true
     else this.class < cls
+
+  /**
+   * Checked cast in a funciton application style
+   *
+   * @note cls must not be null
+   */
+  public type def isOf(this : Object, cls : Class) : bool
+               <: inline
+                = cls ? this;
 }
 
 /**
