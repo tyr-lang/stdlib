@@ -99,12 +99,12 @@ public class Iterator[T : Type] <: abstract {
    * Take all elements from this iterator, add them to an ArrayBuffer and delete
    * the iterator.
    */
-  /* TODO public def toBuffer : ArrayBuffer[T] <: mem.consumed {
+  public def toBuffer : ArrayBuffer[T] <: mem.consumed {
     var r = new ArrayBuffer[T]
     while(hasNext()) {
       r += next()
     }
     delete this
     r
-  }*/
+  }
 }
