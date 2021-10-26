@@ -1,0 +1,72 @@
+/**
+ * A chained iterator, i.e. an iterator combining two other iterators exposing
+ * the combined elements as if it were a single iterator.
+ *
+ * @note Although chained iterators are currently implemented as linked list, 
+ *       there is explicitly no contract on the interlan representation of the
+ *       chain.
+ *
+ * @note The semantics of the public API is that of Iterator
+ *
+ * @note The argument iterators are deleted when they run empty or when this is
+ *       deleted.
+ *
+ * @author Timm Felden
+ */
+public class ChainedIterator[T : Type] <: Iterator[T] {
+
+  /**
+   * set to null if deleted; non-empty on creation
+   */
+  private var left : Iterator[T];
+  /**
+   * set to null if deleted; non-empty on creation
+   */
+  private var right : Iterator[T];
+
+  /**
+   * Chain to iterators. If one of them is empty while chaining, the other is
+   * returned and the empty iterator is deleted.
+   *
+   * @note Ownership of both iterators is transfered to the result
+   *
+   * @note In consequence, it is not allowed to pass the same iterator twice
+   *
+   * @note In consequence, it is not allowed to pass null
+   */
+  type def apply(left : Iterator[T], right : Iterator[T]) : Iterator[T] {
+    if left.hasNext() {
+      if right.hasNext() {
+        new ChainedIterator[T](left, right)
+
+      } else {
+        delete right
+        left
+      }
+    } else {
+      delete left
+      right
+    }
+  }
+
+  new(left := left : Iterator[T], right := right : Iterator[T]);
+
+  def hasNext() : bool = null != right
+
+  def next() : T {
+    if(null != left){
+      var r = left.next();
+      if(!left.hasNext()){
+        delete left
+        left = null
+      }
+      r
+    }
+    var r = right.next();
+    if(!right.hasNext()){
+      delete right
+      right = null
+    }
+    r
+  }
+}

@@ -8,6 +8,8 @@
  * @note All exhaustive binder calls consume the iterator
  *
  * @author Timm Felden
+ *
+ * TODO Iterator should be covariant in T
  */
 public class Iterator[T : Type] <: abstract {
 
@@ -20,6 +22,12 @@ public class Iterator[T : Type] <: abstract {
 
   /**
    * check if the iterator can provide a next element
+   *
+   * @note if hasNext has ever returned false, it must not return true for any
+   *       subsequent call
+   *
+   * @note if hasNext has returned true, it must return true for any subsequent
+   *       call before the next call to next of the same iterator instance
    */
   public def hasNext : bool;
 
@@ -117,4 +125,12 @@ public class Iterator[T : Type] <: abstract {
     delete this
     r
   }
+
+  /**
+   * Take another Iterator and create a chained iterator. Ownership of both
+   * iterators is transfered to the result.
+   */
+  public type def ++ (this : Iterator[T], other : Iterator[T]) : Iterator[T]
+               <: operator.precedence[110]
+                = ChainedIterator[T].apply(this, other)
 }
