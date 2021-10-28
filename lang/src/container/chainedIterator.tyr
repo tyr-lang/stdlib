@@ -58,14 +58,12 @@ public class ChainedIterator[T : Type] <: Iterator[T] {
       var r = left.next();
       if(!left.hasNext()){
         delete left
-        left = null
       }
       return r
     }
     var r = right.next();
     if(!right.hasNext()){
       delete right
-      right = null
     }
     r
   }
