@@ -60,7 +60,7 @@ public class ChainedIterator[T : Type] <: Iterator[T] {
         delete left
         left = null
       }
-      r
+      return r
     }
     var r = right.next();
     if(!right.hasNext()){
