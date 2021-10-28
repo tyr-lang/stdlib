@@ -3,7 +3,7 @@
  * the combined elements as if it were a single iterator.
  *
  * @note Although chained iterators are currently implemented as linked list, 
- *       there is explicitly no contract on the interlan representation of the
+ *       there is explicitly no contract on the internal representation of the
  *       chain.
  *
  * @note The semantics of the public API is that of Iterator
