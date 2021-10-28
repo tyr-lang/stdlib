@@ -127,10 +127,19 @@ public class Iterator[T : Type] <: abstract {
   }
 
   /**
+   * Wrap this iterator in a buffered iterator owning this.
+   *
+   * TODO 0.7: return this if this is already a buffered iterator
+   */
+  public type def buffered(this : Iterator[T]) : BufferedIterator[T]
+               <: mem.consumed, inline
+                = new BufferedIterator[T](this)
+
+  /**
    * Take another Iterator and create a chained iterator. Ownership of both
    * iterators is transfered to the result.
    */
   public type def ++ (this : Iterator[T], other : Iterator[T]) : Iterator[T]
-               <: operator.precedence[110]
+               <: operator.precedence[110], inline
                 = ChainedIterator[T].apply(this, other)
 }

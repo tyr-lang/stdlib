@@ -1,0 +1,53 @@
+/**
+ * A buffered iterator, i.e. an iterator that bufferes the head of another
+ * iterator allowing to access it multiple times.
+ *
+ * @note The semantics of the public API is that of Iterator.
+ *
+ * @note The argument iterators are deleted when they run empty or when this is
+ *       deleted.
+ *
+ * @author Timm Felden
+ */
+public class BufferedIterator[T : Type] <: Iterator[T] {
+
+  /**
+   * set to null if deleted; can be null on creation
+   */
+  private var it : Iterator[T];
+
+  /**
+   * The current first element.
+   *
+   * @inv head is valid iff hasNext()
+   */
+  private var head : T;
+
+  new(from : Iterator[T]) {
+    if(from.hasNext()){
+      it = from
+      head = it.next()
+      {}
+    } else {
+      it = null
+    }
+  }
+
+  /**
+   * @pre hasNext()
+   */
+  public def peek : T = head
+
+  def hasNext : bool = null != it
+
+  def next : T {
+    var r = head
+    if(it.hasNext()){
+      head = it.next()
+      {}
+    } else {
+      delete it
+    }
+    r
+  }
+}
