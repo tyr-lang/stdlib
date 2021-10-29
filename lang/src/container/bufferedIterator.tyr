@@ -27,7 +27,6 @@ public class BufferedIterator[T : Type] <: Iterator[T] {
     if(from.hasNext()){
       it = from
       head = it.next()
-      {}
     } else {
       it = null
     }
@@ -44,7 +43,6 @@ public class BufferedIterator[T : Type] <: Iterator[T] {
     var r = head
     if(it.hasNext()){
       head = it.next()
-      {}
     } else {
       delete it
     }
