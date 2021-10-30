@@ -51,8 +51,10 @@ public class ChainedIterator[T : Type] <: Iterator[T] {
 
   new(left := left : Iterator[T], right := right : Iterator[T]);
 
+  override
   def hasNext() : bool = null != right
 
+  override
   def next() : T {
     if(null != left){
       var r = left.next();

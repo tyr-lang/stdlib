@@ -37,8 +37,10 @@ public class BufferedIterator[T : Type] <: Iterator[T] {
    */
   public def peek : T = head
 
+  override
   def hasNext : bool = null != it
 
+  override
   def next : T {
     var r = head
     if(it.hasNext()){
