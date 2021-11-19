@@ -22,10 +22,14 @@ public type pointer <: any, native;
 public type observablePointer <: pointer {
 
   /* flat value comparison. Can also be used if this == null */
-  public def != (v : observablePointer) : bool <: native, operator.precedence[80];
+  public
+  def != (v : observablePointer) : bool
+      <: native, operator.precedence[80];
 
   /* flat value comparison. Can also be used if this == null */
-  public def == (v : observablePointer) : bool <: native, operator.precedence[80];
+  public
+  def == (v : observablePointer) : bool
+      <: native, operator.precedence[80];
 }
 
 /**
@@ -59,6 +63,7 @@ public type Ref[T : Type] <: pointer, proxy[T], joinImplicit, native {
    *
    * @todo The correct result type would be v.this.type
    */
-  public def `=` (v : T) : T
-         <: native, operator.precedence[20], operator.rightAssociative;
+  public
+  def `=` (v : T) : T
+      <: native, operator.precedence[20], operator.rightAssociative;
 }
