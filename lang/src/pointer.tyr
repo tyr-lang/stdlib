@@ -30,7 +30,7 @@ public type observablePointer <: pointer {
 
 /**
  * A reference to a T; basically C++'s &T. Ref is used to type this in object
- * functions. A Ref cannot be null.
+ * functions of types. A Ref cannot be null.
  *
  * @note Ref[T] is a native type, as its representation is T* instead of i8*
  *
