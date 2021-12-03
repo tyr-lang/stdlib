@@ -13,24 +13,6 @@
  */
 public type pointer <: any, native;
 
-/**
- * An observable pointer that can be observed by regular code in the form of
- * equivalence.
- *
- * @author Timm Felden
- */
-public type observablePointer <: pointer {
-
-  /* flat value comparison. Can also be used if this == null */
-  public
-  def != (v : observablePointer) : bool
-      <: native, operator.precedence[80];
-
-  /* flat value comparison. Can also be used if this == null */
-  public
-  def == (v : observablePointer) : bool
-      <: native, operator.precedence[80];
-}
 
 /**
  * A reference to a T; basically C++'s &T. Ref is used to type this in object
@@ -67,3 +49,29 @@ public type Ref[T : Type] <: pointer, proxy[T], joinImplicit, native {
   def `=` (v : T) : T
       <: native, operator.precedence[20], operator.rightAssociative;
 }
+
+
+/**
+ * An observable pointer that can be observed by regular code in the form of
+ * equivalence.
+ *
+ * @author Timm Felden
+ */
+public type observablePointer <: pointer {
+
+  /* flat value comparison. Can also be used if this == null */
+  public
+  def != (v : observablePointer) : bool
+      <: native, operator.precedence[80];
+
+  /* flat value comparison. Can also be used if this == null */
+  public
+  def == (v : observablePointer) : bool
+      <: native, operator.precedence[80];
+}
+
+
+/**
+ * The type of null. This is the bottom element of the observable pointer latice
+ */
+public interface Null <: observablePointer;

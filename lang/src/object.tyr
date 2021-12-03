@@ -92,8 +92,3 @@ public class Object <: observablePointer, abstract {
                <: inline
                 = cls ? this;
 }
-
-/**
- * The type of null. This is the bottom element of the class latice.
- */
-public interface Null <: Object;
