@@ -1,0 +1,54 @@
+/**
+ * Create a pointer to an unknown C struct definition.
+ * The LLVM type of the base type is an opaque type, i.e. just any unknown type.
+ * This type is used to type C APIs and there is no means to derefernce it.
+ *
+ * While not strictly needed, in Tyr, it is used to type C APIs.
+ *
+ * There is no valid way to create new values from Tyr other then calling C
+ * functions.
+ */
+public type OpaquePointer[Name : StringLiteral] <: observablePointer, native;
+
+
+/**
+ * A pointer to a heap-allocated object that has itself no runtime type
+ * information.
+ *
+ * In Tyr, this type is used for type instances that cannot be passed as Ref
+ * because their usage outlives their declaration and that should not be copied.
+ *
+ * Furthermore, it is used to C APIs with structs that have Tyr equivalents.
+ *
+ * @note at first glance, it might be surprising that this is called pointer
+ * instead of object. But, in fact, malloc creates new valid pointers and free
+ * ends their validity, i.e. lifetime.
+ */
+public type HeapPointer[T : Type] <: observablePointer, proxy[Ref[T]], native {
+
+  /**
+   * allocate an unitialized T
+   */
+  public new <: native;
+
+  /**
+   * allocate a T and initialize it with the argument value
+   */
+  public new(initial : T) <: native;
+
+  /**
+   * release the object's memory
+   *
+   * if T defines delete, it will be called
+   */
+  public delete <: native;
+
+  /**
+   * For valid non-null pointers, this is an identity conversion.
+   * Otherwise, the semantics is undefined and may vary depending on compiler
+   * settings and implementations.
+   */
+  public def toRef : Ref[T] <: native;
+
+  public def implicit : Ref[T] <: inline = toRef()
+}
