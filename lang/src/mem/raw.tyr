@@ -31,4 +31,6 @@ type raw {
    *       to `delete`
    */
   public type def `delete`(ref : any) : void <: native;
+
+  // todo copy(ref : pointer, ref : pointer, size : size_t) <: native
 }
