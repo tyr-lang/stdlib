@@ -46,6 +46,7 @@ public type HeapPointer[T : Type] <: observablePointer, proxy[Ref[T]], native {
   public delete <: native;
 
   // TODO it might be requiredto have a def free <: consumed bypassing T's delete
+  // note to self: free should also work on values and have the semantics that they are just invalidated
 
   /**
    * For valid non-null pointers, this is an identity conversion.
