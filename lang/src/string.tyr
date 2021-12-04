@@ -39,7 +39,10 @@ public class StringLiteral <: String, noVar, mem.eternal {
   
   public val length : container.size_t;
 
-  private val data : container.FlatArray[byte];
+  /**
+   * @note allow tyr.io to access string literal data
+   */
+  private[tyr] val data : container.FlatArray[byte];
 
   public def size : container.size_t = length;
   
