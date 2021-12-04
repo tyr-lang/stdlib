@@ -40,8 +40,12 @@ public type HeapPointer[T : Type] <: observablePointer, proxy[Ref[T]], native {
    * release the object's memory
    *
    * if T defines delete, it will be called
+   *
+   * @note will reset the target var to null
    */
   public delete <: native;
+
+  // TODO it might be requiredto have a def free <: consumed bypassing T's delete
 
   /**
    * For valid non-null pointers, this is an identity conversion.
