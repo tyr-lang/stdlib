@@ -5,7 +5,7 @@
  *
  * @note represented as T*
  */
-public type FlatArray[T : Type] <: pointer, native {
+public type FlatArray[T : Type] <: observablePointer, native {
 
   /**
    * Create a new array with undefined contents.
