@@ -1,0 +1,25 @@
+with mem.OpaquePointer;
+
+/**
+ * The Tyr equivalent of C's FILE*
+ *
+ * @note C functions should be made accessible under their name
+ *
+ * @note Tyr-style utilitity functions should omit the f-prefix and have an
+ *       inline property
+ */
+public type CFile <: OpaquePointer["FILE"] {
+
+  public type def feof (this : CFile) : int extern c.feof;
+  public type def eof (this : CFile) : bool <: inline = 0 != feof(this);
+
+  test "eof stdout" {
+    // note: this cannot be the case
+    !eof(System.out)
+  }
+
+  test "eof stdout extension" {
+    // note: this cannot be the case
+    !System.out.eof()
+  }
+}

@@ -1,0 +1,8 @@
+/**
+ * Allows basic interaction functions with and information about the host system.
+ */
+public type System {
+  type val out : CFile extern c.stdout;
+  type val err : CFile extern c.stderr;
+  type val in : CFile extern c.stdin;
+}
