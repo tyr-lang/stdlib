@@ -1,0 +1,38 @@
+with container.FlatArray;
+
+/**
+ * char const* with a \0 terminator
+ */
+public type CString <: FlatArray[byte] {
+
+  /**
+   * Create from a Tyr String.
+   */
+  new (from : String) {
+    FlatArray[byte].new(from.size()+1U);
+
+    var i = 0
+    from.bytes().foreach c do {
+      this(i) = c;
+      ++i
+    }
+    this(i) = 0i8
+  }
+
+  /** release the string's memory */
+  delete {
+    FlatArray[byte].delete;
+    this = null
+  }
+
+  /** print the string to stdout */
+  type def print (this : CString) : int extern c.puts;
+
+
+  test "hello" {
+    var s = new CString("hello\n");
+    s.print()
+    delete s
+    null == s
+  }
+}
