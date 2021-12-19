@@ -2,6 +2,11 @@ with container.FlatArray;
 
 /**
  * char const* with a \0 terminator
+ *
+ * @note When constructing CStrings from Tyr Strings, one must be aware that Tyr
+ *       Strings may contain \0 characters anywhere. For now, the behaviour of
+ *       converting such a string is undefined. A future version of Tyr might
+ *       offer an optional check for this issue.
  */
 public type CString <: FlatArray[byte] {
 

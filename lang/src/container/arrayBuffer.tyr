@@ -66,7 +66,7 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
    */
   public def append(v : T) : void {
     val n = length + 1U
-    if(n < capacity)
+    if(capacity < n)
       this.grow(n)
 
     this.data(length) = v
@@ -81,7 +81,7 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
     if(n == length)
       return;
 
-    if(n < capacity)
+    if(capacity < n)
       this.grow(n)
 
     vs.foreach v do {
