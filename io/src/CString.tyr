@@ -13,7 +13,7 @@ public type CString <: FlatArray[byte] {
   /**
    * Create from a Tyr String.
    */
-  new (from : String) {
+  public new (from : String) {
     FlatArray[byte].new(from.size()+1U);
 
     var i = 0
@@ -25,13 +25,13 @@ public type CString <: FlatArray[byte] {
   }
 
   /** release the string's memory */
-  delete {
+  public delete {
     FlatArray[byte].delete;
     this = null
   }
 
   /** print the string to stdout */
-  type def print (this : CString) : int extern c.puts;
+  public type def print (this : CString) : int extern c.puts;
 
 
   test "hello" {
