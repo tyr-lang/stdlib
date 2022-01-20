@@ -14,7 +14,7 @@ public type Integer[Size : IntegerLiteral[32]] <: native {
   public type def -- (this : Ref[Integer[Size]]) : Integer[Size]
               <: native, operator.precedence[210];
 
-  public def - : Integer[Size] <: native, operator.precedence[200];
+  public def - : Integer[Size] <: native, CT, operator.precedence[200];
   public def ~ : Integer[Size] <: native, operator.precedence[200];
 
   public def * (x : Integer[Size]) : Integer[Size]
@@ -95,7 +95,9 @@ public type Integer[Size : IntegerLiteral[32]] <: native {
  *
  * @author Timm Felden
  */
-public type IntegerLiteral[Size : IntegerLiteral[32]] <: Integer[Size], noVar {
+public type IntegerLiteral[Size : IntegerLiteral[32]]
+            <: Integer[Size], noVar, CT {
+
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type
     // @note this instantiation is required to solve the cyclic elaboration

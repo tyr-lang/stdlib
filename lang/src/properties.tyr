@@ -67,11 +67,16 @@ public property joinImplicit;
  * A compile-time value. An application of a CT function on CT operands can and
  * should be evaluated at compile time.
  *
+ * @note if applied to types, the values are considered compile time constants
+ *
+ * @note if applied to functions, signals that it can be CT evaluated if it
+ *       receives only CT arguments
+ *
  * @note the compiler is free to tag a function whose implementation
  * depends only on CT operands and its parameters and that has only applications
  * of CT functions in its body CT. (note: in case of dependency SCCs, this
  * property has to hold for every member of the the SCC in order to turn the
- * whole SCC CT)
+ * whole SCC CT. Obviously, such an SCC must be free of loops and recursion.)
  *
  * @author Timm Felden
  */
