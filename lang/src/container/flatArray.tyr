@@ -52,12 +52,17 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
 
   // we do not require a delete as it would be a nop anyway
 
+  // note to self: I would have expected a variant of apply not taking a ref
+  // such a variant cannot be mutated into update because the implicit call
+  // cannot be undone
+
   /**
    * Return the element at the given index (starting at 0).
    * @note it is the callers obligation to ensure that the index is valid
    * @note accessing elements of an array can only be done, if it has an adress
    */
-  public def apply(this : Ref[FlatSizedArray[T, Size]], index : index_t) : T <: native;
+  public def apply(this : Ref[FlatSizedArray[T, Size]], index : index_t) : T
+             <: native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -66,5 +71,6 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  public def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T <: native;
+  public def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T)
+             : T <: native;
 }
