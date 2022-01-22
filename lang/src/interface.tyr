@@ -50,10 +50,15 @@ class ITypes {
  *
  * @note instances of this type can only be created by sleipnir
  *
+ * @note this types works diffirent from other types in sleipnir translation
+ *       because actual instances use an implicit sub type of ITable
+ *
+ * @note ITables are deep eternal; its components must not be deleted
+ *
  * @author Timm Felden
  */
-type ITable <: native {
-  val super : ITable;
+type ITable <: native, mem.eternal {
+  val super : mem.HeapPointer[ITable];
   
   val size : container.size_t;
   
@@ -70,13 +75,13 @@ type ITable <: native {
    *       result, casting that result back to the expected type and continue
    *       afterwards as if a static access had happened
    */
-  type def get(it : ITable, key : int) : int {
+  type def get(it : mem.HeapPointer[ITable], key : int) : int {
     // note: no null checking is required, because the key is always found in a 
     // type-correct program
     var i = it.size
     while (0u64 != i) {
       --i
-      var e = it.entries(i)
+      val e = it.entries(i)
       if(key == e.ITableKey)
         return e.offset
     }
@@ -84,8 +89,8 @@ type ITable <: native {
   }
 }
 
-/* created by sleipnir */
-type ITableEntry <: native {
+/* created by sleipnir, required in ITable subtype creation and hence native */
+type ITableEntry <: native, mem.eternal {
   val ITableKey : int;
   val offset : int;
 }

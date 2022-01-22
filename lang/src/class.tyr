@@ -54,7 +54,7 @@ public class Class <: Type, mem.eternal {
    * We silently assume all interface member calls to be correct. Hence, there
    * is no need to add any checks here.
    */
-  private val itable : ITable;
+  private val itable : mem.HeapPointer[ITable];
 
   /**
    * Check if this is a subtype or equal to super
