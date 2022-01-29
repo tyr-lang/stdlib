@@ -38,10 +38,7 @@ public class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
   //            <: CT, native, operator.precedence[80];
 
   /**
-   * dynamic type casting
-   *
-   * @todo should be v : Some[S, S >: T]
+   * static unchecked type casting
    */
-  //def !: (v : any) : T
-  //       <: native, operator.precedence[90];
+  //type def !! (this : Type, v : any) : this <: native, operator.precedence[90];
 }
