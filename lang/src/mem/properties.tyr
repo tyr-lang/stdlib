@@ -37,6 +37,8 @@ public property free;
  * @appliesTo def
  *
  * @note this is a short hand for an explicit this with a free property
+ *
+ * @note it is an error if dispatching overloads disagree on this property
  */
 public property consumed;
 
