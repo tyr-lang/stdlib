@@ -16,4 +16,4 @@ public property postfix;
  * Precedence of the argument operator.
  * Higher is stronger.
  */
-public property precedence [strength : int];
+public property precedence [strength : IntegerLiteral[32]];
