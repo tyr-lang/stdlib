@@ -40,5 +40,6 @@ public class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
   /**
    * static unchecked type casting
    */
-  //type def !! (this : Type, v : any) : this <: native, operator.precedence[90];
+  public type def !! (this : Type, v : any) : this
+                     <: native, operator.precedence[90];
 }

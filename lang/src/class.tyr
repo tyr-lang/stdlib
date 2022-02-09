@@ -69,7 +69,7 @@ public class Class <: Type, mem.eternal {
    *       An example of this is String and Type.
    */
   public type def <= (this : Class, super : Class) : bool
-         <: operator.precedence[90] =
+                     <: operator.precedence[90] =
     (super.minTID <= this.minTID) &! this.maxTID <= super.maxTID
 
   /**
@@ -81,7 +81,7 @@ public class Class <: Type, mem.eternal {
    *       types
    */
   public type def < (this : Class, super : Class) : bool
-        <: operator.precedence[90] =
+                    <: operator.precedence[90] =
     (super.minTID < this.minTID) &! this.maxTID <= super.maxTID
 
   /**
@@ -90,7 +90,23 @@ public class Class <: Type, mem.eternal {
    * @note true if null is passed
    */
   public type def ? (this : Class, ref : Object) : bool
-        <: operator.precedence[90] =
+                    <: operator.precedence[90] =
     null == ref ||
     ((this.minTID <= ref.class.minTID) &! ref.class.maxTID <= this.maxTID)
+
+  /**
+   * Check if ref is an instance of this type and return it in that case
+   *
+   * @return null if this is not an instance of the class or if ref is null
+   *
+   * @note a future version may throw an exception if ref is no instance of this
+   *
+   * @note a future version may add a flag to stop program execution if ref is
+   *       not an instance of this
+   */
+  public type def ! (this : Class, ref : Object) : this
+                    <: operator.precedence[90] =
+    if (null == ref) null
+    else if (this ? ref) this !! ref
+    else null
 }
