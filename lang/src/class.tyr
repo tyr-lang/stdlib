@@ -50,6 +50,13 @@ public class Class <: Type, mem.eternal {
   val maxTID : int;
   
   /**
+   * This is a pointer to a list of implemented interfaces.
+   * It is null if no interface is implemented.
+   * The ITypes structure is provided by sleipnir and may be unified.
+   */
+  val itypes : mem.HeapPointer[ITypes];
+  
+  /**
    * This is a pointer to an itable. It is null if no interface is implemented.
    * We silently assume all interface member calls to be correct. Hence, there
    * is no need to add any checks here.

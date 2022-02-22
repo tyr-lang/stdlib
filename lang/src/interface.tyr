@@ -22,24 +22,66 @@ class Interface <: Type, mem.eternal {
    * global initialization.
    */
   private new <: native;
+
+  /**
+   * Check if ref is an instance of this type
+   *
+   * @note true if null is passed
+   */
+  public type def ? (this : Interface, ref : Object) : bool
+                    <: operator.precedence[90] =
+    null == ref || ref.class.itypes.contains(this)
+
+  /**
+   * Check if ref is an instance of this type and return it in that case
+   *
+   * @return null if this is not an instance of the class or if ref is null
+   *
+   * @note a future version may throw an exception if ref is no instance of this
+   *
+   * @note a future version may add a flag to stop program execution if ref is
+   *       not an instance of this
+   */
+  public type def ! (this : Interface, ref : Object) : this
+                    <: operator.precedence[90] =
+    if (null == ref) null
+    else if (this ? ref) this !! ref
+    else null
 }
 
-/* TODO 0.7
-class ITypes {
-  /**
-   * Initiallization is performed while Classes are constructed.
-   * /
-  private new <: native;
+/**
+ * A pointer to the super ITypes and a list of all interfaces implemented by
+ * this type and not by its super types.
+ *
+ * @note if a class contributes no new classes, the ITypes pointer of the super
+ *       class is used
+ *
+ * @note if a class implements no interfaces, the ITypes pointer is null
+ *
+ * @note ITypes pointers may be shared between classes implementing the same set
+ *       of interfaces
+ */
+type ITypes <: native, mem.eternal {
 
-  val implemenets : Array[Interface]
-  val next : ITypes
+  val super : mem.HeapPointer[ITypes]
 
-  type def contains(this : ITypes, t : Interface) {
-    if(null == this) false
-    else implements.exists i : Interface do (t == i) || next.contains(t)
+  val size : container.size_t;
+  var entries : container.FlatSizedArray[Interface, 0L];
+
+  type def contains(this : mem.HeapPointer[ITypes], t : Interface) : bool {
+    if (null == this)
+      return false
+    
+    var i = size
+    while (0u64 != i) {
+      --i
+      if (t == entries(i))
+        return true
+    }
+    return contains(super, t)
   }
 }
-*/
+
 
 /**
  * Abstract layout is 
