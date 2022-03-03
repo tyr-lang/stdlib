@@ -32,7 +32,7 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
     data = new FlatArray[T](capacity)
   }
 
-  delete {
+  public delete {
     delete data;
   }
 

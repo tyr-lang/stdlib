@@ -19,7 +19,7 @@
  * @note Implementiations of classes are actually anonymous sub types of Class
  *       whose class is the Class of classes.
  *
- * @note it is not possible for Class to have (object) def or class members
+ * @note it is not possible for this class to have (object) def or class members
  *
  * @author Timm Felden
  */

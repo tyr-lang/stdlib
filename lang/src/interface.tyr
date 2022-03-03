@@ -1,16 +1,11 @@
 /**
  * The type of a class interface, i.e. a regular interface.
  *
- * @todo typeIDs and cast functions too
- *
  * @note Runtime type checking against interface types is performed using a
  *       linked hash map and is therefore linear in the number of interfaces
  *       implemented by the target object.
  *
- * @note Runtime representation of interfaces is pretty useless without generic
- *       type paramaters. This will likely be implemented in 0.7 or 0.9.
- *
- * @note it is not possible for Interface to have (object) def or class members
+ * @note it is not possible for this class to have (object) def or class members
  *
  * @author Timm Felden
  */
@@ -66,7 +61,9 @@ type ITypes <: native, mem.eternal {
   val super : mem.HeapPointer[ITypes]
 
   val size : container.size_t;
-  var entries : container.FlatSizedArray[Interface, 0L];
+  
+  // var entries : container.FlatSizedArray[Interface, 0L];
+  var entries : container.FlatSizedArray[observablePointer, 0L];
 
   type def contains(this : mem.HeapPointer[ITypes], t : Interface) : bool {
     if (null == this)
