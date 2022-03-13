@@ -180,4 +180,68 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
     delete data
     data = n
   }
+
+  // efficient binder overrides
+
+  override
+  def foreach (x : BlockParameter[T], action : Block[any]) : void {
+    var i = 0U
+    while(i < length) {
+      x = data(i)
+      action.eval()
+      ++i
+    }
+  }
+
+  override [Iterable.count]
+  def count (x : BlockParameter[T], predicate : Block[bool]) : int {
+    var i = 0U
+    var r = 0
+    while(i < length) {
+      x = data(i)
+      if(predicate.eval())
+        ++r;
+      ++i
+    }
+    return r;
+  }
+
+  override [Iterable.forall]
+  def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
+    var i = 0U
+    while(i < length) {
+      x = data(i)
+      if(!predicate.eval())
+        return false;
+      ++i
+    }
+    return true;
+  }
+
+  override [Iterable.exists]
+  def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
+    var i = 0U
+    while(i < length) {
+      x = data(i)
+      if(predicate.eval())
+        return true;
+      ++i
+    }
+    return false;
+  }
+
+  override [Iterable.fold]
+  def fold (initial : T,
+            left : BlockParameter[T], right : BlockParameter[T],
+            step : Block[T]) : T {
+    var i = 0U
+    var r = initial;
+    while(i < length) {
+      left = r
+      right = data(i)
+      r = step.eval();
+      ++i
+    }
+    r
+  }
 }
