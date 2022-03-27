@@ -9,7 +9,7 @@
  *
  * @author Timm Felden
  */
-class Interface <: Type, mem.eternal {
+public class Interface <: Type, mem.eternal {
 
   /**
    * Interface initialization is performed by the back-end globally.
@@ -62,8 +62,8 @@ type ITypes <: native, mem.eternal {
 
   val size : container.size_t;
   
-  // var entries : container.FlatSizedArray[Interface, 0L];
-  var entries : container.FlatSizedArray[observablePointer, 0L];
+  // var entries : container.FlatSizedArray[Interface, 0U];
+  var entries : container.FlatSizedArray[observablePointer, 0U];
 
   type def contains(this : mem.HeapPointer[ITypes], t : Interface) : bool {
     if (null == this)
@@ -101,7 +101,7 @@ type ITable <: native, mem.eternal {
   
   val size : container.size_t;
   
-  var entries : container.FlatSizedArray[ITableEntry, 0L];
+  var entries : container.FlatSizedArray[ITableEntry, 0U];
   
   /**
    * the ITable access algorithm is basically:
