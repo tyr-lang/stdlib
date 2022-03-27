@@ -84,6 +84,7 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
              : T <: native;
 
   /** for each element do action */
+  public
   def foreach (this : Ref[FlatSizedArray[T, Size]],
                x : BlockParameter[T],
                action : Block[any])
@@ -97,6 +98,7 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
   }
 
   /** for each index and element do action */
+  public
   def foreach (this : Ref[FlatSizedArray[T, Size]],
                idx : BlockParameter[size_t],
                x : BlockParameter[T],
