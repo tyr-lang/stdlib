@@ -42,6 +42,10 @@ public type FlatArray[T : Type] <: observablePointer, native {
  * It would be nice if the compiler could provide diagnostics for this pattern
  * as it is the only useful application, but a very useful one when it comes to
  * generic algorithm implementations.
+ *
+ * @note llvm won't let us access elements by index if the array is represented
+ *       as flat array. Hence, we need CRefs first before can turn the API into
+ *       what one would expect it to be.
  */
 public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
 
@@ -52,9 +56,14 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
 
   // we do not require a delete as it would be a nop anyway
 
-  // note to self: I would have expected a variant of apply not taking a ref
-  // such a variant cannot be mutated into update because the implicit call
-  // cannot be undone
+  /**
+   * Return the element at the given index (starting at 0).
+   * @note it is the callers obligation to ensure that the index is valid
+   * @note accessing elements of an array can only be done, if it has an adress
+   */
+  // TODO in Tyr 0.7
+  // public def apply(this : CRef[FlatSizedArray[T, Size]], index : index_t) : T
+  // <: native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -73,4 +82,32 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    */
   public def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T)
              : T <: native;
+
+  /** for each element do action */
+  def foreach (this : Ref[FlatSizedArray[T, Size]],
+               x : BlockParameter[T],
+               action : Block[any])
+              : void {
+    var i = 0U
+    while(i < Size) {
+      x = this(i)
+      action.eval()
+      ++i
+    }
+  }
+
+  /** for each index and element do action */
+  def foreach (this : Ref[FlatSizedArray[T, Size]],
+               idx : BlockParameter[size_t],
+               x : BlockParameter[T],
+               action : Block[any])
+              : void {
+    var i = 0U
+    while(i < Size) {
+      idx = i
+      x = this(i)
+      action.eval()
+      ++i
+    }
+  }
 }
