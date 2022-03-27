@@ -39,6 +39,9 @@ public class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
 
   /**
    * static unchecked type casting
+   *
+   * @note while currently basically any cast is accepted, future versions of
+   *       Tyr may restrict this feature to types with similar representation
    */
   public type def !! (this : Type, v : any) : this
                      <: native, operator.precedence[90];
