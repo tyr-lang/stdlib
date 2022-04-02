@@ -24,6 +24,15 @@ public type CString <: FlatArray[byte] {
     this(i) = 0i8
   }
 
+  /**
+   * Create an unitialized string of size bytes.
+   *
+   * @note size should be at least 1 so that the string can hold the terminal 0
+   */
+  public new (size : container.index_t) {
+    FlatArray[byte].new(size);
+  }
+
   /** release the string's memory */
   public delete {
     FlatArray[byte].delete;

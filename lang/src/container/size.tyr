@@ -13,6 +13,8 @@ public type size_t := Unsigned[64];
  * @note if signed indices were correct for a container type, this can still be
  *       realized with index_t and a sign call, because Integer.implicit will
  *       sign extend values on conversion.
+ *
+ * @todo CT type evaluation in Tyr 0.7 should be able to handle this
  */
 public type index_t {
   public val unpack : size_t;
