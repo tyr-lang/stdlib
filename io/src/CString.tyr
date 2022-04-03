@@ -1,4 +1,5 @@
 with container.FlatArray;
+with container.size_t;
 
 /**
  * char const* with a \0 terminator
@@ -25,6 +26,14 @@ public type CString <: FlatArray[byte] {
   }
 
   /**
+   * Create from a Tyr StringLiteral.
+   */
+  public new (from : StringLiteral) {
+    FlatArray[byte].new(from.size()+1U)
+    strncpy(this, from.data, from.length + 1U)
+  }
+
+  /**
    * Create an unitialized string of size bytes.
    *
    * @note size should be at least 1 so that the string can hold the terminal 0
@@ -39,12 +48,52 @@ public type CString <: FlatArray[byte] {
     this = null
   }
 
-  /** print the string to stdout */
-  public type def print (this : CString) : int extern c.puts;
+  /**
+   * Append the literal to this string.
+   *
+   * @note there is no check if the CString has sufficient capacity
+   */
+  public def += (v : StringLiteral) : CString
+                <: operator.precedence[20], operator.rightAssociative
+                = strncat(this, v.data, v.length)
 
+  private
+  type def strncat (this : CString, data : FlatArray[byte], num : size_t)
+                   : CString
+                   extern c.strncat;
+
+  /**
+   * Copy a literal into this string.
+   *
+   * @note this must be long enough to hold an additional terminal 0
+   *
+   * @note there is no check if the CString has sufficient capacity
+   */
+  public def `=` (v : StringLiteral) : CString
+                 <: operator.precedence[20], operator.rightAssociative
+                 = strncpy(this, v.data, v.length + 1U)
+
+  private
+  type def strncpy (this : CString, data : FlatArray[byte], num : size_t)
+                   : CString
+                   extern c.strncpy;
+
+  /** print the string to stdout */
+  public def print : int extern c.puts;
 
   test "hello" {
     var s = new CString("hello\n");
+    s.print()
+    delete s
+    null == s
+  }
+
+  test "hello world" {
+    var s = new CString(80);
+
+    s = "hello ";
+    s += "world!";
+
     s.print()
     delete s
     null == s
