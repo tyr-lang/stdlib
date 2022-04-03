@@ -9,9 +9,35 @@ with mem.OpaquePointer;
  *       inline property
  */
 public type CFile <: OpaquePointer["FILE"] {
+  with container.size_t;
+
+  public type def open (path : CString, mode : CString) : CFile extern c.fopen;
+  public type def open (path : String, mode : String) : CFile {
+    var p = new CString(path)
+    var m = new CString(mode)
+    val r = open(p, m);
+    delete p
+    delete m
+    r
+  }
+
+  public type def fclose (this : CFile) : int extern c.fclose;
+  public delete {
+    fclose(this);
+  }
+
+  public type def remove (path : CString) : int extern c.remove;
 
   public type def feof (this : CFile) : int extern c.feof;
   public type def eof (this : CFile) : bool <: inline = 0 != feof(this);
+
+  public type def fwrite (data : pointer, elementSize : size_t,
+                          elementCount : size_t, stream : CFile) : size_t
+                         extern c.fwrite;
+
+  public type def fputs (data : CString, stream : CFile) : int extern c.fputs;
+  public def put (data : CString) : void <: inline = fputs(data, this);
+  public def put (data : StringLiteral) : void <: inline = fwrite(data.data, 1U, data.length, this);
 
   test "eof stdout" {
     // note: this cannot be the case
