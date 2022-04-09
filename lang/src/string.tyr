@@ -30,13 +30,34 @@ public class String <: Object/* TODO blocker 0.7
 }
 
 /**
+ * Two strings are equal if
+ * - they are identical
+ * - they have the same length and all bytes are the same
+ */
+public type StringEQR <: EQR[String] {
+
+  override
+  type def equals (left : String, right : String) : bool
+    = left == right || (
+      left.size() == right.size() && {
+        var rs = right.bytes()
+        var ls = left.bytes();
+        val r = ls.forall c do(c == rs.next())
+        delete rs
+        delete ls
+        r
+      }
+    )
+}
+
+/**
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
  */
 public class StringLiteral <: String, noVar, mem.eternal {
 
   private new <: native;
-  
+
   public val length : container.size_t;
 
   /**
@@ -45,14 +66,14 @@ public class StringLiteral <: String, noVar, mem.eternal {
   private[tyr] val data : container.FlatArray[byte];
 
   public def size : container.size_t = length;
-  
+
   public def bytes : container.Iterator[byte] =
     new container.FlatArrayIterator[byte](data, length);
 
   /**
    * print the string to std out
    *
-   * @note this operator will be removed eventually
+   * @note this operator will be removed eventually; likely after adding varargs
    */
   public type def !!(v : StringLiteral) : void 
                   <: native, operator.postfix, operator.precedence[10];
@@ -60,4 +81,35 @@ public class StringLiteral <: String, noVar, mem.eternal {
   test "show" {
     "show!\n"!!
   }
+}
+
+/**
+ * A String that is backed by a contiguous bytes of at least length bytes. It is
+ * not null terminated. This is basically an abstraction that allows efficient
+ * read-processing of strings.
+ *
+ * TODO This view should use read-only data once available
+ */
+public class SolidStringView <: String {
+
+  public new (
+    length := length : container.size_t,
+    data := data : mem.HeapPointer[byte]
+  );
+  public delete;
+
+  public val length : container.size_t;
+
+  /**
+   * @note allow tyr.io to access string literal data
+   */
+  public val data : mem.HeapPointer[byte];
+
+  public def size : container.size_t = length;
+
+  public def bytes : container.Iterator[byte] =
+    new container.FlatArrayIterator[byte](
+      container.FlatArray[byte] !! data,
+      length
+    );
 }
