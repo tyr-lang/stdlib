@@ -36,8 +36,15 @@ public type CFile <: OpaquePointer["FILE"] {
                          extern c.fwrite;
 
   public type def fputs (data : CString, stream : CFile) : int extern c.fputs;
-  public def put (data : CString) : void <: inline = fputs(data, this);
-  public def put (data : StringLiteral) : void <: inline = fwrite(data.data, 1U, data.length, this);
+
+  public def put (data : CString) : void <: inline
+                 = fputs(data, this);
+
+  public def put (data : StringLiteral) : void <: inline
+                 = fwrite(data.data, 1U, data.length, this);
+
+  public def put (data : SolidStringView) : void <: inline
+                 = fwrite(data.data, 1U, data.length, this);
 
   test "eof stdout" {
     // note: this cannot be the case
