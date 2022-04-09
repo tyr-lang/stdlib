@@ -1,0 +1,16 @@
+/**
+ * An read-only view onto an array. The view is basically a pointer into the
+ * array, has no bounds checks and must not be deleted.
+ *
+ * @author Timm Felden
+ */
+public type ArrayView[T : Type] <: observablePointer, mem.eternal {
+
+  public type def from(arr : FlatArray[T]) : ArrayView[T] = ArrayView[T] !! arr
+
+  /**
+   * Return the element at the given index (starting at 0).
+   * @note it is the callers obligation to ensure that the index is valid
+   */
+  public def apply(index : index_t) : T = (FlatArray[T] !! this).apply(index)
+}

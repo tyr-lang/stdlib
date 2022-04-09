@@ -30,6 +30,11 @@ public type FlatArray[T : Type] <: observablePointer, native {
    * @todo should be [S <: T](size_t, S) : S
    */
   public def update(index : index_t, v : T) : T <: native;
+
+  /**
+   * Return an array shifted by offset elements.
+   */
+  public def shift(offset : index_t) : FlatArray[T] <: native;
 }
 
 /**

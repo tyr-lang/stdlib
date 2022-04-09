@@ -24,4 +24,7 @@ public class Array[T : Type] <: Seq[T] {
   public def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
 
   public def size : size_t = length
+
+  public def view (offset : index_t = 0.implicit())
+                  = ArrayView[T].from(data.shift(offset))
 }
