@@ -1,0 +1,4 @@
+# this is an API test package
+name=test
+
+with=tyr.all
