@@ -54,14 +54,50 @@ public type Integer[Size : IntegerLiteral[32]] <: native {
   public def != (x : Integer[Size]) : bool <: native, operator.precedence[80];
   public def == (x : Integer[Size]) : bool <: native, operator.precedence[80];
 
+
+  // self modifying binary operators
+  public type def *= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this * v;
+  }
+  public type def /= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this / v;
+  }
+  public type def %= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this % v;
+  }
+
   public type def += (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
            <: operator.precedence[20], operator.rightAssociative {
     this = this + v;
   }
-
   public type def -= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
            <: operator.precedence[20], operator.rightAssociative {
     this = this - v;
+  }
+
+  public type def <<= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this << v;
+  }
+  public type def >>= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this >> v;
+  }
+
+  public type def &= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this & v;
+  }
+  public type def ^= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this ^ v;
+  }
+  public type def |= (this : Ref[Integer[Size]], v : Integer[Size]) : Integer[Size]
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this | v;
   }
 
   /**

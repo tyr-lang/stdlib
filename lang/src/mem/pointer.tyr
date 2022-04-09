@@ -23,6 +23,8 @@ public type OpaquePointer[Name : StringLiteral] <: observablePointer, native;
  * @note at first glance, it might be surprising that this is called pointer
  * instead of object. But, in fact, malloc creates new valid pointers and free
  * ends their validity, i.e. lifetime.
+ *
+ * @TODO there should be a ConstantHeapPointer converting to CRef once we have it
  */
 public type HeapPointer[T : Type] <: observablePointer, proxy[Ref[T]], native {
 
