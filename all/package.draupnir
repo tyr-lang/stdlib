@@ -1,0 +1,5 @@
+# this package imports all tyr packages
+name=tyr.all
+
+with=tyr.io
+with=tyr.string
