@@ -80,6 +80,30 @@ public class Iterator[T : Type] <: abstract {
   }
 
   /**
+   * Check predicate until the predicate is false or the iterator is empty.
+   *
+   * Store the index of the current iteration in index.
+   *
+   * @post !result || !hasNext
+   *
+   * @note does not consume the iterator as it may still be non-empty
+   */
+  public def forall (x : BlockParameter[T],
+                     index : BlockParameter[size_t],
+                     predicate : Block[bool]) : bool {
+    var i = 0U
+    while(hasNext()) {
+      index = i
+      x = next()
+      if(!predicate.eval())
+        return false;
+
+      ++i
+    }
+    return true;
+  }
+
+  /**
    * Check predicate until the predicate is true or the iterator is empty
    *
    * @post result || !hasNext
