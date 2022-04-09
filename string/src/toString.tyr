@@ -1,0 +1,32 @@
+/**
+ * A collections of functions turning values into strings.
+ *
+ * @note Any function that does not take a StringBuffer as argument returns a
+ *       fresh buffer that must be deleted by the caller.
+ */
+public type toString {
+
+  /**
+   * Int to decimal string.
+   */
+  public
+  type def apply(v : int) : StringBuffer {
+    if (0 == v){
+      return new StringBuffer("0");
+    }
+
+    val r = new StringBuffer(10)
+    var i = v
+    while (i != 0) {
+      val rem = i % 10
+      val c = 0x30i8 + byte !! rem
+      r += c
+      i /= 10
+    }
+
+    if(v < 0)
+      r += "-"
+
+    return r;
+  }
+}

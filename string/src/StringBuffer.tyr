@@ -1,0 +1,60 @@
+/**
+ * A string buffer that acts as a String and can be modified. Concatenations
+ * are efficienet. Any additions to the buffer are copies.
+ */
+public class StringBuffer <: String {
+  with container.ArrayBuffer;
+  with container.index_t;
+  with container.size_t;
+
+  private val data : ArrayBuffer[byte];
+
+  public
+  new (from : String) {
+    data = new ArrayBuffer[byte](from.size())
+    from.bytes().foreach c do (data += c)
+  }
+
+  public
+  new (sizeHint : index_t = 16.implicit()) {
+    data = new ArrayBuffer[byte](sizeHint)
+  }
+
+  public delete {
+    delete data
+  }
+
+  override def bytes = data.iterator()
+  override def size : size_t = data.size()
+
+  public def apply (index : index_t) = data(index.unpack)
+
+  public def view : SolidStringView = new SolidStringView(
+    data := mem.HeapPointer[byte] !! data.data,
+    length := data.size()
+  )
+
+  public def += (c : byte) : void <: operator.precedence[20] = data += c
+
+  public def += (other : String) : void <: operator.precedence[20] {
+    data.ensureCapacity(data.size() + other.size())
+    other.bytes().foreach c do (data += c)
+  }
+
+  test "use" {
+    val buff = new StringBuffer
+    buff += "hello"
+    // " "
+    buff += 0x20i8
+    buff += "world"
+    buff += "!"
+
+    val expected = "hello world!"
+
+    val r = expected.size() == buff.size() &&
+            expected.bytes().forall c,i do (c == buff(i))
+
+    delete buff
+    r
+  }
+}
