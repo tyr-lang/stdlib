@@ -3,8 +3,9 @@ type toString {
   with StringEQR.equals
   with to := tyr.string.toString
 
+  // tests for int
   type def check(number : int, expected : StringLiteral) {
-    var s = to(number)
+    val s = to(number)
     val v = s.view()
     out.put(v)
     "\n"!!;
@@ -22,11 +23,43 @@ type toString {
     check(1,"1")
   }
 
+  test "int 32" {
+    check(32,"32")
+  }
+
   test "int large" {
     check(123456789,"123456789")
   }
 
   test "int neg" {
     check(-31337,"-31337")
+  }
+
+  test "int neg 2" {
+    check(-2,"-2")
+  }
+
+  // tests for pointer
+  type def check(number : pointer, expected : StringLiteral) {
+    val s = to(number)
+    val v = s.view()
+    out.put(v)
+    "\n"!!;
+    delete v
+    val r = equals(expected, s)
+    delete s
+    r
+  }
+
+  test "pointer null" {
+    check(null, "0x0000000000000000")
+  }
+
+  test "pointer low" {
+    check(pointer !! 0x0123456789abcdef, "0x0123456789ABCDEF")
+  }
+
+  test "pointer high" {
+    check(pointer !! 0xfedcba9876543210, "0xFEDCBA9876543210")
   }
 }
