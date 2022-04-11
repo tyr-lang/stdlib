@@ -117,6 +117,11 @@ public type Integer[Size : IntegerLiteral[32]] <: native {
   public def unsign : Unsigned[Size] <: native;
 
   /**
+   * Return the absolute value of this integer. Undefined for MIN_VALUE.
+   */
+  public def abs : Integer[Size] <: native;
+
+  /**
    * truncate/sign extend the value to 64 and unsign it then
    */
   public def implicit : container.index_t <: native;
