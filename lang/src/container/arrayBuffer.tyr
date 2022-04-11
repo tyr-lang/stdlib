@@ -32,6 +32,16 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
     data = new FlatArray[T](capacity)
   }
 
+  /**
+   * Create a new array buffer copying size values from an array view.
+   */
+  public new (source : ArrayView[T], size : index_t) {
+    capacity = size.unpack
+    data = new FlatArray[T](capacity)
+    length = capacity
+    mem.raw.copy(data.implicit(), source, length)
+  }
+
   public delete {
     delete data;
   }
@@ -55,7 +65,19 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
     0U <= index.unpack && index.unpack < length
   }
 
+  /**
+   * Set the first invalid index to index. Ensure that capacity can hold
+   * index - 1 elements. Does not modify content, i.e. if new valid elements are
+   * created, they have an undefined state.
+   */
+  public def setFirstInvalidIndex(index : index_t) : void {
+    ensureCapacity(length = index.unpack - 1U)
+  }
+
   public def size : size_t = length;
+
+  public def view (offset : index_t = 0.implicit())
+                  = ArrayView[T].from(data.shift(offset))
 
   public type def += (this: ArrayBuffer[T], v : T) : void
               <: operator.precedence[20], operator.rightAssociative

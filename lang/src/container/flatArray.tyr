@@ -4,6 +4,8 @@
  * This optimization requires a proper call to delete.
  *
  * @note represented as T*
+ *
+ * @author Timm Felden
  */
 public type FlatArray[T : Type] <: observablePointer, native {
 
@@ -51,6 +53,8 @@ public type FlatArray[T : Type] <: observablePointer, native {
  * @note llvm won't let us access elements by index if the array is represented
  *       as flat array. Hence, we need CRefs first before can turn the API into
  *       what one would expect it to be.
+ *
+ * @author Timm Felden
  */
 public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
 
@@ -75,8 +79,9 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    * @note it is the callers obligation to ensure that the index is valid
    * @note accessing elements of an array can only be done, if it has an adress
    */
-  public def apply(this : Ref[FlatSizedArray[T, Size]], index : index_t) : T
-             <: native;
+  public
+  def apply (this : Ref[FlatSizedArray[T, Size]], index : index_t) : T
+            <: native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -85,8 +90,16 @@ public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  public def update(this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T)
-             : T <: native;
+  public
+  def update (this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T
+             <: native;
+
+  /**
+   * Return an array shifted by offset elements.
+   */
+  public def shift (this : Ref[FlatSizedArray[T, Size]], offset : index_t)
+                   : FlatArray[T]
+                   = (FlatArray[T] !! this).shift(offset)
 
   /** for each element do action */
   public
