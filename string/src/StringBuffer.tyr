@@ -1,13 +1,24 @@
+with container.ArrayBuffer;
+with container.index_t;
+with container.size_t;
+
 /**
  * A string buffer that acts as a String and can be modified. Concatenations
  * are efficienet. Any additions to the buffer are copies.
  */
 public class StringBuffer <: String {
-  with container.ArrayBuffer;
-  with container.index_t;
-  with container.size_t;
 
   private val data : ArrayBuffer[byte];
+
+  /**
+   * Wrap an ArrayBuffer of bytes in a StringBuffer that takes ownership of it.
+   */
+  public
+  type def wrapAndConsume (buffer : ArrayBuffer[byte]) : StringBuffer
+                          = new StringBuffer(buffer);
+
+  private
+  new (data := data : ArrayBuffer[byte]);
 
   public
   new (from : String) {
@@ -30,7 +41,7 @@ public class StringBuffer <: String {
   public def apply (index : index_t) = data(index.unpack)
 
   public def view : SolidStringView = new SolidStringView(
-    data := mem.HeapPointer[byte] !! data.data,
+    data := mem.HeapPointer[byte] !! data.view(),
     length := data.size()
   )
 
