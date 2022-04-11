@@ -6,6 +6,7 @@
  * @author Timm Felden
  */
 type raw {
+
   /**
    * Fill an unitialized value with heap-allocated memory of adequate size.
    *
@@ -32,5 +33,12 @@ type raw {
    */
   public type def `delete`(ref : any) : void <: native;
 
-  // todo copy(ref : pointer, ref : pointer, size : size_t) <: native
+  /**
+   * Copy size bytes from source to dest.
+   *
+   * @note has no defined semantics if the copied blocks overlap
+   */
+  public
+  type def copy (dest : pointer, source : pointer, size : container.size_t)
+                : void <: native;
 }
