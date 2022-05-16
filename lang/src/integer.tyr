@@ -7,6 +7,13 @@
  */
 public type Integer[Size : IntegerLiteral[32]] <: native {
 
+  // TODO Integer types should get inline type vals MIN_VALUE, MAX_VALUE, ZERO
+  // and ONE. These should exist in Unsigned and Float too.
+  // TODO There should be a check ensuring that size is at least 1.
+  // Note to self: I could just add a tyr.lang.reflect.Constraint property
+  // taking an expression that is CT-evaluated and will result in an error
+  // message if it does not evaluate to true.
+
   /** as in C,C++,Java */
   public type def ++ (this : Ref[Integer[Size]]) : Integer[Size]
               <: native, operator.precedence[210];
