@@ -75,11 +75,10 @@ public type Unsigned[Size : IntegerLiteral[32]] <: native {
   /**
    * Resize the argument value to the desired new size.
    * Truncate if NewSize < Size;
-   * Signextend if NewSize > Size;
+   * Zeroextend if NewSize > Size;
    * nop if NewSize == Size.
    */
-  // TODO blocker 0.7 def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize] <: native;
-  // TODO note: requires processing of CTParams in function definitions
+  public def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize] <: native;
 
   /**
    * Transform the value to a signed integer.

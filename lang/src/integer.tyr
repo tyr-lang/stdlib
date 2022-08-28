@@ -113,8 +113,7 @@ public type Integer[Size : IntegerLiteral[32]] <: native {
    * Signextend if NewSize > Size;
    * nop if NewSize == Size.
    */
-  // TODO blocker 0.7 def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: native;
-  // TODO note: requires processing of CTParams in function definitions
+  public def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: native;
 
   /**
    * Transform the value to an unsigned integer.
