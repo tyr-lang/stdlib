@@ -1,0 +1,86 @@
+/**
+ * An iterator transforming a byte iterator on the fly into a character
+ *  iterator.
+ *
+ * @note If the bytestream does not result in a valid UTF-8 codepoint a 0xFFFD
+ *   is inserted and decoding continues at the next byte
+ *
+ * @author Timm Felden
+ */
+public class CharacterIterator <: Iterator[character] {
+  private type val invalid = character !! 0xfffdu21
+
+  private var bytes : Iterator[byte];
+
+  new(bytes := bytes : Iterator[byte]);
+
+  override
+  def hasNext() : bool = bytes.hasNext()
+
+  override
+  def next() : character {
+    var b = bytes.next()
+
+    // 0xxxxxxx
+    if(0i8==b&0x80i8){
+      return character !! (b&0x7fi8)
+    }
+
+    // 110xxxxx 10xxxxxx
+    if(0xc0i8==b&0xe0i8){
+      if(!hasNext())
+        return invalid
+
+      var r = character !! (b&0x1fi8) << 6u21
+      b = bytes.next()
+      if(0x80i8 != b&0xc0i8)
+        return invalid
+
+      return character !! (r | character !! b&0x3fi8)
+    }
+
+    // 1110xxxx 10xxxxxx 10xxxxxx
+    if(0xe0i8==b&0xf0i8){
+      if(!hasNext())
+        return invalid
+
+      var r = character !! (b&0x0fi8) << 12u21
+      b = bytes.next()
+      if(0x80i8 != b&0xc0i8 || !hasNext())
+        return invalid
+
+      r |= (character !! b&0x3fi8 << 6u21)
+      b = bytes.next()
+      if(0x80i8 != b&0xc0i8)
+        return invalid
+
+      return character !! (r | character !! b&0x3fi8)
+    }
+
+    // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+    if(0xf0i8==b&0xf8i8){
+      if(!hasNext())
+        return invalid
+
+      var r = character !! (b&0x07i8) << 18u21
+      b = bytes.next()
+      if(0x80i8 != b&0xc0i8 || !hasNext())
+        return invalid
+
+      r |= (character !! b&0x3fi8 << 12u21)
+      b = bytes.next()
+      if(0x80i8 != b&0xc0i8 || !hasNext())
+        return invalid
+
+      r |= (character !! b&0x3fi8 << 6u21)
+      b = bytes.next()
+      if(0x80i8 != b&0xc0i8)
+        return invalid
+
+      return character !! (r | character !! b&0x3fi8)
+    }
+
+    return invalid
+  }
+}
+

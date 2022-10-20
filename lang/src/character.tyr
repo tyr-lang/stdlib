@@ -10,7 +10,7 @@
  *
  * @author Timm Felden
  */
-public type Character <: Unsigned[21] {
+public type character <: Unsigned[21] {
 
   /**
    * Read a character form a UTF-8 encoded byte iterator.
@@ -24,7 +24,7 @@ public type Character <: Unsigned[21] {
     // functions currently scheduled for 0.7
   }
 
-  // TODO def toInt = resize[32].sign
+  public def toInt = resize[32]().sign()
 
   // TODO def toString = new CharString(this)
 
@@ -35,3 +35,5 @@ public type Character <: Unsigned[21] {
   //  byte stream
   // TODO def encodedBytes : FlatSizedArray[byte, 4]
 }
+
+public type characterLiteral <: character, noVar, CT;

@@ -27,6 +27,12 @@ public class String <: Object/* TODO blocker 0.7
    *       a string. Nonetheless, some subclasses will not be able to do that.
    */
   public def bytes : container.Iterator[byte];
+
+  /**
+   * @return an iterator interpreting the bytes as UTF-8-encoded characters
+   */
+  public def chars : container.Iterator[character] =
+    new container.CharacterIterator(bytes())
 }
 
 /**
