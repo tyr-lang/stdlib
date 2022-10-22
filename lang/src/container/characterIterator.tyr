@@ -9,6 +9,8 @@
  */
 public class CharacterIterator <: Iterator[character] {
   private type val invalid = character !! 0xfffdu21
+  private type def char(v : byte) <: inline = character !! v.unsign().resize[21]()
+  private type def char(v : Unsigned[21]) <: inline = character !! v
 
   private var bytes : Iterator[byte];
 
@@ -23,7 +25,7 @@ public class CharacterIterator <: Iterator[character] {
 
     // 0xxxxxxx
     if(0i8==b&0x80i8){
-      return character !! (b&0x7fi8)
+      return char(b&0x7fi8)
     }
 
     // 110xxxxx 10xxxxxx
@@ -31,12 +33,12 @@ public class CharacterIterator <: Iterator[character] {
       if(!hasNext())
         return invalid
 
-      var r = character !! (b&0x1fi8) << 6u21
+      var r = char(b&0x1fi8) << 6u21
       b = bytes.next()
       if(0x80i8 != b&0xc0i8)
         return invalid
 
-      return character !! (r | character !! b&0x3fi8)
+      return char(r | char(b&0x3fi8))
     }
 
     // 1110xxxx 10xxxxxx 10xxxxxx
@@ -44,17 +46,17 @@ public class CharacterIterator <: Iterator[character] {
       if(!hasNext())
         return invalid
 
-      var r = character !! (b&0x0fi8) << 12u21
+      var r = char(b&0x0fi8) << 12u21
       b = bytes.next()
       if(0x80i8 != b&0xc0i8 || !hasNext())
         return invalid
 
-      r |= (character !! b&0x3fi8 << 6u21)
+      r |= char(b&0x3fi8) << 6u21
       b = bytes.next()
       if(0x80i8 != b&0xc0i8)
         return invalid
 
-      return character !! (r | character !! b&0x3fi8)
+      return char(r | char(b&0x3fi8))
     }
 
     // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
@@ -62,22 +64,22 @@ public class CharacterIterator <: Iterator[character] {
       if(!hasNext())
         return invalid
 
-      var r = character !! (b&0x07i8) << 18u21
+      var r = char(b&0x07i8) << 18u21
       b = bytes.next()
       if(0x80i8 != b&0xc0i8 || !hasNext())
         return invalid
 
-      r |= (character !! b&0x3fi8 << 12u21)
+      r |= char(b&0x3fi8) << 12u21
       b = bytes.next()
       if(0x80i8 != b&0xc0i8 || !hasNext())
         return invalid
 
-      r |= (character !! b&0x3fi8 << 6u21)
+      r |= char(b&0x3fi8) << 6u21
       b = bytes.next()
       if(0x80i8 != b&0xc0i8)
         return invalid
 
-      return character !! (r | character !! b&0x3fi8)
+      return char(r | char(b&0x3fi8))
     }
 
     return invalid
