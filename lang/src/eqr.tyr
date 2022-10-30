@@ -37,7 +37,7 @@ public interface EQR[T : Type] <: any {
  * many types.
  */
 public type MinEQR[T : Type] <: any, EQR[T] {
-  // note to self: types do not have a RT representation
+  // note to self: types do not have an RT representation
   // note to self: It could be, that there still is a difference wrt. variant
   // types. In that case, we could introduce class members on types with a
   // similar semantics as their counterparts in other kinds.
@@ -46,7 +46,7 @@ public type MinEQR[T : Type] <: any, EQR[T] {
 
 /**
  * Derive consistent == and != from an equivalence relation.
- *//* TODO blocker 0.7
+ */
 interface EQOps[T : Type, E : EQR[T]] <: any {
 
   type def != (left : T, right : T) : bool
@@ -56,7 +56,7 @@ interface EQOps[T : Type, E : EQR[T]] <: any {
   type def == (left : T, right : T) : bool
               <: inline, operator.precedence[80]
               = E.equals(left, right)
-}*/
+}
 
 /**
  * This is the well known and massively criticised version of EQR from Java.
@@ -66,7 +66,10 @@ interface EQOps[T : Type, E : EQR[T]] <: any {
  * possible to provide a correct implementation. In these scenarios, the type
  * hierarchy below T should be sealed and all redefinitions of eq should be
  * aware of each other.
- *//* TODO blocker 0.7
+ *//* TODO blocker 0.7: What is missing in the code below is a means to express
+  that this.type <: T resulting in eq applications in equals not being type
+  correct
+
 interface InheritedEQR[T : Class] <: Object, EQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless
