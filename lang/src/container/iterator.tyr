@@ -138,6 +138,37 @@ public class Iterator[T : Type] <: abstract {
   }
 
   /**
+   * Check if this and other return the same number of elements that compare
+   * all to true in order.
+   *
+   * @note consumes this and other irrespective of the number of elements
+   *   compared.
+   *
+   * TODO eq should have "= MinEQR[T]"
+   */
+  public def sameElements[eq : def (T, T) : bool](other : Iterator[T]) : bool
+                         <: mem.consumed {
+    // ensure that an iterator can be compared to itself
+    if(other == this) {
+      delete this
+      return true
+    }
+
+    var r = true
+    var hn : bool
+    var on : bool
+
+    while(r && ((hn=hasNext()) &! (on=other.hasNext()))) {
+      r = eq(next(), other.next())
+    }
+    if r r = (hn == on)
+
+    delete this
+    delete other
+    return r
+  }
+
+  /**
    * Take all elements from this iterator, add them to an ArrayBuffer and delete
    * the iterator.
    */
