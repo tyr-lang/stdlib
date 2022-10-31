@@ -134,6 +134,47 @@ public class ArrayBuffer[T : Type] <: Seq[T] {
     this.shrink(length)
   }
 
+  /**
+   * Remove all elements that satisfy the argument preducate
+   *
+   * @return the number of removed elements
+   */
+  public def removeIf(x : BlockParameter[T], predicate : Block[bool]) : size_t {
+    var read = 0U
+    var write = 0U
+    var removed = 0U
+
+    while(read < length) {
+      // read current
+      var e = data(read)
+
+      // eval predicate
+      x = e
+      val rem = predicate.eval()
+
+      // update data
+      if rem {
+        ++removed
+      } else {
+        // copy an element if required
+        if (write != read){
+          data(write) = e
+        }
+
+        ++write
+      }
+      ++read
+    }
+
+    // shrink data
+    if(0U != removed) {
+      length -= removed
+      this.shrink(length)
+    }
+
+    removed
+  }
+
   public type def last(this : ArrayBuffer[T]) : T = this.data(length - 1U);
 
 
