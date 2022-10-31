@@ -1,0 +1,25 @@
+type Iterator {
+  test "same elements same iterator" {
+    var it = "some text".chars()
+    
+    it.sameElements[character.`==`](it)
+  }
+
+  test "same elements" {
+    "some text".chars().sameElements[character.`==`]("some text".chars())
+  }
+
+  test "same elements ne" {
+    !"some text".chars().sameElements[character.`!=`]("some text".chars())
+  }
+
+  test "same elements different" {
+    !"".chars().sameElements[character.`==`]("some text".chars())
+  }
+  test "same elements different 2" {
+    !"some text".chars().sameElements[character.`==`]("".chars())
+  }
+  test "same elements different 3" {
+    !"some text".chars().sameElements[character.`==`]("HLL".chars())
+  }
+}

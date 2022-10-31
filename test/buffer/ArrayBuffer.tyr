@@ -1,0 +1,20 @@
+type ArrayBuffer {
+
+  test "remove umlauts" {
+    var buff = "HÖLLä".chars().toBuffer()
+    val removed = int !! buff.removeIf c do (c > 'L')
+
+    val r : bool = "HLL".chars().sameElements[character.`==`](buff.iterator())
+    delete buff
+    r && 2 == removed
+  }
+
+  test "remove more" {
+    var buff = "HÖLLä".chars().toBuffer()
+    val removed = int !! buff.removeIf c do (c >= 'L')
+
+    val r : bool = !"HLL".chars().sameElements[character.`==`](buff.iterator())
+    delete buff
+    r && 4 == removed
+  }
+}
