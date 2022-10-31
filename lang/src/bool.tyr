@@ -21,6 +21,19 @@ public type bool <: native {
          <: operator.precedence[30], operator.rightAssociative =
     if this this else x.eval()
 
+  public type def &= (this : Ref[bool], v : bool) : bool
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this &! v;
+  }
+  public type def ^= (this : Ref[bool], v : bool) : bool
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this ^! v;
+  }
+  public type def |= (this : Ref[bool], v : bool) : bool
+           <: operator.precedence[20], operator.rightAssociative {
+    this = this |! v;
+  }
+
   // TODO type val unknown <: native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
 
   test "trivial cfg" {
