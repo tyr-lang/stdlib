@@ -1,0 +1,45 @@
+with container.index_t
+with container.size_t
+with container.ArrayView
+with container.FlatArray
+with container.FlatArrayIterator
+with container.Seq
+
+/**
+ * This is, in essence, a constant array of bytes that is created by draupnir
+ * for any resource declaration in the package description.
+ *
+ * @note a resource's content is read when package sources are read and it is
+ *    stored in the tl-file
+ *
+ * @note resources with identical content may have identical representation
+ *
+ * @note resources do not know their names
+ *
+ * @note having the content after a second pointer is a concious decision; it is
+ *   the same representation as that of StringLiteral
+ *
+ * @note for now, Resource will not get a CT property as Resources are expected
+ *    to be massive compared to other entities with CT properties and the
+ *    overhead will not be justified by the benefits
+ */
+public class Resource <: Seq[byte], eternal, primordial {
+
+  public val length : size_t;
+
+  // TODO should be a read-only array; the same holds for StringLiteral
+  private val data : FlatArray[byte];
+
+  private new <: native;
+
+  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
+
+  public def apply(index : index_t) : T = data(index);
+
+  public def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
+
+  public def size : size_t = length
+
+  public def view (offset : index_t = 0.implicit())
+                  = ArrayView[T].from(data.shift(offset))
+}

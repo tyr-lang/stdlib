@@ -1,5 +1,5 @@
 /**
- * An read-only view onto an array. The view is basically a pointer into the
+ * A read-only view onto an array. The view is basically a pointer into the
  * array, has no bounds checks and must not be deleted.
  *
  * @author Timm Felden

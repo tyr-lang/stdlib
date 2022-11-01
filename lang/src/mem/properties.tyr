@@ -12,10 +12,21 @@
 public property eternal;
 
 /**
+ * If applied to a type, the instances of that type cannot be created and exist
+ *  even before evaluation of the global initializer.
+ * If applied to an object field, the field is initialized before evaluation of
+ *  the constructor's body.
+ *
+ * @appliesTo type, class if native or new is native
+ * @appliesTo field if lifetime is object
+ */
+public property primordial;
+
+/**
  * An object returned by the function is new and it is the responsibility of the
  * caller to delete it.
  *
- * @appliesTo typeDef, classDef, def
+ * @appliesTo function
  *
  * @example The result of a factory method.
  */

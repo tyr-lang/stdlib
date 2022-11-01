@@ -60,7 +60,7 @@ public type StringEQR <: EQR[String] {
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
  */
-public class StringLiteral <: String, noVar, mem.eternal {
+public class StringLiteral <: String, noVar, mem.eternal, mem.primordial {
 
   private new <: native;
 
