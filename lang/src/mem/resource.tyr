@@ -32,14 +32,16 @@ public class Resource <: Seq[byte], eternal, primordial {
 
   private new <: native;
 
-  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
+  override def iterator : FlatArrayIterator[byte] =
+    new FlatArrayIterator[byte](data, length)
 
-  public def apply(index : index_t) : T = data(index);
+  public def apply(index : index_t) : byte = data(index);
 
-  public def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
+  public def isDefined(index : index_t) : bool =
+    0U <= index.unpack && index.unpack < length
 
   public def size : size_t = length
 
   public def view (offset : index_t = 0.implicit())
-                  = ArrayView[T].from(data.shift(offset))
+                  = ArrayView[byte].from(data.shift(offset))
 }
