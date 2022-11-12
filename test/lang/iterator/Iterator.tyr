@@ -9,6 +9,10 @@ type Iterator {
     "some text".chars().sameElements[character.`==`]("some text".chars())
   }
 
+  test "same elements default" {
+    "some text".chars().sameElements("some text".chars())
+  }
+
   test "same elements ne" {
     !"some text".chars().sameElements[character.`!=`]("some text".chars())
   }
