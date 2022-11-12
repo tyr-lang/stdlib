@@ -31,7 +31,7 @@ public type hashCode := Unsigned[64];
  * not be a viable solution.
  */
 public type IdentityHash[T : Type] <: MinEQR[T], Hash[T] {
-  public type def hash(value : T) : hashCode = hashCode !! value;
+  override type def hash(value : T) : hashCode = hashCode !! value;
 }
 
 /**
