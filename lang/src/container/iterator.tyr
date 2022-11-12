@@ -146,8 +146,13 @@ public class Iterator[T : Type] <: abstract {
    *
    * TODO eq should have "= MinEQR[T]"
    */
-  public def sameElements[eq : def (T, T) : bool](other : Iterator[T]) : bool
-                         <: mem.consumed {
+  public
+  def sameElements[
+    eq : def (T, T) : bool = MinEQR[T].equals
+  ](
+    other : Iterator[T]
+  ) : bool
+   <: mem.consumed {
     // ensure that an iterator can be compared to itself
     if(other == this) {
       delete this
