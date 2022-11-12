@@ -1,0 +1,110 @@
+with container.FlatArray;
+with container.index_t;
+with container.size_t;
+
+/**
+ * Sort an ArrayView in place
+ *
+ * TODO get rid of the implicit calls
+ */
+public type Heapsort [
+  T : Type,
+  cmp : def (T, T) : bool
+] {
+  type def sort(data : FlatArray[T], size : index_t) : void {
+    var n = size.unpack
+    var value : T;
+    var parent : size_t;
+    var child : size_t;
+
+    var root = n >> 1U;
+
+    while (true) {
+      if (0U != root) {
+        parent = --root
+        value = data(root)
+
+      } else if ( 0U != --n ) {
+        value = data(n)
+        data(n) = data(0)
+        parent = 0U
+
+      } else
+        return;
+
+      while ((child = (parent + 1U) << 1U) < n) {
+        if (cmp(data(child), data(child - 1U)))
+          --child;
+
+        data(parent) = data(child)
+        parent = child
+      }
+
+      if (child == n) {
+        if (!cmp(data(--child), value.implicit())) {
+          data(parent) = data(child)
+          data(child) = value
+          continue
+        }
+
+        child = parent
+
+      } else {
+        if (!cmp(data(parent), value.implicit())) {
+          data(parent) = value
+          continue
+        }
+
+        child = (parent - 1U) >> 1U
+      }
+
+      while (child != root) {
+        parent = (child - 1U) >> 1U
+
+        if (!cmp(data(parent), value.implicit()))
+          break;
+
+        data(child) = data(parent)
+        child = parent
+      }
+
+      data(child) = value
+    }
+  }
+
+  test "sort3" {
+    val sort = Heapsort[int, int.`<`].sort
+    var arr = new FlatArray[int](4)
+
+    arr(0) = 7
+    arr(1) = 1
+    arr(2) = -4
+    arr(3) = 5
+
+    sort(arr, 3)
+
+    var r = arr(0) == -4 && arr(1) == 1 && arr(2) == 7 && arr(3) == 5
+
+    delete arr
+
+    r
+  }
+
+  test "sort" {
+    val sort = Heapsort[int, int.`<`].sort
+    var arr = new FlatArray[int](4)
+
+    arr(0) = 7
+    arr(1) = 1
+    arr(2) = -4
+    arr(3) = 5
+
+    sort(arr, 4)
+
+    var r = arr(0) == -4 && arr(1) == 1 && arr(2) == 5 && arr(3) == 7
+
+    delete arr
+
+    r
+  }
+}

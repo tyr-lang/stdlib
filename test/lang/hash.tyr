@@ -1,0 +1,45 @@
+type hashInt {
+  with IdentityHash[int].hash
+  with IdentityHash[int].equals
+
+  test "eq" {
+    (
+      equals(7, 7) &&
+      !equals(7, 21)
+    )
+  }
+  
+  test "hash" {
+    (
+      hash(7) == hashCode !! 7 &&
+      hash(31337) == hashCode !! 31337
+    )
+  }
+
+  test "hash direct" {
+    (
+      hash(7) == 7U &&
+      hash(31337) == 31337U
+    )
+  }
+}
+
+type hashString {
+  with IdentityHash[String].hash
+  with IdentityHash[String].equals
+
+  test "eq" {
+    (
+      equals("a", "a") &&
+      !equals("7", "a")
+    )
+  }
+  
+  test "hash" {
+    (
+      hash("a") == hashCode !! "a" &&
+      hash("a") == hash("a") &&
+      hash("a") != hash("b")
+    )
+  }
+}
