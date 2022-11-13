@@ -119,3 +119,12 @@ public property noVar;
  * @author Timm Felden
  */
 public property entryPoint;
+
+
+/**
+ * Tell the compiler to ignore a suppressible message category in the body of
+ * the target entity
+ *
+ * @author Timm Felden
+ */
+public property suppressCompilerMessage[name : StringLiteral];
