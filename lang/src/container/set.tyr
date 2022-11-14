@@ -1,0 +1,72 @@
+/**
+ * The base class of sets.
+ */
+public
+class Set[T : Type, EQ : def(T, T) : bool = MinEQR[T].equals] <: Seq[T], abstract {
+
+  /**
+   * Check if v is contained in this set.
+   */
+  public def contains(v : T) : bool;
+  public type def apply(this : Set[T, EQ], v : T) : bool <: inline = contains(v);
+
+  /**
+   * Check if all elements of vs are contained in this set.
+   */
+  public def containsAll(vs : Iterable[T]) : bool = vs.forall v do (contains(v));
+  public type def apply(this : Set[T, EQ], vs : Iterable[T]) : bool <: inline = containsAll(vs);
+
+  /**
+   * Check if v is contained in this set. If it is not, insert it.
+   *
+   * @return true if set has been modified
+   *
+   * @post this(v)
+   */
+  public def add(v : T) : bool;
+  public type def += (this : Set[T, EQ], v : T) : bool <: inline = add(v);
+
+  /**
+   * Check if all vs are contained in this set. Add each that is not.
+   *
+   * @return true if set has been modified
+   *
+   * @post this(v)
+   */
+  public def addAll(vs : Iterable[T]) : bool {
+    var modified = false
+    vs.foreach v do {
+      modified |= add(v)
+    }
+    modified
+  }
+  public type def ++= (this : Set[T, EQ], vs : Iterable[T]) : bool <: inline = addAll(vs);
+
+  /**
+   * Check if v is contained in this set. If it is, remove it.
+   *
+   * @return true if set has been modified
+   *
+   * @post this(v)
+   */
+  public def remove(v : T) : bool;
+  public type def -= (this : Set[T, EQ], v : T) : bool <: inline = remove(v);
+
+  /**
+   * Check if vs are contained in this set. Remove each that is.
+   *
+   * @return true if set has been modified
+   *
+   * @post this(v)
+   */
+  public def removeAll(vs : Iterable[T]) : bool {
+    var modified = false
+    vs.foreach v do {
+      modified |= remove(v)
+    }
+    modified
+  }
+  public type def --= (this : Set[T, EQ], vs : Iterable[T]) : bool <: inline = removeAll(vs);
+
+  // TODO public def intersect(vs : Iterable[T]) : bool {...};
+}
