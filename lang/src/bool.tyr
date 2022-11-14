@@ -36,7 +36,17 @@ public type bool <: reflection.native {
     this = this |! v;
   }
 
-  // TODO type val unknown <: reflection.native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
+  public type def &&= (this : Ref[bool], v : Block[bool]) : bool
+           <: operator.precedence[20], operator.rightAssociative {
+    if this {this = v.eval()}; this
+  }
+  public type def ||= (this : Ref[bool], v : Block[bool]) : bool
+           <: operator.precedence[20], operator.rightAssociative {
+    if (!this) {this = v.eval()}; this
+  }
+
+
+  // TODO type val unknown <: native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
 
   test "trivial cfg" {
     false || true
@@ -53,5 +63,3 @@ public type bool <: reflection.native {
     t && !f
   }
 }
-
-public type boolLiteral <: bool, reflection.CT, reflection.noVar;
