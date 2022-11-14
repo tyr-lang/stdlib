@@ -1,0 +1,44 @@
+/**
+ * A stateful pseudo random generator.
+ *
+ * @note current implementation is xoroshiro128+
+ */
+public type random {
+  public type var global = new random;
+
+  public var s0 : Unsigned[64];
+  public var s1 : Unsigned[64];
+
+  new (s0 := seed : Unsigned[64] = 0U, s1 := seedHigh : Unsigned[64] = 0U);
+
+  private type def rotl(x : Unsigned[64], k : Unsigned[64]) <: inline
+    = (x << k) | (x >> (64U - k));
+
+  public def next(this : Ref[random] = global) : Unsigned[64] {
+    val r0 = s0;
+    var r1 = s1;
+    val result = r0 + r1;
+
+    r1 ^= r0;
+    s0 = rotl(r0, 24U) ^ r1 ^ (r1 << 16U);
+    s1 = rotl(r1, 37U);
+    
+    return result;
+  }
+
+  public def nextInt(this : Ref[random] = global) : int = int !! (this.next() >> 32U)
+
+  public def nextShort(this : Ref[random] = global) : short = short !! (this.next() >> 32U)
+
+  public def nextByte(this : Ref[random] = global) : byte = byte !! (this.next() >> 32U)
+
+  public def roll(this : Ref[random] = global, d : int = 6, n : int = 1) : int {
+    var r = 0
+    var i = n
+    while(0 != i) {
+      r += 1 + this.nextInt() % d;
+      --i
+    }
+    r
+  }
+}
