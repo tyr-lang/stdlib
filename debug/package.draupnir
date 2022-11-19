@@ -1,0 +1,4 @@
+src=src
+name=tyr.debug
+with tyr.io
+with tyr.string
