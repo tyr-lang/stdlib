@@ -47,7 +47,8 @@ public type toString {
    * Print a pointer as unsigned 64 bit in the form 0x...
    */
   public
-  type def apply(v : pointer) : StringBuffer {
+  type def apply(v : pointer) : StringBuffer
+           <: suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
 
     // "0x" + 16 digits
     val r = new container.ArrayBuffer[byte](18);
