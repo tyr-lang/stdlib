@@ -125,6 +125,8 @@ public property entryPoint;
  * Tell the compiler to ignore a suppressible message category in the body of
  * the target entity
  *
+ * @note do not use in tyr.lang; tyr packages should complie without it anyway
+ *
  * @author Timm Felden
  */
 public property suppressCompilerMessage[name : StringLiteral];
