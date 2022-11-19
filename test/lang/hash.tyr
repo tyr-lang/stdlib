@@ -24,7 +24,7 @@ type hashInt {
   }
 }
 
-type hashString {
+type hashString <: suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
   with IdentityHash[String].hash
   with IdentityHash[String].equals
 

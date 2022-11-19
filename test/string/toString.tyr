@@ -1,4 +1,4 @@
-type toString {
+type toString <: suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
   with tyr.io.System.out
   with StringEQR.equals
   with to := tyr.string.toString
