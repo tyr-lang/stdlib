@@ -1,0 +1,10 @@
+/**
+ * A marker interface used to identify types that are valid targets for switch
+ * expressions.
+ *
+ * @note not public as the compiler needs to know about the child types anyway
+ *
+ * @note this is essentially a trick to get overload resolution and type
+ *       inference right at the same time
+ */
+interface canSwitchOn <: any;

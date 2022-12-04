@@ -5,7 +5,7 @@
  *
  * @author Timm Felden
  */
-public type Integer[Size : IntegerLiteral[32]] <: native {
+public type Integer[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, native {
 
   // TODO Integer types should get inline type vals MIN_VALUE, MAX_VALUE, ZERO
   // and ONE. These should exist in Unsigned and Float too.

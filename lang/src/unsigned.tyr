@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-public type Unsigned[Size : IntegerLiteral[32]] <: native {
+public type Unsigned[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, native {
 
   /** as in C,C++,Java */
   public type def ++ (this : Ref[Unsigned[Size]]) : Unsigned[Size]
