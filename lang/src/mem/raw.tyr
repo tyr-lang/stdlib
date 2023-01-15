@@ -21,7 +21,7 @@ type raw {
    *
    * @return a pointer to the new memory
    */ 
-  public type def `new`(t : Type) : any <: native;
+  public type def `new`(t : Type[any]) : any <: native;
 
   /**
    * Release heap-allocated memory.

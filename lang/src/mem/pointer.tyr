@@ -26,7 +26,7 @@ public type OpaquePointer[Name : StringLiteral] <: observablePointer, native;
  *
  * @TODO there should be a ConstantHeapPointer converting to CRef once we have it
  */
-public type HeapPointer[T : Type] <: observablePointer, proxy[Ref[T]], native {
+public type HeapPointer[T : Type[any]] <: observablePointer, proxy[Ref[T]], native {
 
   /**
    * allocate an unitialized T

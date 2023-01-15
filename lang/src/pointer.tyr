@@ -31,8 +31,10 @@ public type pointer <: any, native;
  *
  * @note it is of paramount importance that neither Ref nor any super type of
  *       Object declare any class fields
+ *
+ * TODO move Ref and CRef to ref.tyr once I add CRef
  */
-public type Ref[T : Type] <: pointer, proxy[T], joinImplicit, native {
+public type Ref[T : Type[any]] <: pointer, proxy[T], joinImplicit, native {
 
   /**
    * Implicit dereference allow value types to be used by reference.
@@ -74,4 +76,4 @@ public type observablePointer <: pointer {
 /**
  * The type of null. This is the bottom element of the observable pointer latice
  */
-public interface Null <: observablePointer;
+public interface Null <: observablePointer, final;

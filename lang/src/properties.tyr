@@ -24,6 +24,9 @@ public property abstract;
  * @note In contrast to the semantics of other languages, it is perfectly fine
  *       to have a type which is both abstract and final, i.e. that cannot have
  *       any instance.
+ *
+ * @note Final types have bottom types as implicit subtypes. Take this into
+ *   account when designing algorithms operating on the type lattice.
  */
 public property final;
 
@@ -37,7 +40,7 @@ public property final;
  *
  * @author Timm Felden
  */
-public property proxy[T : Type];
+public property proxy[T : Type[any]];
 
 
 /**

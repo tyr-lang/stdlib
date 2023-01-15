@@ -11,13 +11,14 @@ public class Object <: observablePointer, abstract {
    * @note this value is set by the back-end on object construction
    * @note should be Class[this.type]
    */
-  val `class` : Class;
+  val `class` : Class[Object];
 
   /**
    * Same as accessing class directly or via a x.class expression.
    * This function is mainly used as an implicit conversion from object to type.
    */
-  public type def getClass(this : Object) : Class <: inline = this.class;
+  public type def getClass(this : Object) : Class[this.type] <: inline
+    = Class[this.type] !! this.`class`;
 
   /**
    * Does nothing. The field class is initialized before calling the first
@@ -58,7 +59,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note type checks have the same precedence as integer less
    */
-  public type def =:= (this : Object, cls : Class) : bool
+  public type def =:= (this : Object, cls : Class[Object]) : bool
                <: operator.precedence[90] =
     if (null == this) false
     else cls == this.class
@@ -68,7 +69,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note true for null
    */
-  public type def <:= (this : Object, cls : Class) : bool
+  public type def <:= (this : Object, cls : Class[Object]) : bool
                <: operator.precedence[90] =
     if (null == this) true
     else this.class <= cls
@@ -78,7 +79,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note true for null
    */
-  public type def <:< (this : Object, cls : Class) : bool
+  public type def <:< (this : Object, cls : Class[Object]) : bool
                <: operator.precedence[90] =
     if (null == this) true
     else this.class < cls
@@ -88,7 +89,7 @@ public class Object <: observablePointer, abstract {
    *
    * @note cls must not be null
    */
-  public type def isOf(this : Object, cls : Class) : bool
+  public type def isOf(this : Object, cls : Class[Object]) : bool
                <: inline
                 = cls ? this;
 }

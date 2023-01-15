@@ -35,7 +35,7 @@
  *
  * @author Timm Felden
  */
-public type Block[T : Type] <: CT, native, noVar {
+public type Block[T : Type[any]] <: CT, native, noVar {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression.
@@ -72,7 +72,7 @@ public type ABlockParameter <: noVar;
  *
  * @author Timm Felden
  */
-public type BlockParameter[T : Type] <: ABlockParameter, native, CT, noVar {
+public type BlockParameter[T : Type[any]] <: ABlockParameter, native, CT, noVar {
 
   /** 
    * Update a block parameter.

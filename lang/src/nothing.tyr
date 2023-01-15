@@ -13,10 +13,13 @@
  * happens before the evaluation of that type. Such unevaluatable types can be
  * replaced by Class[NoReturn].
  *
+ * @note to self: there should be a rule causing all types below WillThrow[Null]
+ *   to be replaced by NoReturn
+ *
  * @note this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
  */
-public interface WillThrow[T : Type/*Class/*[Exception] <: covariant*/] <: any, native;
+public interface WillThrow[+T : Class[Object/*Exception*/]] <: any, native, final;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to
@@ -28,4 +31,4 @@ public interface WillThrow[T : Type/*Class/*[Exception] <: covariant*/] <: any, 
  * @note this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
  */
-public interface NoReturn <: any, WillThrow[Null], native;
+public interface NoReturn <: any, WillThrow[Null], native, final;

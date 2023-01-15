@@ -1,7 +1,7 @@
 /**
  * Iterator over a FlatArray
  */
-public class FlatArrayIterator[T : Type] <: Iterator[T] {
+public class FlatArrayIterator[T : Type[any]] <: Iterator[T] {
   private val self : FlatArray[T];
   private val size : size_t;
   private var i : size_t;

@@ -1,10 +1,6 @@
 /**
  * The type of a class.
  *
- * @todo iTypes
- *
- * @todo checked downcast akin C++'s dynamic_cast
- *
  * @note we use Schubert et. al. 83 as a type checking algorithm because it has
  *       unparalleled performance and the current approach requires static
  *       linking anyway. This also means, that we will change that as soon as we
@@ -21,9 +17,14 @@
  *
  * @note it is not possible for this class to have (object) def or class members
  *
+ * @note the signature of this type cannot be changed without changing the
+ *   compiler
+ *
+ * @todo 0.8 should be sealed
+ *
  * @author Timm Felden
  */
-public class Class <: Type, mem.eternal {
+public class Class[+T : Class[Object] := Object] <: Type[T], mem.eternal {
 
   /**
    * Class initialization is performed by the back-end globally.
@@ -75,7 +76,7 @@ public class Class <: Type, mem.eternal {
    *       (! T <= U && ! U <= T) == true
    *       An example of this is String and Type.
    */
-  public type def <= (this : Class, super : Class) : bool
+  public type def <= (this : Class[Object], super : Class[Object]) : bool
                      <: operator.precedence[90] =
     (super.minTID <= this.minTID) &! this.maxTID <= super.maxTID
 
@@ -87,7 +88,7 @@ public class Class <: Type, mem.eternal {
    * @note we have to check both borders. Otherwise, we would accept unrelated
    *       types
    */
-  public type def < (this : Class, super : Class) : bool
+  public type def < (this : Class[Object], super : Class[Object]) : bool
                     <: operator.precedence[90] =
     (super.minTID < this.minTID) &! this.maxTID <= super.maxTID
 
@@ -96,7 +97,7 @@ public class Class <: Type, mem.eternal {
    *
    * @note true if null is passed
    */
-  public type def ? (this : Class, ref : Object) : bool
+  public type def ? (this : Class[Object], ref : Object) : bool
                     <: operator.precedence[90] =
     null == ref ||
     ((this.minTID <= ref.class.minTID) &! ref.class.maxTID <= this.maxTID)
@@ -111,7 +112,7 @@ public class Class <: Type, mem.eternal {
    * @note a future version may add a flag to stop program execution if ref is
    *       not an instance of this
    */
-  public type def ! (this : Class, ref : Object) : this
+  public type def ! (this : Class[Object], ref : Object) : this
                     <: operator.precedence[90] =
     if (null == ref) null
     else if (this ? ref) this !! ref

@@ -7,9 +7,15 @@
  *
  * @note it is not possible for this class to have (object) def or class members
  *
+ * @note the runtime repr of a class interface is not a repr for the base class
+ *   its just not; throwing this stick into the arena makes sense only if the
+ *   majority of interfaces have a base type other than Object
+ *
+ * @todo 0.8 should be sealed
+ *
  * @author Timm Felden
  */
-public class Interface <: Type, mem.eternal {
+public class Interface[+T : Class[Object] := Object] <: Type[T], mem.eternal {
 
   /**
    * Interface initialization is performed by the back-end globally.
@@ -23,7 +29,7 @@ public class Interface <: Type, mem.eternal {
    *
    * @note true if null is passed
    */
-  public type def ? (this : Interface, ref : Object) : bool
+  public type def ? (this : Interface[Object], ref : Object) : bool
                     <: operator.precedence[90] =
     null == ref || ref.class.itypes.contains(this)
 
@@ -37,7 +43,7 @@ public class Interface <: Type, mem.eternal {
    * @note a future version may add a flag to stop program execution if ref is
    *       not an instance of this
    */
-  public type def ! (this : Interface, ref : Object) : this
+  public type def ! (this : Interface[Object], ref : Object) : this
                     <: operator.precedence[90] =
     if (null == ref) null
     else if (this ? ref) this !! ref
@@ -65,7 +71,7 @@ type ITypes <: native, mem.eternal {
   // var entries : container.FlatSizedArray[Interface, 0U];
   var entries : container.FlatSizedArray[observablePointer, 0U];
 
-  type def contains(this : mem.HeapPointer[ITypes], t : Interface) : bool {
+  type def contains(this : mem.HeapPointer[ITypes], t : Interface[Object]) : bool {
     if (null == this)
       return false
     

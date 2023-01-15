@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-public class Array[T : Type] <: Seq[T] {
+public class Array[T : Type[any]] <: Seq[T] {
   public val length : size_t;
   private var data : FlatArray[T];
 

@@ -11,7 +11,7 @@
  *
  * TODO Iterator should be covariant in T
  */
-public class Iterator[T : Type] <: abstract {
+public class Iterator[T : Type[any]] <: abstract {
 
   /**
    * retrieve the next element and move the iterator by one element

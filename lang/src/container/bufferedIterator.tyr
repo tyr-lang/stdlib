@@ -9,7 +9,7 @@
  *
  * @author Timm Felden
  */
-public class BufferedIterator[T : Type] <: Iterator[T] {
+public class BufferedIterator[T : Type[any]] <: Iterator[T] {
 
   /**
    * set to null if deleted; can be null on creation

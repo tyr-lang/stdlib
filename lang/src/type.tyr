@@ -3,14 +3,16 @@
  *
  * @todo should be generic (and covariant?) in T
  *
- * @todo should be limited to types below Object
- *
  * @note this type is currently used only for typing and has no RT semantics
  *
  * @note if well-typed, Type and Class are, like IntegerLiteral,
  *       recursive and require special treatment by the compiler
+ *
+ * @note the signature of this type cannot be changed without changing the compiler
+ *
+ * @todo 0.8 should be sealed
  */
-public class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
+public class Type[+T : Type[any] := any] <: Object, mem.eternal {
 
   //def isa := ?:
   //def cast := !:
@@ -43,6 +45,6 @@ public class Type/*[T : Type[any] <: covariant]*/ <: Object, mem.eternal {
    * @note while currently basically any cast is accepted, future versions of
    *       Tyr may restrict this feature to types with similar representation
    */
-  public type def !! (this : Type, v : any) : this
+  public type def !! (this : Type[any], v : any) : this
                      <: native, operator.precedence[90];
 }

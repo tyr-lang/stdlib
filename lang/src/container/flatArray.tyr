@@ -7,7 +7,7 @@
  *
  * @author Timm Felden
  */
-public type FlatArray[T : Type] <: observablePointer, native {
+public type FlatArray[T : Type[any]] <: observablePointer, native {
 
   /**
    * Create a new array with undefined contents.
@@ -56,7 +56,7 @@ public type FlatArray[T : Type] <: observablePointer, native {
  *
  * @author Timm Felden
  */
-public type FlatSizedArray[T : Type, Size : size_t] <: any, native {
+public type FlatSizedArray[T : Type[any], Size : size_t] <: any, native {
 
   /**
    * create an array with undefined contents.

@@ -22,7 +22,7 @@
  * identity check first. The identity check has to be performed by the EQR
  * implementation if desired.
  */
-public interface EQR[T : Type] <: any {
+public interface EQR[T : Type[any]] <: any {
   /**
    * equals is stateless.
    *
@@ -36,7 +36,7 @@ public interface EQR[T : Type] <: any {
  * The minimal EQR on T, i.e. comparison of the raw bits. Corresponds to == of
  * many types.
  */
-public type MinEQR[T : Type] <: any, EQR[T] {
+public type MinEQR[T : Type[any]] <: any, EQR[T] {
   // note to self: types do not have an RT representation
   // note to self: It could be, that there still is a difference wrt. variant
   // types. In that case, we could introduce class members on types with a
@@ -47,7 +47,7 @@ public type MinEQR[T : Type] <: any, EQR[T] {
 /**
  * Derive consistent == and != from an equivalence relation.
  */
-interface EQOps[T : Type, E : EQR[T]] <: any {
+interface EQOps[T : Type[any], E : EQR[T]] <: any {
 
   type def != (left : T, right : T) : bool
               <: inline, operator.precedence[80]

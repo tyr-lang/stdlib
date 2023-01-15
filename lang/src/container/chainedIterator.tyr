@@ -13,7 +13,7 @@
  *
  * @author Timm Felden
  */
-public class ChainedIterator[T : Type] <: Iterator[T] {
+public class ChainedIterator[T : Type[any]] <: Iterator[T] {
 
   /**
    * set to null if deleted; non-empty on creation
