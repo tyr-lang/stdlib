@@ -36,6 +36,11 @@ public type CFile <: OpaquePointer["FILE"] {
                          extern c.fwrite;
 
   public type def fputs (data : CString, stream : CFile) : int extern c.fputs;
+  public type def fputc (data : int, stream : CFile) : int extern c.fputc;
+
+  /** see C's fputc */
+  public def put (character : int) : void <: inline
+                 = fputc(character, this);
 
   public def put (data : CString) : void <: inline
                  = fputs(data, this);
