@@ -137,5 +137,6 @@ public type Unsigned[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, nativ
  *
  * @author Timm Felden
  */
-public type UnsignedLiteral[Size : IntegerLiteral[32]] <: Unsigned[Size], noVar;
+public type UnsignedLiteral[Size : IntegerLiteral[32]]
+            <: Unsigned[Size], noVar, CT;
 
