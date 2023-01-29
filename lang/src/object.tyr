@@ -16,9 +16,14 @@ public class Object <: observablePointer, abstract {
   /**
    * Same as accessing class directly or via a x.class expression.
    * This function is mainly used as an implicit conversion from object to type.
+   *
+   * @note to self: currently, this.type is evaluated immediately, i.e. we won't
+   *   get the chance to insert the static type of this at the call site this
+   *   way. I guess the correct way of doing this is a generic function template
+   +   plus type inference.
    */
   public type def getClass(this : Object) : Class[this.type] <: inline
-    = Class[this.type] !! this.`class`;
+    = this.`class`;
 
   /**
    * Does nothing. The field class is initialized before calling the first
