@@ -29,7 +29,7 @@ public type CRef[+T : Type[any]] <: pointer, proxy[T], joinImplicit, native {
  * @note it is of paramount importance that neither Ref nor any super type of
  *       Object declare any class fields
  */
-public type Ref[T : Type[any]] <: CRef[T] {
+public type Ref[T : Type[any]] <: CRef[T], joinImplicit {
 
   /** 
    * Assign a value to the target of this reference. I.e. the location pointed
