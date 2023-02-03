@@ -1,0 +1,43 @@
+/**
+ * A read-only reference to a T; basically C++'s &&T. A ref is assumed not
+ * to be null.
+ *
+ * @note CRef[T] is a native type, as its representation is T* instead of i8*
+ */
+public type CRef[+T : Type[any]] <: pointer, proxy[T], joinImplicit, native {
+
+  /**
+   * Implicit dereference allow value types to be used by reference.
+   */
+  public def implicit : T <: native;
+}
+
+
+/**
+ * A reference to a T; basically C++'s &T. Ref is used to type this in object
+ * functions of types.
+ *
+ * @note "var x : T" creates a value x of type Ref[T] plus some memory to be
+ *       modified
+ *
+ * @todo Creation of references requires some sort of checking.
+ * Otherwise, a reference could be abused to manipulate immutable and even
+ * inexistent values.
+ *
+ * @note T cannot be covariant, it is the promised minimal content pointed to.
+ *
+ * @note it is of paramount importance that neither Ref nor any super type of
+ *       Object declare any class fields
+ */
+public type Ref[T : Type[any]] <: CRef[T] {
+
+  /** 
+   * Assign a value to the target of this reference. I.e. the location pointed
+   * to by this will be overwritten by v.
+   *
+   * @todo The correct result type would be v.this.type
+   */
+  public
+  def `=` (v : T) : v.type
+      <: native, operator.precedence[20], operator.rightAssociative;
+}
