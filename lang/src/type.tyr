@@ -1,8 +1,6 @@
 /**
  * The type of a type.
  *
- * @todo should be generic (and covariant?) in T
- *
  * @note this type is currently used only for typing and has no RT semantics
  *
  * @note if well-typed, Type and Class are, like IntegerLiteral,
@@ -14,23 +12,8 @@
  */
 public class Type[+T : Type[any] := any] <: Object, mem.eternal {
 
-  //def isa := ?:
-  //def cast := !:
-
-  // @note specifying v in the presence of implicit casts is beneficial
-  //def reinterpret[V : Type](v : V) : T <: native
-
-
   /**
-   * dynamic type checking
-   *
-   * @todo should be v : some S do(S >= T)
-   */
-  //def ?: (v : any) : bool
-  //       <: native, operator.precedence[90];
-
-  /**
-   * Equality on types is a subrelation of equalit on pointers, because
+   * Equality on types is a subrelation of equality on pointers, because
    * identical types can exist at most once. Further, it can be decided at
    * compile time for compile-time types.
    *
@@ -39,12 +22,20 @@ public class Type[+T : Type[any] := any] <: Object, mem.eternal {
   // type def == (this : Type, that : Type) : bool
   //            <: CT, native, operator.precedence[80];
 
+  /* create an unelaborated intersection type */
+  public type def & (this : Type[_], x : Type[_]) : Type[_]
+                    <: native, inline, operator.precedence[97];
+  /* create an unelaborated union type */
+  public type def | (this : Type[_], x : Type[_]) : Type[_]
+                    <: native, inline, operator.precedence[93];
+
+
   /**
    * static unchecked type casting
    *
    * @note while currently basically any cast is accepted, future versions of
    *       Tyr may restrict this feature to types with similar representation
    */
-  public type def !! (this : Type[any], v : any) : this
+  public type def !! (this : Type[_], v : any) : this
                      <: native, operator.precedence[90];
 }
