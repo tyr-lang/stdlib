@@ -47,7 +47,7 @@ public type MinEQR[T : Type[any]] <: any, EQR[T] {
 /**
  * Derive consistent == and != from an equivalence relation.
  */
-interface EQOps[T : Type[any], E : EQR[T]] <: any {
+public interface EQOps[T : Type[any], E : EQR[T]] <: any {
 
   type def != (left : T, right : T) : bool
               <: inline, operator.precedence[80]
