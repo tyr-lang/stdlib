@@ -1,0 +1,36 @@
+/**
+ * Helper class to create common range iterators.
+ *
+ * @author Timm Felden
+ */
+public type range {
+  public type def apply(from : int, until : int) = new IntRangeIterator[32](from, until);
+
+  test "sum" {
+    10 == range(0, 4).fold(0) l,r do (l+r)
+  }
+}
+
+/**
+ * An array that knows its size and type.
+ *
+ * @author Timm Felden
+ */
+public class IntRangeIterator[Size : IntegerLiteral[32] = 32]
+     <: Iterator[Integer[Size]]{
+  var current : Integer[Size]
+  val last : Integer[Size]
+
+  new (current := first : Integer[Size], last := last : Integer[Size]);
+  new (last := last : Integer[Size]) {
+    current = last ^ last
+  }
+
+  override def next : Integer[Size] {
+    val r = current
+    ++current
+    r
+  }
+
+  override def hasNext = current < last
+}
