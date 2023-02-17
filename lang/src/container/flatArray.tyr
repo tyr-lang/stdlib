@@ -101,6 +101,9 @@ public type FlatSizedArray[T : Type[any], Size : size_t] <: any, native {
                    : FlatArray[T]
                    = (FlatArray[T] !! this).shift(offset)
 
+  public def iterator (this : Ref[FlatSizedArray[T, Size]])
+                      = new FlatArrayIterator[T](FlatArray[T] !! this, Size)
+
   /** for each element do action */
   public
   def foreach (this : Ref[FlatSizedArray[T, Size]],
