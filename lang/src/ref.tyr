@@ -3,8 +3,13 @@
  * to be null.
  *
  * @note CRef[T] is a native type, as its representation is T* instead of i8*
+ *
+ * @note to self CRef and Ref can't be generics because sleipnir is using
+ *   different representations based on T
  */
-public type CRef[+T : Type[any]] <: pointer, proxy[T], joinImplicit, native {
+public
+type CRef[+T : Type[any] <: reflection.keepGenerics]
+     <: pointer, proxy[T], joinImplicit, native {
 
   /**
    * Implicit dereference allow value types to be used by reference.
@@ -29,7 +34,7 @@ public type CRef[+T : Type[any]] <: pointer, proxy[T], joinImplicit, native {
  * @note it is of paramount importance that neither Ref nor any super type of
  *       Object declare any class fields
  */
-public type Ref[T : Type[any]] <: CRef[T], joinImplicit {
+public type Ref[T : Type[any] <: reflection.keepGenerics] <: CRef[T], joinImplicit {
 
   /** 
    * Assign a value to the target of this reference. I.e. the location pointed

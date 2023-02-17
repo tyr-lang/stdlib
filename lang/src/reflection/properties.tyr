@@ -1,0 +1,5 @@
+/**
+ * Tell the compiler to keep generic types instead of raw types for non-generic
+ * template parameters.
+ */
+property keepGenerics;
