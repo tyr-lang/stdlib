@@ -21,7 +21,7 @@ type raw {
    *
    * @return a pointer to the new memory
    */ 
-  public type def `new`(t : Type[any]) : any <: native;
+  public type def `new`(t : Type[any]) : any <: reflection.native;
 
   /**
    * Release heap-allocated memory.
@@ -31,7 +31,7 @@ type raw {
    * @note any result of a call to `new` shall eventually be destroyed by a call
    *       to `delete`
    */
-  public type def `delete`(ref : any) : void <: native;
+  public type def `delete`(ref : any) : void <: reflection.native;
 
   /**
    * Copy size bytes from source to dest.
@@ -39,6 +39,6 @@ type raw {
    * @note has no defined semantics if the copied blocks overlap
    */
   public
-  type def copy (dest : pointer, source : pointer, size : container.size_t)
-                : void <: native;
+  type def copy(dest : pointer, source : pointer, size : container.size_t)
+               : void <: reflection.native;
 }

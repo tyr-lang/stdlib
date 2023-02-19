@@ -30,7 +30,7 @@ public class Resource <: Seq[byte], eternal, primordial {
   // TODO should be a read-only array; the same holds for StringLiteral
   private val data : FlatArray[byte];
 
-  private new <: native;
+  private new <: reflection.native;
 
   override def iterator : FlatArrayIterator[byte] =
     new FlatArrayIterator[byte](data, length)

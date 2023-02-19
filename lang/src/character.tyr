@@ -36,4 +36,4 @@ public type character <: Unsigned[21] {
   // TODO def encodedBytes : FlatSizedArray[byte, 4]
 }
 
-public type characterLiteral <: character, noVar, CT;
+public type characterLiteral <: character, reflection.noVar;

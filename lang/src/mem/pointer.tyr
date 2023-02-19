@@ -8,7 +8,9 @@
  * There is no valid way to create new values from Tyr other then calling C
  * functions.
  */
-public type OpaquePointer[Name : StringLiteral] <: observablePointer, native;
+public
+type OpaquePointer[Name : StringLiteral]
+      <: observablePointer, reflection.native;
 
 
 /**
@@ -26,17 +28,19 @@ public type OpaquePointer[Name : StringLiteral] <: observablePointer, native;
  *
  * @TODO there should be a ConstantHeapPointer converting to CRef once we have it
  */
-public type HeapPointer[T : Type[any]] <: observablePointer, proxy[Ref[T]], native {
+public
+type HeapPointer[T : Type[any]]
+      <: observablePointer, reflection.proxy[Ref[T]], reflection.native {
 
   /**
    * allocate an unitialized T
    */
-  public new <: native;
+  public new <: reflection.native;
 
   /**
    * allocate a T and initialize it with the argument value
    */
-  public new(initial : T) <: native;
+  public new(initial : T) <: reflection.native;
 
   /**
    * release the object's memory
@@ -45,7 +49,7 @@ public type HeapPointer[T : Type[any]] <: observablePointer, proxy[Ref[T]], nati
    *
    * @note will reset the target var to null
    */
-  public delete <: native;
+  public delete <: reflection.native;
 
   // TODO it might be requiredto have a def free <: consumed bypassing T's delete
   // note to self: free should also work on values and have the semantics that they are just invalidated
@@ -55,7 +59,7 @@ public type HeapPointer[T : Type[any]] <: observablePointer, proxy[Ref[T]], nati
    * Otherwise, the semantics is undefined and may vary depending on compiler
    * settings and implementations.
    */
-  public def toRef : Ref[T] <: native;
+  public def toRef : Ref[T] <: reflection.native;
 
   public def implicit : Ref[T] <: inline = toRef()
 }

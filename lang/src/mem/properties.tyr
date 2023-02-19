@@ -9,7 +9,7 @@
  *
  * @appliesTo type, class
  */
-public property eternal;
+public property eternal <: reflection.TypeProperty;
 
 /**
  * If applied to a type, the instances of that type cannot be created and exist
@@ -20,38 +20,32 @@ public property eternal;
  * @appliesTo type, class if native or new is native
  * @appliesTo field if lifetime is object
  */
-public property primordial;
+public property primordial <: reflection.TypeProperty, reflection.FieldProperty;
 
 /**
  * An object returned by the function is new and it is the responsibility of the
  * caller to delete it.
  *
- * @appliesTo function
- *
  * @example The result of a factory method.
  */
-public property make;
+public property make <: reflection.FunctionProperty;
 
 /**
  * An object passed here is eventually deleted by the callee.
  *
- * @appliesTo RTParam
- *
  * @example A Job passed to a ThreadPool
  */
-public property free;
+public property free <: reflection.RTParameterProperty;
 
 /**
  * An object def with this property will consume this on call. I.e. it will
  * unconditionally call delete before returning.
  *
- * @appliesTo def
- *
  * @note this is a short hand for an explicit this with a free property
  *
  * @note it is an error if dispatching overloads disagree on this property
  */
-public property consumed;
+public property consumed <: reflection.FunctionProperty;
 
 /**
  * An object passed here is owned by the target, i.e. it has to be deleted when
@@ -62,7 +56,7 @@ public property consumed;
  * @example The local state of a function; internal representation of data
  *          structures.
  */
-public property owned;
+public property owned <: reflection.RTParameterProperty;
 
 /**
  * An object passed here may outlive the caller. In contrast to verification
@@ -74,7 +68,7 @@ public property owned;
  *
  * @example An object stored in a collection
  */
-public property share;
+public property share <: reflection.RTParameterProperty;
 
 /**
  * The pointer to an object passed here does not escape the call.
@@ -82,4 +76,4 @@ public property share;
  * @example The collection itself for most operations on collections (foreach,
  *          fold, map, size, add, remove, ...) but not e.g. iterator().
  */
-public property peek;
+public property peek <: reflection.RTParameterProperty;

@@ -7,23 +7,23 @@
  *
  * @author Timm Felden
  */
-public type FlatArray[T : Type[any]] <: observablePointer, native {
+public type FlatArray[T : Type[any]] <: observablePointer, reflection.native {
 
   /**
    * Create a new array with undefined contents.
    */
-  public new (size : index_t) <: native;
+  public new (size : index_t) <: reflection.native;
 
   /**
    * Release the memory required to represent this array.
    */
-  public delete <: native;
+  public delete <: reflection.native;
 
   /**
    * Return the element at the given index (starting at 0).
    * @note it is the callers obligation to ensure that the index is valid
    */
-  public def apply(index : index_t) : T <: native;
+  public def apply(index : index_t) : T <: reflection.native;
 
   /**
    * Update the element at the given index with v and return v (starting at 0).
@@ -31,12 +31,12 @@ public type FlatArray[T : Type[any]] <: observablePointer, native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  public def update(index : index_t, v : T) : T <: native;
+  public def update(index : index_t, v : T) : T <: reflection.native;
 
   /**
    * Return an array shifted by offset elements.
    */
-  public def shift(offset : index_t) : FlatArray[T] <: native;
+  public def shift(offset : index_t) : FlatArray[T] <: reflection.native;
 }
 
 /**
@@ -56,7 +56,8 @@ public type FlatArray[T : Type[any]] <: observablePointer, native {
  *
  * @author Timm Felden
  */
-public type FlatSizedArray[T : Type[any], Size : size_t] <: any, native {
+public
+type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
 
   /**
    * create an array with undefined contents.
@@ -72,7 +73,7 @@ public type FlatSizedArray[T : Type[any], Size : size_t] <: any, native {
    */
   // TODO in Tyr 0.7
   // public def apply(this : CRef[FlatSizedArray[T, Size]], index : index_t) : T
-  // <: native;
+  // <: reflection.native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -81,7 +82,7 @@ public type FlatSizedArray[T : Type[any], Size : size_t] <: any, native {
    */
   public
   def apply (this : Ref[FlatSizedArray[T, Size]], index : index_t) : T
-            <: native;
+            <: reflection.native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -92,7 +93,7 @@ public type FlatSizedArray[T : Type[any], Size : size_t] <: any, native {
    */
   public
   def update (this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T
-             <: native;
+             <: reflection.native;
 
   /**
    * Return an array shifted by offset elements.

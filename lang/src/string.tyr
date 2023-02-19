@@ -60,9 +60,10 @@ public type StringEQR <: EQR[String] {
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
  */
-public class StringLiteral <: String, noVar, mem.eternal, mem.primordial {
+public
+class StringLiteral <: String, reflection.noVar, mem.eternal, mem.primordial {
 
-  private new <: native;
+  private new <: reflection.native;
 
   public val length : container.size_t;
 
@@ -81,8 +82,9 @@ public class StringLiteral <: String, noVar, mem.eternal, mem.primordial {
    *
    * @note this operator will be removed eventually; likely after adding varargs
    */
-  public type def !!(v : StringLiteral) : void 
-                  <: native, operator.postfix, operator.precedence[10];
+  public
+  type def !!(v : StringLiteral) : void
+                <: reflection.native, operator.postfix, operator.precedence[10];
   
   test "show" {
     "show!\n"!!

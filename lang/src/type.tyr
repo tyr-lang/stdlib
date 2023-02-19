@@ -24,10 +24,10 @@ public class Type[+T : Type[any] := any] <: Object, mem.eternal {
 
   /* create an unelaborated intersection type */
   public type def & (this : Type[_], x : Type[_]) : Type[_]
-                    <: native, inline, operator.precedence[97];
+                    <: reflection.native, inline, operator.precedence[97];
   /* create an unelaborated union type */
   public type def | (this : Type[_], x : Type[_]) : Type[_]
-                    <: native, inline, operator.precedence[93];
+                    <: reflection.native, inline, operator.precedence[93];
 
 
   /**
@@ -37,5 +37,5 @@ public class Type[+T : Type[any] := any] <: Object, mem.eternal {
    *       Tyr may restrict this feature to types with similar representation
    */
   public type def !! (this : Type[_], v : any) : this
-                     <: native, operator.precedence[90];
+                     <: reflection.native, operator.precedence[90];
 }

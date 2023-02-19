@@ -3,64 +3,66 @@
  *
  * @author Timm Felden
  */
-public type Unsigned[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, native {
+public
+type Unsigned[Size : IntegerLiteral[32]]
+      <: reflection.canSwitchOn, reflection.native {
 
   /** as in C,C++,Java */
   public type def ++ (this : Ref[Unsigned[Size]]) : Unsigned[Size]
-              <: native, operator.precedence[210];
+              <: reflection.native, operator.precedence[210];
   /** as in C,C++,Java */
   public type def -- (this : Ref[Unsigned[Size]]) : Unsigned[Size]
-              <: native, operator.precedence[210];
+              <: reflection.native, operator.precedence[210];
 
-  public def ~ : Unsigned[Size] <: native, operator.precedence[200];
+  public def ~ : Unsigned[Size] <: reflection.native, operator.precedence[200];
 
   public def * (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[120];
+         <: reflection.native, operator.precedence[120];
   public def / (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[120];
+         <: reflection.native, operator.precedence[120];
   public def % (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[120];
+         <: reflection.native, operator.precedence[120];
 
   public def + (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[110];
+         <: reflection.native, operator.precedence[110];
   public def - (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[110];
+         <: reflection.native, operator.precedence[110];
 
   public def << (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[100];
+         <: reflection.native, operator.precedence[100];
   public def >> (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[100];
+         <: reflection.native, operator.precedence[100];
 
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix C's historical errors.
    */
   public def & (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[97];
+         <: reflection.native, operator.precedence[97];
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix C's historical errors.
    */
   public def ^ (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[95];
+         <: reflection.native, operator.precedence[95];
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix C's historical errors.
    */
   public def | (x : Unsigned[Size]) : Unsigned[Size]
-         <: native, operator.precedence[93];
+         <: reflection.native, operator.precedence[93];
 
   public def < (x : Unsigned[Size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
   public def <= (x : Unsigned[Size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
   public def > (x : Unsigned[Size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
   public def >= (x : Unsigned[Size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
 
-  public def != (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
-  public def == (x : Unsigned[Size]) : bool <: native, operator.precedence[80];
+  public def != (x : Unsigned[Size]) : bool <: reflection.native, operator.precedence[80];
+  public def == (x : Unsigned[Size]) : bool <: reflection.native, operator.precedence[80];
 
 
   // self modifying binary operators
@@ -114,19 +116,19 @@ public type Unsigned[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, nativ
    * Zeroextend if NewSize > Size;
    * nop if NewSize == Size.
    */
-  public def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize] <: native;
+  public def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize] <: reflection.native;
 
   /**
    * Transform the value to a signed integer.
    *
    * @note this is a nop
    */
-  public def sign : Integer[Size] <: native;
+  public def sign : Integer[Size] <: reflection.native;
 
   /**
    * truncate/zero extend the value to 64 and unsign it then
    */
-  public def implicit : container.index_t <: native;
+  public def implicit : container.index_t <: reflection.native;
 }
 
 /**
@@ -138,5 +140,5 @@ public type Unsigned[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, nativ
  * @author Timm Felden
  */
 public type UnsignedLiteral[Size : IntegerLiteral[32]]
-            <: Unsigned[Size], noVar, CT;
+            <: Unsigned[Size], reflection.noVar;
 

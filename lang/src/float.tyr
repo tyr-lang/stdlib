@@ -7,49 +7,50 @@
  *
  * @note we deviate from our naming scheme, because float is a very common name for Float[32]
  */
-public type Float[size : IntegerLiteral[32]] <: native {
+public type Float[size : IntegerLiteral[32]] <: reflection.native {
 
-  public def - : Float[size] <: native, operator.precedence[200];
+  public def - : Float[size] <: reflection.native, operator.precedence[200];
 
   public def ** (x : Float[size]) : Float[size]
-         <: native, operator.precedence[150], operator.rightAssociative;
+         <: reflection.native, operator.precedence[150], operator.rightAssociative;
 
   public def * (x : Float[size]) : Float[size]
-        <: native, operator.precedence[120];
+        <: reflection.native, operator.precedence[120];
   public def \ (x : Float[size]) : Float[size]
-        <: native, operator.precedence[120];
+        <: reflection.native, operator.precedence[120];
   /**
    * extension of mod to Floats: this - (this / x).floor() * x
    * @note this has been taken from Lua 5.1
    */
   public def % (x : Float[size]) : Float[size]
-        <: native, operator.precedence[120];
+        <: reflection.native, operator.precedence[120];
 
   public def + (x : Float[size]) : Float[size]
-        <: native, operator.precedence[110];
+        <: reflection.native, operator.precedence[110];
   public def - (x : Float[size]) : Float[size]
-        <: native, operator.precedence[110];
+        <: reflection.native, operator.precedence[110];
 
   public def < (x : Float[size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
   public def <= (x : Float[size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
   public def > (x : Float[size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
   public def >= (x : Float[size]) : bool
-        <: native, operator.precedence[90];
+        <: reflection.native, operator.precedence[90];
 
-  public def != (x : Float[size]) : bool <: native, operator.precedence[80];
-  public def == (x : Float[size]) : bool <: native, operator.precedence[80];
+  public def != (x : Float[size]) : bool <: reflection.native, operator.precedence[80];
+  public def == (x : Float[size]) : bool <: reflection.native, operator.precedence[80];
 
-  public def ceil : Float[size] <: native;
-  public def floor : Float[size] <: native;
+  public def ceil : Float[size] <: reflection.native;
+  public def floor : Float[size] <: reflection.native;
 }
 
 /**
  * Literals are subtypes of arbitrary floats.
  */
-public type FloatLiteral[size : IntegerLiteral[32]] <: Float[size], noVar;
+public
+type FloatLiteral[size : IntegerLiteral[32]] <: Float[size], reflection.noVar;
 
 // common Float names
 public type float  := Float[32];

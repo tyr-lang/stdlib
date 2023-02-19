@@ -22,7 +22,7 @@ public class Interface[+T : Class[Object] := Object] <: Type[T], mem.eternal {
    * The initialization of Interface values happens even before evaluation of
    * global initialization.
    */
-  private new <: native;
+  private new <: reflection.native;
 
   /**
    * Check if ref is an instance of this type
@@ -62,7 +62,7 @@ public class Interface[+T : Class[Object] := Object] <: Type[T], mem.eternal {
  * @note ITypes pointers may be shared between classes implementing the same set
  *       of interfaces
  */
-type ITypes <: native, mem.eternal {
+type ITypes <: reflection.native, mem.eternal {
 
   val super : mem.HeapPointer[ITypes]
 
@@ -102,7 +102,7 @@ type ITypes <: native, mem.eternal {
  *
  * @author Timm Felden
  */
-type ITable <: native, mem.eternal {
+type ITable <: reflection.native, mem.eternal {
   val super : mem.HeapPointer[ITable];
   
   val size : container.size_t;
@@ -135,7 +135,7 @@ type ITable <: native, mem.eternal {
 }
 
 /* created by sleipnir, required in ITable subtype creation and hence native */
-type ITableEntry <: native, mem.eternal {
+type ITableEntry <: reflection.native, mem.eternal {
   val ITableKey : int;
   val offset : int;
 }

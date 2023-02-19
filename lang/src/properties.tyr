@@ -1,22 +1,11 @@
 /**
- * Anything that inherits this property is handled by the compiler directly.
- * If an entity has this property and is not known by the compiler, the package
- * will be rejected.
- *
- * @note it is not possible to hold a pointer to a native function
- *
- * @author Timm Felden
- */
-public property native;
-
-/**
  * Make the target type abstract, i.e. no instances of it can be constructed.
  *
  * @note This is done on a best-effort level. It is not possible to prevent
  *       anybody from allocating memory and forcing it into a state that behaves
  *       like an instance of an abstract type.
  */
-public property abstract;
+public property abstract <: reflection.TypeProperty;
 
 /**
  * Dissallow subtyping/overriding on the target declaration.
@@ -28,62 +17,7 @@ public property abstract;
  * @note Final types have bottom types as implicit subtypes. Take this into
  *   account when designing algorithms operating on the type lattice.
  */
-public property final;
-
-/**
- * Iff overload resolution fails on a type with this property, another attempt
- * is performed in T. This behaviour is recursive.
- *
- * @note there is currently no cycle checking
- *
- * @note proxy[T] should be used in conjunction with def implicit : T
- *
- * @author Timm Felden
- */
-public property proxy[T : Type[any]];
-
-
-/**
- * An instance must hold a single implicit conversion that will be executed
- * before performing a join.
- * This property is required to implement a natural behaviour for proxies that
- * do not have a common supertype with their targets, such as Ref[T].
- *
- * @note This property is ignored, if all arguments have the same type
- *
- * @example:
- *  var x = ""
- *  val y = if phi "" else x // we would expect y to be a String and not pointer
- *
- * @example:
- *  var x = ""
- *  var y = ""
- *  val z = if phi x else y
- *  // here we get z : Ref[StringLiteral], because x and y have the same type
- *
- * @author Timm Felden
- */
-public property joinImplicit;
-
-
-/**
- * A compile-time value. An application of a CT function on CT operands can and
- * should be evaluated at compile time.
- *
- * @note if applied to types, the values are considered compile time constants
- *
- * @note if applied to functions, signals that it can be CT evaluated if it
- *       receives only CT arguments
- *
- * @note the compiler is free to tag a function whose implementation
- * depends only on CT operands and its parameters and that has only applications
- * of CT functions in its body CT. (note: in case of dependency SCCs, this
- * property has to hold for every member of the the SCC in order to turn the
- * whole SCC CT. Obviously, such an SCC must be free of loops and recursion.)
- *
- * @author Timm Felden
- */
-public property CT;
+public property final <: reflection.TypeProperty;
 
 
 /**
@@ -97,20 +31,7 @@ public property CT;
  *
  * @author Timm Felden
  */
-public property inline;
-
-
-/**
- * An instance of this type cannot be a var.
- * This will cause a var with this infered type to T, if the target has an
- * isVal[T] property or be upcasted to its supertype  until a type is found that
- * does not have a noVar property.
- *
- * This property allows usage of types such as "var x = 0; x = x + 1".
- *
- * @author Timm Felden
- */
-public property noVar;
+public property inline <: reflection.MemberProperty;
 
 
 /**
@@ -121,7 +42,7 @@ public property noVar;
  *
  * @author Timm Felden
  */
-public property entryPoint;
+public property entryPoint <: reflection.FunctionProperty;
 
 
 /**
@@ -132,4 +53,6 @@ public property entryPoint;
  *
  * @author Timm Felden
  */
-public property suppressCompilerMessage[name : StringLiteral];
+public
+property suppressCompilerMessage[name : StringLiteral]
+      <: reflection.TypeProperty, reflection.MemberProperty;

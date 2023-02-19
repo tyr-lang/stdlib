@@ -7,4 +7,4 @@
  *
  * @note The compiler shall issue a warning if a void var/val/Ref is created.
  */
-public type void <: any, native;
+public type void <: any, reflection.native;

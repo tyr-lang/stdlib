@@ -41,7 +41,7 @@ public type MinEQR[T : Type[any]] <: any, EQR[T] {
   // note to self: It could be, that there still is a difference wrt. variant
   // types. In that case, we could introduce class members on types with a
   // similar semantics as their counterparts in other kinds.
-  override type def equals (left : T, right : T) : bool <: native;
+  override type def equals (left : T, right : T) : bool <: reflection.native;
 }
 
 /**

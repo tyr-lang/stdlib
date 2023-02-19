@@ -1,15 +1,15 @@
 /**
  * a truth type
  */
-public type bool <: native {
-  public def ! : bool <: native, operator.precedence[250];
+public type bool <: reflection.native {
+  public def ! : bool <: reflection.native, operator.precedence[250];
 
-  public def != (x : bool) : bool <: native, operator.precedence[80];
-  public def == (x : bool) : bool <: native, operator.precedence[80];
+  public def != (x : bool) : bool <: reflection.native, operator.precedence[80];
+  public def == (x : bool) : bool <: reflection.native, operator.precedence[80];
 
-  public def &! (x : bool) : bool <: native, operator.precedence[70];
-  public def ^! (x : bool) : bool <: native, operator.precedence[60];
-  public def |! (x : bool) : bool <: native, operator.precedence[50];
+  public def &! (x : bool) : bool <: reflection.native, operator.precedence[70];
+  public def ^! (x : bool) : bool <: reflection.native, operator.precedence[60];
+  public def |! (x : bool) : bool <: reflection.native, operator.precedence[50];
 
   /* the standard semantics of this operator in any common language */
   public def && (x : Block[bool]) : bool
@@ -34,7 +34,7 @@ public type bool <: native {
     this = this |! v;
   }
 
-  // TODO type val unknown <: native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
+  // TODO type val unknown <: reflection.native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
 
   test "trivial cfg" {
     false || true

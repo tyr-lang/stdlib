@@ -5,61 +5,63 @@
  *
  * @author Timm Felden
  */
-public type Integer[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, native {
+public
+type Integer[Size : IntegerLiteral[32]]
+      <: reflection.canSwitchOn, reflection.native {
 
   // TODO Integer types should get inline type vals MIN_VALUE, MAX_VALUE, ZERO
   // and ONE. These should exist in Unsigned and Float too.
   // TODO There should be a check ensuring that size is at least 1.
   // Note to self: I could just add a tyr.lang.reflect.Constraint property
   // taking an expression that is CT-evaluated and will result in an error
-  // message if it does not evaluate to true.
+  // message if it does not evaluate to true. (= static_assert)
 
   /** as in C,C++,Java */
   public type def ++ (this : Ref[Integer[Size]]) : Integer[Size]
-              <: native, operator.precedence[210];
+              <: reflection.native, operator.precedence[210];
   /** as in C,C++,Java */
   public type def -- (this : Ref[Integer[Size]]) : Integer[Size]
-              <: native, operator.precedence[210];
+              <: reflection.native, operator.precedence[210];
 
-  public def - : Integer[Size] <: native, CT, operator.precedence[200];
-  public def ~ : Integer[Size] <: native, operator.precedence[200];
+  public def - : Integer[Size] <: reflection.native, reflection.CT, operator.precedence[200];
+  public def ~ : Integer[Size] <: reflection.native, operator.precedence[200];
 
   public def * (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[120];
+         <: reflection.native, operator.precedence[120];
   public def / (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[120];
+         <: reflection.native, operator.precedence[120];
   public def % (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[120];
+         <: reflection.native, operator.precedence[120];
 
   public def + (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[110];
+         <: reflection.native, operator.precedence[110];
   public def - (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[110];
+         <: reflection.native, operator.precedence[110];
 
   public def << (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[100];
+         <: reflection.native, operator.precedence[100];
   public def >> (x : Integer[Size]) : Integer[Size]
-         <: native, operator.precedence[100];
+         <: reflection.native, operator.precedence[100];
 
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix Cs historical errors.
    */
-  public def & (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[97];
-  public def ^ (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[95];
-  public def | (x : Integer[Size]) : Integer[Size] <: native, operator.precedence[93];
+  public def & (x : Integer[Size]) : Integer[Size] <: reflection.native, operator.precedence[97];
+  public def ^ (x : Integer[Size]) : Integer[Size] <: reflection.native, operator.precedence[95];
+  public def | (x : Integer[Size]) : Integer[Size] <: reflection.native, operator.precedence[93];
 
   public def < (x : Integer[Size]) : bool
-         <: native, operator.precedence[90];
+         <: reflection.native, operator.precedence[90];
   public def <= (x : Integer[Size]) : bool
-         <: native, operator.precedence[90];
+         <: reflection.native, operator.precedence[90];
   public def > (x : Integer[Size]) : bool
-         <: native, operator.precedence[90];
+         <: reflection.native, operator.precedence[90];
   public def >= (x : Integer[Size]) : bool
-         <: native, operator.precedence[90];
+         <: reflection.native, operator.precedence[90];
 
-  public def != (x : Integer[Size]) : bool <: native, operator.precedence[80];
-  public def == (x : Integer[Size]) : bool <: native, operator.precedence[80];
+  public def != (x : Integer[Size]) : bool <: reflection.native, operator.precedence[80];
+  public def == (x : Integer[Size]) : bool <: reflection.native, operator.precedence[80];
 
 
   // self modifying binary operators
@@ -113,24 +115,24 @@ public type Integer[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, native
    * Signextend if NewSize > Size;
    * nop if NewSize == Size.
    */
-  public def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: native;
+  public def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: reflection.native;
 
   /**
    * Transform the value to an unsigned integer.
    *
    * @note this is a nop
    */
-  public def unsign : Unsigned[Size] <: native;
+  public def unsign : Unsigned[Size] <: reflection.native;
 
   /**
    * Return the absolute value of this integer. Undefined for MIN_VALUE.
    */
-  public def abs : Integer[Size] <: native;
+  public def abs : Integer[Size] <: reflection.native;
 
   /**
    * truncate/sign extend the value to 64 and unsign it then
    */
-  public def implicit : container.index_t <: native;
+  public def implicit : container.index_t <: reflection.native;
 }
 
 /**
@@ -143,7 +145,7 @@ public type Integer[Size : IntegerLiteral[32]] <: reflection.canSwitchOn, native
  * @author Timm Felden
  */
 public type IntegerLiteral[Size : IntegerLiteral[32]]
-            <: Integer[Size], noVar, CT {
+            <: Integer[Size], reflection.noVar {
 
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type

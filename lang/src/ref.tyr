@@ -9,12 +9,13 @@
  */
 public
 type CRef[+T : Type[any] <: reflection.keepGenerics]
-     <: pointer, proxy[T], joinImplicit, native {
+      <: pointer, reflection.proxy[T], reflection.joinImplicit,
+         reflection.native {
 
   /**
    * Implicit dereference allow value types to be used by reference.
    */
-  public def implicit : T <: native;
+  public def implicit : T <: reflection.native;
 }
 
 
@@ -34,7 +35,9 @@ type CRef[+T : Type[any] <: reflection.keepGenerics]
  * @note it is of paramount importance that neither Ref nor any super type of
  *       Object declare any class fields
  */
-public type Ref[T : Type[any] <: reflection.keepGenerics] <: CRef[T], joinImplicit {
+public
+type Ref[T : Type[any] <: reflection.keepGenerics]
+      <: CRef[T], reflection.joinImplicit {
 
   /** 
    * Assign a value to the target of this reference. I.e. the location pointed
@@ -44,5 +47,5 @@ public type Ref[T : Type[any] <: reflection.keepGenerics] <: CRef[T], joinImplic
    */
   public
   def `=` (v : T) : v.type
-      <: native, operator.precedence[20], operator.rightAssociative;
+      <: reflection.native, operator.precedence[20], operator.rightAssociative;
 }

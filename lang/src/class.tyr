@@ -31,7 +31,7 @@ public class Class[+T : Class[Object] := Object] <: Type[T], mem.eternal {
    * The initialization of Class values happens even before evaluation of global
    * initialization.
    */
-  private new <: native;
+  private new <: reflection.native;
 
   /**
    * The first Type ID associated with this type.

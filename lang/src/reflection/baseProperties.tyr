@@ -1,0 +1,55 @@
+/**
+ * The base of the property half-latice
+ *
+ * @author Timm Felden
+ */
+property BaseProperty;
+
+/**
+ * This properties can be applied to type, interface and class definitions.
+ *
+ * @author Timm Felden
+ */
+public property TypeProperty <: BaseProperty;
+
+/**
+ * This properties can be applied to fields.
+ *
+ * @author Timm Felden
+ */
+public property FieldProperty <: BaseProperty;
+
+/**
+ * This properties can be applied to functions.
+ *
+ * @author Timm Felden
+ */
+public property FunctionProperty <: BaseProperty;
+
+/**
+ * This properties can be applied to fields and functions.
+ *
+ * @author Timm Felden
+ */
+public property MemberProperty <: FieldProperty, FunctionProperty;
+
+/**
+ * This properties can be applied to compile-time parameters.
+ *
+ * @author Timm Felden
+ */
+public property CTParameterProperty <: BaseProperty;
+
+/**
+ * This properties can be applied to runtime parameters.
+ *
+ * @author Timm Felden
+ */
+public property RTParameterProperty <: BaseProperty;
+
+/**
+ * This properties can be applied to parameters.
+ *
+ * @author Timm Felden
+ */
+public property ParameterProperty <: CTParameterProperty, RTParameterProperty;

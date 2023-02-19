@@ -19,7 +19,8 @@
  * @note this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
  */
-public interface WillThrow[+T : Class[Object/*Exception*/]] <: any, native, final;
+public
+interface WillThrow[+T : Class[Object/*Exception*/]] <: any, reflection.native, final;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to
@@ -31,4 +32,4 @@ public interface WillThrow[+T : Class[Object/*Exception*/]] <: any, native, fina
  * @note this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
  */
-public interface NoReturn <: any, WillThrow[Null], native, final;
+public interface NoReturn <: any, WillThrow[Null], reflection.native, final;
