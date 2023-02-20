@@ -1,7 +1,7 @@
 /**
  * The operator is right associative, i.e. x op y op z ⇒ x op (y op z)
  */
-public property rightAssociative;
+public property rightAssociative <: reflection.FunctionProperty;
 
 /**
  * The operator is a postfix operator, i.e. in can only by used like x op.
@@ -10,10 +10,12 @@ public property rightAssociative;
  * @note name resolution ignores this property. Hence, an operator cannot exist
  *       as prefix and postfix under the same name for a type.
  */
-public property postfix;
+public property postfix <: reflection.FunctionProperty;
 
 /**
  * Precedence of the argument operator.
  * Higher is stronger.
  */
-public property precedence [strength : IntegerLiteral[32]];
+public
+property precedence [strength : IntegerLiteral[32]]
+      <: reflection.FunctionProperty;
