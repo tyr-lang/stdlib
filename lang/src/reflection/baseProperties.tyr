@@ -1,6 +1,10 @@
 /**
  * The base of the property half-latice
  *
+ * @TODO there should be some magic checking rules: if a direct subtype of
+ *   BaseProperty is inherited, it is added to the list; otherwise, the
+ *   applicability is intersected. If it runs empty, it is an error.
+ *
  * @author Timm Felden
  */
 property BaseProperty;
