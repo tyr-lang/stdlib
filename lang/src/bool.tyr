@@ -1,5 +1,7 @@
 /**
- * a truth type
+ * The truth type
+ *
+ * @author Timm Felden
  */
 public type bool <: reflection.native {
   public def ! : bool <: reflection.native, operator.precedence[250];
@@ -51,3 +53,5 @@ public type bool <: reflection.native {
     t && !f
   }
 }
+
+public type boolLiteral <: bool, reflection.CT, reflection.noVar;

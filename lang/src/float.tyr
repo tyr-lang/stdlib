@@ -50,7 +50,8 @@ public type Float[size : IntegerLiteral[32]] <: reflection.native {
  * Literals are subtypes of arbitrary floats.
  */
 public
-type FloatLiteral[size : IntegerLiteral[32]] <: Float[size], reflection.noVar;
+type FloatLiteral[size : IntegerLiteral[32]]
+      <: Float[size], reflection.CT, reflection.noVar;
 
 // common Float names
 public type float  := Float[32];

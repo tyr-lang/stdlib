@@ -74,9 +74,13 @@ public property noVar <: TypeProperty;
  * property has to hold for every member of the the SCC in order to turn the
  * whole SCC CT. Obviously, such an SCC must be free of loops and recursion.)
  *
+ * @TODO the compiler should take care that instances of this type are either
+ *   uses of CTParameters, Literals or vals initialized from a valid CT value.
+ *   If a DFG join is used in initialization, the result must be upcasted.
+ *
  * @author Timm Felden
  */
-public property CT <: FunctionProperty;
+public property CT <: TypeProperty, FunctionProperty;
 
 
 /**
