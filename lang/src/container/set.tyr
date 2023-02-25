@@ -2,19 +2,24 @@
  * The base class of sets.
  */
 public
-class Set[T : Type, EQ : def(T, T) : bool = MinEQR[T].equals] <: Seq[T], abstract {
+class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
+      <: Seq[T], abstract {
 
   /**
    * Check if v is contained in this set.
    */
   public def contains(v : T) : bool;
-  public type def apply(this : Set[T, EQ], v : T) : bool <: inline = contains(v);
+  public
+  type def apply(this : Set[T, EQ], v : T) : bool <: inline = contains(v);
 
   /**
    * Check if all elements of vs are contained in this set.
    */
-  public def containsAll(vs : Iterable[T]) : bool = vs.forall v do (contains(v));
-  public type def apply(this : Set[T, EQ], vs : Iterable[T]) : bool <: inline = containsAll(vs);
+  public
+  def containsAll(vs : Iterable[T]) : bool = vs.forall v do (contains(v));
+  public
+  type def apply(this : Set[T, EQ], vs : Iterable[T]) : bool <: inline
+    = containsAll(vs);
 
   /**
    * Check if v is contained in this set. If it is not, insert it.
@@ -40,7 +45,9 @@ class Set[T : Type, EQ : def(T, T) : bool = MinEQR[T].equals] <: Seq[T], abstrac
     }
     modified
   }
-  public type def ++= (this : Set[T, EQ], vs : Iterable[T]) : bool <: inline = addAll(vs);
+  public
+  type def ++= (this : Set[T, EQ], vs : Iterable[T]) : bool <: inline
+    = addAll(vs);
 
   /**
    * Check if v is contained in this set. If it is, remove it.
@@ -66,7 +73,9 @@ class Set[T : Type, EQ : def(T, T) : bool = MinEQR[T].equals] <: Seq[T], abstrac
     }
     modified
   }
-  public type def --= (this : Set[T, EQ], vs : Iterable[T]) : bool <: inline = removeAll(vs);
+  public
+  type def --= (this : Set[T, EQ], vs : Iterable[T]) : bool <: inline
+    = removeAll(vs);
 
   // TODO public def intersect(vs : Iterable[T]) : bool {...};
 }
