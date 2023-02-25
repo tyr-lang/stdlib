@@ -1,0 +1,60 @@
+/**
+ * An iterator transforming a character iterator on the fly into a UTF-8-encoded
+ * byte iterator.
+ *
+ * @author Timm Felden
+ */
+public class UTF8Iterator <: Iterator[byte] {
+  private type val invalid = character !! 0xfffdu21
+  private type def char(v : byte) <: inline = character !! v.unsign().resize[21]()
+  private type def char(v : Unsigned[21]) <: inline = character !! v
+
+  // backing iterator
+  private var chars : Iterator[character];
+
+  // backing char buffer because one char can result in four bytes
+  /** the index of the element already returned */
+  private var idx = 0U
+  /** can only hold 10xxxxxx parts */
+  private var bytes : FlatSizedArray[byte, 3U]
+
+  new(chars := chars : Iterator[character]);
+
+  override
+  def hasNext() : bool = 0U == idx && chars.hasNext()
+
+  override
+  def next() : byte {
+    if (idx != 0U) {
+      --idx
+      return bytes(idx)
+    }
+
+    // decode next char
+    var c = chars.next()
+
+    // bypass buffer if it is just a single char
+    if(c < 0x7fu21)
+      return byte !! c
+
+    // consume 10xxxxxx parts
+    while(c > 0x3fu21) {
+      bytes(idx) = (byte !! c) & 0x3fi8 | 0x80i8
+      ++idx
+    }
+
+    // return the first byte
+    switch idx {
+      if 1U {
+        return (byte !! c) | 0xc0i8
+      }
+      if 2U {
+        return (byte !! c) | 0xe0i8
+      }
+      else /*if 3U*/ {
+        return (byte !! c) | 0xf0i8
+      }
+    }
+  }
+}
+
