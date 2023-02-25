@@ -14,7 +14,10 @@ public class CharacterIterator <: Iterator[character] {
 
   private var bytes : Iterator[byte];
 
-  new(bytes := bytes : Iterator[byte]);
+  new(bytes := bytes : Iterator[byte] <: mem.free);
+  delete {
+    delete bytes
+  }
 
   override
   def hasNext() : bool = bytes.hasNext()

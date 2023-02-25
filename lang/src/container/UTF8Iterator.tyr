@@ -6,7 +6,10 @@
  */
 public class UTF8Iterator <: Iterator[byte] {
   private type val invalid = character !! 0xfffdu21
-  private type def char(v : byte) <: inline = character !! v.unsign().resize[21]()
+
+  private
+  type def char(v : byte) <: inline = character !! v.unsign().resize[21]()
+
   private type def char(v : Unsigned[21]) <: inline = character !! v
 
   // backing iterator
@@ -18,7 +21,10 @@ public class UTF8Iterator <: Iterator[byte] {
   /** can only hold 10xxxxxx parts */
   private var bytes : FlatSizedArray[byte, 3U]
 
-  new(chars := chars : Iterator[character]);
+  new(chars := chars : Iterator[character] <: mem.free);
+  delete {
+    delete chars
+  }
 
   override
   def hasNext() : bool = 0U == idx && chars.hasNext()
@@ -31,7 +37,7 @@ public class UTF8Iterator <: Iterator[byte] {
     }
 
     // decode next char
-    var c = chars.next()
+    val c = chars.next()
 
     // bypass buffer if it is just a single char
     if(c < 0x7fu21)
