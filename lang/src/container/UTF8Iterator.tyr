@@ -21,8 +21,8 @@ public class UTF8Iterator <: Iterator[byte] {
   /** can only hold 10xxxxxx parts */
   private var bytes : FlatSizedArray[byte, 3U]
 
-  new(chars := chars : Iterator[character] <: mem.free);
-  delete {
+  public new(chars := chars : Iterator[character] <: mem.free);
+  public delete {
     delete chars
   }
 

@@ -14,8 +14,8 @@ public class CharacterIterator <: Iterator[character] {
 
   private var bytes : Iterator[byte];
 
-  new(bytes := bytes : Iterator[byte] <: mem.free);
-  delete {
+  public new(bytes := bytes : Iterator[byte] <: mem.free);
+  public delete {
     delete bytes
   }
 
