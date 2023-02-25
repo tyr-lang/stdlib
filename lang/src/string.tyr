@@ -39,6 +39,8 @@ public class String <: Object/* TODO blocker 0.7
  * Two strings are equal if
  * - they are identical
  * - they have the same length and all bytes are the same
+ *
+ * TODO 0.7 extend to HashedEQR
  */
 public type StringEQR <: EQR[String] {
 
