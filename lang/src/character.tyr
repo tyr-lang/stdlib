@@ -12,21 +12,7 @@
  */
 public type character <: Unsigned[21] {
 
-  /**
-   * Read a character form a UTF-8 encoded byte iterator.
-   *
-   * @todo should throw a broken encoding exception if from has to few bytes or
-   *       happens to be not in valid UTF-8
-   */
-  public new(from : container.Iterator[byte]) {
-    // this = Character !! 0u21 
-    // TODO requires resize on integers which, in turn, requires template
-    // functions currently scheduled for 0.7
-  }
-
   public def toInt = resize[32]().sign()
-
-  // TODO def toString = new CharString(this)
 
   /**
    * Yes, it is that bad
@@ -36,11 +22,6 @@ public type character <: Unsigned[21] {
       else if (this <= 0x7ffu21) 2U
       else if (this <= 0xffffu21) 3U
       else 4U
-
-  // return 4 bytes where bytes [0, encodedLength] contain bytes such that
-  //  adding them from 0 onward to a byte stream will result in a valid UTF-8
-  //  byte stream
-  // TODO def encodedBytes : FlatSizedArray[byte, 4]
 }
 
 public type characterLiteral <: character, reflection.CT, reflection.noVar;
