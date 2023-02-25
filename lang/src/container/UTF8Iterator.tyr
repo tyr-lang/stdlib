@@ -8,26 +8,27 @@ public class UTF8Iterator <: Iterator[byte] {
   private type val invalid = character !! 0xfffdu21
 
   private
-  type def char(v : byte) <: inline = character !! v.unsign().resize[21]()
-
-  private type def char(v : Unsigned[21]) <: inline = character !! v
+  type def toByte(v : Unsigned[21]) : byte <: inline = v.resize[8]().sign()
 
   // backing iterator
   private var chars : Iterator[character];
 
   // backing char buffer because one char can result in four bytes
   /** the index of the element already returned */
-  private var idx = 0U
+  private var idx : size_t
   /** can only hold 10xxxxxx parts */
   private var bytes : FlatSizedArray[byte, 3U]
 
-  public new(chars := chars : Iterator[character] <: mem.free);
+  public new(chars := chars : Iterator[character] <: mem.free) {
+    idx = 0U
+    bytes = new FlatSizedArray[byte, 3U]()
+  }
   public delete {
     delete chars
   }
 
   override
-  def hasNext() : bool = 0U == idx && chars.hasNext()
+  def hasNext() : bool = 0U != idx || chars.hasNext()
 
   override
   def next() : byte {
@@ -37,28 +38,33 @@ public class UTF8Iterator <: Iterator[byte] {
     }
 
     // decode next char
-    val c = chars.next()
+    val char = chars.next()
+    var c : Unsigned[21] = char
 
     // bypass buffer if it is just a single char
-    if(c < 0x7fu21)
-      return byte !! c
+    if(c <= 0x7fu21)
+      return toByte(c)
+
+    var n = char.encodedLength()
 
     // consume 10xxxxxx parts
-    while(c > 0x3fu21) {
-      bytes(idx) = (byte !! c) & 0x3fi8 | 0x80i8
+    while(n > 1U) {
+      bytes(idx) = (toByte(c) & 0x3fi8) | 0x80i8
+      c >>= 6u21
       ++idx
+      --n
     }
 
     // return the first byte
     switch idx {
       if 1U {
-        return (byte !! c) | 0xc0i8
+        return toByte(c) | 0xc0i8
       }
       if 2U {
-        return (byte !! c) | 0xe0i8
+        return toByte(c) | 0xe0i8
       }
       else /*if 3U*/ {
-        return (byte !! c) | 0xf0i8
+        return toByte(c) | 0xf0i8
       }
     }
   }

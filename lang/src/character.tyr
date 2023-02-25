@@ -28,7 +28,14 @@ public type character <: Unsigned[21] {
 
   // TODO def toString = new CharString(this)
 
-  // TODO def encodedLength : size_t
+  /**
+   * Yes, it is that bad
+   */
+  public def encodedLength : container.size_t
+    = if (this <= 0x7fu21) 1U
+      else if (this <= 0x7ffu21) 2U
+      else if (this <= 0xffffu21) 3U
+      else 4U
 
   // return 4 bytes where bytes [0, encodedLength] contain bytes such that
   //  adding them from 0 onward to a byte stream will result in a valid UTF-8

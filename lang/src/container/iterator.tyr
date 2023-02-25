@@ -153,7 +153,7 @@ public class Iterator[T : Type[any]] <: abstract {
    <: mem.consumed {
     // ensure that an iterator can be compared to itself
     if(other == this) {
-      delete this
+      delete this // == other
       return true
     }
 
@@ -164,10 +164,11 @@ public class Iterator[T : Type[any]] <: abstract {
     while(r && ((hn=hasNext()) &! (on=other.hasNext()))) {
       r = eq(next(), other.next())
     }
-    if r r = (hn == on)
+    if r {
+      r = (hn == on)
+    }
 
-    delete this
-    delete other
+    delete this, other
     return r
   }
 
