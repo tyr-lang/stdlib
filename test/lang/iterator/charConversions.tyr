@@ -1,0 +1,41 @@
+with container.CharacterIterator
+with container.UTF8Iterator
+with container.Iterator
+
+type charConversions {
+  test "empty" {
+    val t = ""
+    var it = t.chars()
+    var bs = new UTF8Iterator(it)
+    var cs = new CharacterIterator(bs)
+
+    cs.sameElements[character.`==`](t.chars())
+  }
+
+  test "single" {
+    val t = "@"
+    var it = t.chars()
+    var bs = new UTF8Iterator(it)
+    var cs = new CharacterIterator(bs)
+
+    cs.sameElements[character.`==`](t.chars())
+  }
+
+  test "some text" {
+    val t = "some text"
+    var it = t.chars()
+    var bs = new UTF8Iterator(it)
+    var cs = new CharacterIterator(bs)
+
+    cs.sameElements[character.`==`](t.chars())
+  }
+
+  test "special" {
+    val t = "aö☢💩£ह𐍈"
+    var it = t.chars()
+    var bs = new UTF8Iterator(it)
+    var cs = new CharacterIterator(bs)
+
+    cs.sameElements[character.`==`](t.chars())
+  }
+}
