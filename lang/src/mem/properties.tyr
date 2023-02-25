@@ -33,6 +33,10 @@ public property make <: reflection.FunctionProperty;
 /**
  * An object passed here is eventually deleted by the callee.
  *
+ * @note using the object afterwards has undefined semantics
+ * @note passing twice counts as using it after passing the first time even the
+ *   actual passing happens before the actual call, e.g. f(x, x).
+ *
  * @example A Job passed to a ThreadPool
  */
 public property free <: reflection.RTParameterProperty;
