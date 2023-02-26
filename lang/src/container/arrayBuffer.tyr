@@ -112,7 +112,12 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
     }
   }
 
-  public type def removeLast(this : ArrayBuffer[T]) : void = remove(length - 1U);
+  public type def removeLast(this : ArrayBuffer[T]) : T = {
+    var i = --length
+    val r = data(i)
+    this.shrink(length)
+    r
+  }
 
   public def remove (index : index_t) : void {
     var i = index.unpack
