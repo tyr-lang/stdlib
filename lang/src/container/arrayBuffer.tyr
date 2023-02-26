@@ -249,6 +249,22 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
     data = n
   }
 
+  /**
+   * Return the index of the first element satisfying predicate.
+   * Return -1L.unsign() aka size_t.MAX_VALUE if not found.
+   */
+  public
+  def indexOf (x : BlockParameter[T], predicate : Block[bool]) : size_t {
+    var i = 0U
+    while(i < length) {
+      x = data(i)
+      if(predicate.eval())
+        return i;
+      ++i
+    }
+    return -1L.unsign();
+  }
+
   // efficient binder overrides
 
   override
