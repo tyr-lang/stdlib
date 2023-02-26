@@ -1,0 +1,43 @@
+/**
+ * A set implementation with linear contains intended for small numbers of
+ * elements.
+ */
+public
+class SmallSet[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
+      <: Set[T, EQ] {
+
+  val data : ArrayBuffer[T];
+
+  new {
+    data = new ArrayBuffer[T](4)
+  }
+  delete {
+    delete data
+  }
+
+  override
+  def contains(v : T) : bool = data.exists c do (EQ(c.implicit(), v))
+
+  override
+  def add(v : T) : bool {
+    if contains(v) {
+        data += v
+        true
+    } else {
+        false
+    }
+  }
+
+  override
+  def remove(v : T) : bool {
+    var i = data.indexOf c do (EQ(c.implicit(), v))
+    if (-1L.unsign() != i) {
+        val e = data.removeLast()
+        if (!data.empty())
+          data(i) = e
+        true
+    } else {
+        false
+    }
+  }
+}
