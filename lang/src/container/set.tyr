@@ -9,6 +9,9 @@ class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
    * Check if v is contained in this set.
    */
   public def contains(v : T) : bool;
+  /**
+   * Check if v is contained in this set.
+   */
   public
   type def apply(this : Set[T, EQ], v : T) : bool <: inline = contains(v);
 
