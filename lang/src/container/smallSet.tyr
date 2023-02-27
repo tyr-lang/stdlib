@@ -8,10 +8,10 @@ class SmallSet[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
 
   val data : ArrayBuffer[T];
 
-  new {
+  public new {
     data = new ArrayBuffer[T](4)
   }
-  delete {
+  public delete {
     delete data
   }
 
