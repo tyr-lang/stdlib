@@ -8,7 +8,7 @@
  * @author Timm Felden
  */
 public class CharacterIterator <: Iterator[character] {
-  private type val invalid = character !! 0xfffdu21
+  private type val invalid = '\ufffd'
   private type def char(v : byte) <: inline = character !! v.unsign().resize[21]()
   private type def char(v : Unsigned[21]) <: inline = character !! v
 
