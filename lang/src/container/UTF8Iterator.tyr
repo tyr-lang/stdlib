@@ -5,7 +5,6 @@
  * @author Timm Felden
  */
 public class UTF8Iterator <: Iterator[byte] {
-  private type val invalid = character !! 0xfffdu21
 
   private
   type def toByte(v : Unsigned[21]) : byte <: inline = v.resize[8]().sign()
