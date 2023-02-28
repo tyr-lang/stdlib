@@ -15,6 +15,9 @@ class SmallSet[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
     delete data
   }
 
+  override def iterator = data.iterator()
+  override def size = data.size()
+
   override
   def contains(v : T) : bool = data.exists c do (EQ(c.implicit(), v))
 
