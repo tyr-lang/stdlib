@@ -57,7 +57,7 @@ class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
    *
    * @return true if set has been modified
    *
-   * @post this(v)
+   * @post !this(v)
    */
   public def remove(v : T) : bool;
   public type def -= (this : Set[T, EQ], v : T) : bool <: inline = remove(v);
@@ -67,7 +67,7 @@ class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
    *
    * @return true if set has been modified
    *
-   * @post this(v)
+   * @post ∀ v in vs. !this(v)
    */
   public def removeAll(vs : Iterable[T]) : bool {
     var modified = false
