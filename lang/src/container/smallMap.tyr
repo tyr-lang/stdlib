@@ -1,0 +1,48 @@
+
+/**
+ * A map implementation with linear contains intended for small numbers of
+ * elements.
+ */
+public
+class SmallMap[K : Type[_], V : Type[_],
+               EQ : def(K, K) : bool = MinEQR[K].equals]
+      <: Map[K, V, EQ] {
+
+  val data : ArrayBuffer[Pair[K,V]];
+
+  public new {
+    data = new ArrayBuffer[Pair[K,V]](4)
+  }
+  public delete {
+    delete data
+  }
+
+  override def iterator = data.iterator()
+  override def size = data.size()
+
+  override
+  def contains(k : K) : bool = data.exists c do (EQ(c.left.implicit(), k))
+
+  override
+  def add(k : K, v : V) : bool {
+    if contains(k) {
+        data += new Pair[K, V](k, v)
+        true
+    } else {
+        false
+    }
+  }
+
+  override
+  def remove(k : K) : bool {
+    var i = data.indexOf c do (EQ(c.left.implicit(), k))
+    if (-1L.unsign() != i) {
+        val e = data.removeLast()
+        if (!data.empty())
+          data(i) = e
+        true
+    } else {
+        false
+    }
+  }
+}

@@ -1,0 +1,101 @@
+/**
+ * The base class of maps.
+ */
+public
+class Map[K : Type[_], V : Type[_], EQ : def(K, K) : bool = MinEQR[K].equals]
+      <: Seq[Pair[K, V]], abstract {
+
+  /**
+   * Check if k is contained in this map.
+   */
+  public def contains(k : K) : bool;
+  /**
+   * Check if k is contained in this map.
+   */
+  public
+  type def apply(this : Map[K, V, EQ], k : K) : bool <: inline = contains(k);
+
+  /**
+   * Check if all elements of ks are contained in this map.
+   */
+  public
+  def containsAll(ks : Iterable[K]) : bool = ks.forall k do (contains(k));
+  public
+  type def apply(this : Map[K, V, EQ], ks : Iterable[K]) : bool <: inline
+    = containsAll(ks);
+
+  /**
+   * Ensure that k is associated with v.
+   *
+   * @return true if map has been modified
+   *
+   * @post this(k)
+   */
+  public def add(k : K, v : V) : bool;
+  public
+  type def update(this : Map[K, V, EQ], k : K, v : V) : bool <: inline
+    = add(k, v)
+
+  /**
+   * Ensure that p.left is associated with p.right.
+   *
+   * @return true if map has been modified
+   *
+   * @post this(p.left)
+   */
+  public def add(p : Pair[K, V]) : bool = add(p.left, p.right)
+  public
+  type def += (this : Map[K, V, EQ], p : Pair[K, V]) : bool <: inline
+    = add(p);
+
+  /**
+   * Check if all ps are contained in this map. Add each that is not.
+   *
+   * @return true if map has been modified
+   *
+   * @post this(v)
+   */
+  public def addAll(ps : Iterable[Pair[K, V]]) : bool {
+    var modified = false
+    ps.foreach p do {
+      modified |= add(p)
+    }
+    modified
+  }
+  public
+  type def ++= (this : Map[K, V, EQ], ps : Iterable[Pair[K, V]]) : bool
+        <: inline
+    = addAll(ps);
+
+  /**
+   * Check if v is contained in this set. If it is, remove it.
+   *
+   * @return true if set has been modified
+   *
+   * @post !this(k)
+   */
+  public def remove(k : K) : bool;
+  public type def -= (this : Map[K, V, EQ], k : K) : bool <: inline = remove(k);
+
+  /**
+   * Check if vs are contained in this set. Remove each that is.
+   *
+   * @return true if set has been modified
+   *
+   * @post ∀ k in ks. !this(k)
+   */
+  public def removeAll(ks : Iterable[K]) : bool {
+    var modified = false
+    ks.foreach k do {
+      modified |= remove(k)
+    }
+    modified
+  }
+  public
+  type def --= (this : Map[K, V, EQ], ks : Iterable[K]) : bool <: inline
+    = removeAll(ks);
+
+  // note to self: maybe we also need remove Iterabel[Pair]
+
+  // TODO public def invert : Map[V, K]
+}

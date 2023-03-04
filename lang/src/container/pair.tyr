@@ -1,0 +1,14 @@
+/**
+ * A pair holding exactly two elements.
+ *
+ * Pairs do not own their members.
+ */
+public
+type Pair[L : Type[_], R : Type[_]] {
+  public var left : L;
+  public var right : R;
+
+  public new (left := left : L, right := right : R);
+
+  public def swap() = new Pair[R, L](right, left)
+}
