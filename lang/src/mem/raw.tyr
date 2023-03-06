@@ -5,6 +5,7 @@
  *
  * @author Timm Felden
  */
+private[tyr]
 type raw {
 
   /**
