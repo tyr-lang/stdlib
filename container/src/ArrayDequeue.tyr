@@ -1,0 +1,240 @@
+with tyr.lang.container.ArrayBuffer
+with tyr.lang.container.ArrayView
+with tyr.lang.container.FlatArray
+with tyr.lang.container.Iterator
+with tyr.lang.container.Seq
+with tyr.lang.container.index_t
+with tyr.lang.container.size_t
+
+/**
+ * An array-backed dequeue. It is an efficient data structure when most
+ * operations are push/pop/peek on either end. Both ends have identical
+ * efficiency.
+ *
+ * Overall, efficiency is slightly below that of an ArrayBuffer.
+ *
+ * @author Timm Felden
+ */
+public class ArrayDequeue[T : Type[any]] <: Seq[T] {
+  /**
+   * The index of the first valid element.
+   *
+   * @note if begin == capacity then the dequeue is empty.
+   * @note if begin > end then the elements wrap around.
+   */
+  private var begin : size_t;
+
+  /**
+   * The index of the last valid element.
+   *
+   * @note if end == capacity then the dequeue is empty.
+   * @note if begin > end then the elements wrap around.
+   */
+  private var end : size_t;
+
+  /**
+   * The current length of data.
+   */
+  private var capacity : size_t;
+
+  /**
+   * The backing array.
+   */
+  private var data : FlatArray[T];
+
+  /**
+   * Create a new empty dequeue.
+   *
+   * @param size the initial capacity of the buffer.
+   */
+  public new (size : index_t = 8.implicit()) {
+    begin = end = capacity = size.unpack
+    data = new FlatArray[T](capacity)
+  }
+
+  /**
+   * Create a new dequeue copying size values from an array view.
+   */
+  public new (source : ArrayView[T], size : index_t) {
+    capacity = size.unpack
+    data = new FlatArray[T](capacity)
+    begin = 0U
+    end = capacity - 1U
+    mem.raw.copy(data.implicit(), source, capacity)
+  }
+
+  public delete {
+    delete data;
+  }
+
+  public def iterator : ArrayDequeueIterator[T]
+         = new ArrayDequeueIterator[T](this)
+
+  /**
+   * Access element without checking if it exists
+   */
+  public
+  def apply(index : index_t) : T = data((begin + index.unpack) % capacity)
+  /**
+   * Update element without checking if it exists
+   */
+  public
+  def update(index : index_t, v : T) : T
+    = data.update((begin + index.unpack) % capacity, v)
+
+  /**
+   * Check if an index is defined
+   */
+  public def isDefined(index : index_t) : bool {
+    begin != capacity && {
+      if (begin <= end)
+        begin <= index.unpack && index.unpack <= end
+      else
+        begin <= index.unpack || index.unpack <= end
+    }
+  }
+
+  public
+  def size : size_t
+    = if (begin != capacity) (1U + (end - begin + capacity) % capacity) else 0U;
+
+  public type def += (this: ArrayDequeue[T], v : T) : void
+              <: operator.precedence[20], operator.rightAssociative
+              := push;
+
+  /**
+   * Insert an element at the end of the buffer.
+   */
+  public def push(v : T) : void {
+    if (0U == capacity || ((end + 1U) % capacity == begin))
+      grow()
+
+    data(++end) = v
+  }
+
+  /**
+   * Take an element from the end of the buffer
+   */
+  public def pop : T = {
+    val r = data(end)
+    --end
+    this.shrink()
+    r
+  }
+
+  /**
+   * Return the element at the end of the buffer
+   */
+  public def peek : T = this.data(end);
+
+  /**
+   * Insert an element at the start of the buffer.
+   */
+  public def pushFront(v : T) : void {
+    if (0U == capacity || ((begin - 1U + capacity) % capacity == end))
+      grow()
+
+    data(--begin) = v
+  }
+
+  /**
+   * Take an element from the start of the buffer
+   */
+  public def popFront : T = {
+    val r = data(begin)
+    ++begin
+    this.shrink()
+    r
+  }
+
+  /**
+   * Return the element at the start of the buffer
+   */
+  public def peekFront : T = this.data(begin);
+
+  /**
+   * Remove all elements from the container
+   */
+  public def clear() : void {
+    begin = end = capacity
+  }
+
+  /**
+   * Resize the backing array to size() if it has unused capacity.
+   */
+  public def trimToSize() : void {
+    val length = size()
+    if(length != capacity)
+      this.resize(length)
+  }
+
+  /**
+   * If capacity < after, resize to hold at least after elements.
+   */
+  private type def grow(this: ArrayDequeue[T]) : void {
+    val after = size() + 1U
+    var to = if(0U == capacity) 8U else capacity * 2U;
+    while(to < after)
+        to = to * 2U
+
+    this.resize(to)
+  }
+
+  /**
+   * If capacity/2 > after, release elements to hold at most after elements.
+   *
+   * @note will keep 8 elements; if releasing them as well is a good idea, the
+   *       user has to call trimToSize explicitly
+   */
+  private type def shrink(this: ArrayDequeue[T]) : void {
+    val after = size() - 1U
+    if(capacity / 2U > after)
+      this.resize(if (8U > after) 8U else after)
+  }
+
+  /**
+   * Calculate a new capacity and replace data by copying all elements to a new
+   * array.
+   *
+   * @pre length < after
+   * @post if exact capacity == after
+   */
+  private type def resize(this: ArrayDequeue[T], after : size_t) : void {
+    if(after == capacity)
+      return
+
+    var n = new FlatArray[T](after);
+    var i = 0U;
+    val length = size()
+
+    if (0U != length) {
+      begin = 0U
+      end = length
+      while(i < length) {
+        n(i) = this(i);
+        ++i
+      }
+    } else {
+      begin = end = after
+    }
+    delete data
+    data = n
+  }
+}
+
+public class ArrayDequeueIterator[T : Type[_]] <: Iterator[T] {
+  val data : ArrayDequeue[T]
+  var pos = 0U
+  new (data := data : ArrayDequeue[T]);
+  delete;
+
+  override
+  def hasNext = pos < data.size()
+
+  override
+  def next {
+    val r = data(pos)
+    ++pos
+    r
+  }
+}
