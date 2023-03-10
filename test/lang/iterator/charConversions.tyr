@@ -1,6 +1,6 @@
-with container.CharacterIterator
-with container.UTF8Iterator
-with container.Iterator
+with tyr.lang.container.CharacterIterator
+with tyr.lang.container.UTF8Iterator
+with tyr.lang.container.Iterator
 
 type charConversions {
   test "empty" {
