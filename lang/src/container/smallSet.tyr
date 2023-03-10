@@ -19,7 +19,7 @@ class SmallSet[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
   override def size = data.size()
 
   override
-  def contains(v : T) : bool = data.exists c do (EQ(c.implicit(), v))
+  def contains(v : T) : bool = data.exists c do (EQ(c, v))
 
   override
   def add(v : T) : bool {
@@ -33,7 +33,7 @@ class SmallSet[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
 
   override
   def remove(v : T) : bool {
-    var i = data.indexOf c do (EQ(c.implicit(), v))
+    var i = data.indexOf c do (EQ(c, v))
     if (-1L.unsign() != i) {
         val e = data.removeLast()
         if (!data.empty())

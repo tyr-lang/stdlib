@@ -3,14 +3,21 @@
  *
  * @note this type is currently used only for typing and has no RT semantics
  *
- * @note if well-typed, Type and Class are, like IntegerLiteral,
- *       recursive and require special treatment by the compiler
+ * @note Type, like IntegerLiteral, require special treatment by the compiler as
+ *   overload resolution uses implicit Type[_] shapes to type parameter types
  *
  * @note the signature of this type cannot be changed without changing the compiler
  *
  * @todo 0.8 should be sealed
  */
 public class Type[+T : Type[any] := any] <: Object, mem.eternal {
+
+  /**
+   * Type initialization is performed by the back-end globally.
+   * The initialization of Type values happens even before evaluation of global
+   * initialization.
+   */
+  private new <: reflection.native;
 
   /**
    * Equality on types is a subrelation of equality on pointers, because

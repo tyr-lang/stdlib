@@ -21,7 +21,7 @@ class SmallMap[K : Type[_], V : Type[_],
   override def size = data.size()
 
   override
-  def contains(k : K) : bool = data.exists c do (EQ(c.left.implicit(), k))
+  def contains(k : K) : bool = data.exists c do (EQ(c.left, k))
 
   override
   def add(k : K, v : V) : bool {
@@ -35,7 +35,7 @@ class SmallMap[K : Type[_], V : Type[_],
 
   override
   def remove(k : K) : bool {
-    var i = data.indexOf c do (EQ(c.left.implicit(), k))
+    var i = data.indexOf c do (EQ(c.left, k))
     if (-1L.unsign() != i) {
         val e = data.removeLast()
         if (!data.empty())
