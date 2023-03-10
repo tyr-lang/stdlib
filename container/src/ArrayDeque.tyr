@@ -15,7 +15,7 @@ with tyr.lang.container.size_t
  *
  * @author Timm Felden
  */
-public class ArrayDequeue[T : Type[any]] <: Seq[T] {
+public class ArrayDeque[T : Type[any]] <: Seq[T] {
   /**
    * The index of the first valid element.
    *
@@ -67,8 +67,8 @@ public class ArrayDequeue[T : Type[any]] <: Seq[T] {
     delete data;
   }
 
-  public def iterator : ArrayDequeueIterator[T]
-         = new ArrayDequeueIterator[T](this)
+  public def iterator : ArrayDequeIterator[T]
+         = new ArrayDequeIterator[T](this)
 
   /**
    * Access element without checking if it exists
@@ -98,7 +98,7 @@ public class ArrayDequeue[T : Type[any]] <: Seq[T] {
   def size : size_t
     = if (begin != capacity) (1U + (end - begin + capacity) % capacity) else 0U;
 
-  public type def += (this: ArrayDequeue[T], v : T) : void
+  public type def += (this: ArrayDeque[T], v : T) : void
               <: operator.precedence[20], operator.rightAssociative
               := push;
 
@@ -171,7 +171,7 @@ public class ArrayDequeue[T : Type[any]] <: Seq[T] {
   /**
    * If capacity < after, resize to hold at least after elements.
    */
-  private type def grow(this: ArrayDequeue[T]) : void {
+  private type def grow(this: ArrayDeque[T]) : void {
     val after = size() + 1U
     var to = if(0U == capacity) 8U else capacity * 2U;
     while(to < after)
@@ -186,7 +186,7 @@ public class ArrayDequeue[T : Type[any]] <: Seq[T] {
    * @note will keep 8 elements; if releasing them as well is a good idea, the
    *       user has to call trimToSize explicitly
    */
-  private type def shrink(this: ArrayDequeue[T]) : void {
+  private type def shrink(this: ArrayDeque[T]) : void {
     val after = size() - 1U
     if(capacity / 2U > after)
       this.resize(if (8U > after) 8U else after)
@@ -199,7 +199,7 @@ public class ArrayDequeue[T : Type[any]] <: Seq[T] {
    * @pre length < after
    * @post if exact capacity == after
    */
-  private type def resize(this: ArrayDequeue[T], after : size_t) : void {
+  private type def resize(this: ArrayDeque[T], after : size_t) : void {
     if(after == capacity)
       return
 
@@ -222,10 +222,10 @@ public class ArrayDequeue[T : Type[any]] <: Seq[T] {
   }
 }
 
-public class ArrayDequeueIterator[T : Type[_]] <: Iterator[T] {
-  val data : ArrayDequeue[T]
+public class ArrayDequeIterator[T : Type[_]] <: Iterator[T] {
+  val data : ArrayDeque[T]
   var pos = 0U
-  new (data := data : ArrayDequeue[T]);
+  new (data := data : ArrayDeque[T]);
   delete;
 
   override
