@@ -1,6 +1,8 @@
+with tyr.lang.container.SmallSet
+
 type T {
   test "use" {
-    val s = new container.SmallSet[int, int.`==`]
+    val s = new SmallSet[int, int.`==`]
     s += 3
     s += 3
     var r = 1U == s.size()
