@@ -1,0 +1,117 @@
+with tyr.container.ArrayDeque
+with tyr.lang.container.range
+
+type ArrayDequeTest {
+
+  test "stack" {
+    var xs = new ArrayDeque[String]
+    var r = xs.empty()
+
+    xs.push("")
+    xs.push("-")
+
+    r |= 2U == xs.size()
+  
+    r |= "-" == xs.peek()
+    r |= "-" == xs.peek()
+    r |= "-" == xs.peek()
+    r |= 2U == xs.size()
+
+    r |= "-" == xs.pop()
+    r |= "" == xs.pop()
+
+    r |= xs.empty()
+    delete xs
+    r
+  }
+
+  test "stack reverse" {
+    var xs = new ArrayDeque[String]
+    var r = xs.empty()
+
+    xs.pushFront("")
+    xs.pushFront("-")
+
+    r |= 2U == xs.size()
+  
+    r |= "-" == xs.peekFront()
+    r |= "-" == xs.peekFront()
+    r |= "-" == xs.peekFront()
+    r |= 2U == xs.size()
+
+    r |= "-" == xs.popFront()
+    r |= "" == xs.popFront()
+
+    r |= xs.empty()
+    delete xs
+    r
+  }
+
+  test "queue" {
+    var xs = new ArrayDeque[String]
+    var r = xs.empty()
+
+    xs.pushFront("")
+    xs.pushFront("-")
+
+    r |= 2U == xs.size()
+  
+    r |= "" == xs.peek()
+    r |= "-" == xs.peekFront()
+    r |= "-" == xs.peekFront()
+    r |= 2U == xs.size()
+
+    r |= "" == xs.pop()
+    r |= "-" == xs.pop()
+
+    r |= xs.empty()
+    delete xs
+    r
+  }
+
+  test "queue reverse" {
+    var xs = new ArrayDeque[int]
+    var r = xs.empty()
+
+    xs.push(0)
+    xs.push(1)
+
+    r |= 2U == xs.size()
+  
+    r |= 1 == xs.peek()
+    r |= 0 == xs.peekFront()
+
+    r |= 2U == xs.size()
+
+    r |= 0 == xs.popFront()
+    r |= 1 == xs.popFront()
+
+    r |= xs.empty()
+    delete xs
+    r
+  }
+
+  test "loop" {
+    var xs = new ArrayDeque[String]
+    var r = xs.empty()
+
+    // TODO note to self: das hier ist komplett broken; hier muss was in sleipnir falsch sein
+    "whob"!!;
+
+    range(0, 100).foreach i do {
+      xs.push("")
+    }
+
+    "whob"!!;
+
+    r |= 100U == xs.size()
+
+    range(0, 100).foreach i do {
+      r |= "" == xs.pop()
+    }
+    
+    r |= xs.empty()
+    delete xs
+    r
+  }
+}
