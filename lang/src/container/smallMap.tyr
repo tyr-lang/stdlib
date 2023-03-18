@@ -25,7 +25,7 @@ class SmallMap[K : Type[_], V : Type[_],
 
   override
   def add(k : K, v : V) : bool {
-    if contains(k) {
+    if (!contains(k)) {
         data += new Pair[K, V](k, v)
         true
     } else {

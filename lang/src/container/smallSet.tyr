@@ -23,7 +23,7 @@ class SmallSet[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
 
   override
   def add(v : T) : bool {
-    if contains(v) {
+    if (!contains(v)) {
         data += v
         true
     } else {
