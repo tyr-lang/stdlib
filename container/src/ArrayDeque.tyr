@@ -85,18 +85,18 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
   /**
    * Check if an index is defined
    */
-  public def isDefined(index : index_t) : bool {
-    begin != capacity && {
+  public def isDefined(index : index_t) : bool
+    = begin != capacity && {
+      val i = index.unpack
       if (begin <= end)
-        begin <= index.unpack && index.unpack <= end
+        begin <= i && i <= end
       else
-        begin <= index.unpack || index.unpack <= end
+        (begin <= i && i < capacity) || i <= end
     }
-  }
 
-  public
-  def size : size_t
-    = if (begin != capacity) (1U + (end - begin + capacity) % capacity) else 0U;
+  public def size : size_t
+    = if (begin != capacity) 1U + (capacity + end - begin) % capacity
+      else 0U
 
   public type def += (this: ArrayDeque[T], v : T) : void
               <: operator.precedence[20], operator.rightAssociative
@@ -106,10 +106,14 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    * Insert an element at the end of the buffer.
    */
   public def push(v : T) : void {
-    if (0U == capacity || ((end + 1U) % capacity == begin))
+    // note: grow may change begin and end
+    if (0U == capacity || (end + 1U) % capacity == begin)
       grow()
 
-    data(++end) = v
+    if (begin == capacity)
+      data(begin = end = 0U) = v
+    else
+      data(end = (end + 1U) % capacity) = v
   }
 
   /**
@@ -117,8 +121,13 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    */
   public def pop : T = {
     val r = data(end)
-    --end
-    this.shrink()
+
+    if (begin == end)
+      begin = end = capacity
+    else
+      end = (end - 1U + capacity) % capacity
+
+    shrink()
     r
   }
 
@@ -131,10 +140,14 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    * Insert an element at the start of the buffer.
    */
   public def pushFront(v : T) : void {
-    if (0U == capacity || ((begin - 1U + capacity) % capacity == end))
+    // note: grow may change begin and end
+    if (0U == capacity || (begin - 1U + capacity) % capacity == end)
       grow()
 
-    data(--begin) = v
+    if (begin == capacity)
+      data(begin = end = 0U) = v
+    else
+      data(begin = (begin - 1U + capacity) % capacity) = v
   }
 
   /**
@@ -142,8 +155,13 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    */
   public def popFront : T = {
     val r = data(begin)
-    ++begin
-    this.shrink()
+
+    if (begin == end)
+      begin = end = capacity
+    else
+      begin = (begin + 1U) % capacity
+
+    shrink()
     r
   }
 
@@ -165,31 +183,30 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
   public def trimToSize() : void {
     val length = size()
     if(length != capacity)
-      this.resize(length)
+      this.resize(length, length)
   }
 
   /**
    * If capacity < after, resize to hold at least after elements.
    */
-  private type def grow(this: ArrayDeque[T]) : void {
-    val after = size() + 1U
-    var to = if(0U == capacity) 8U else capacity * 2U;
-    while(to < after)
-        to = to * 2U
-
-    this.resize(to)
-  }
+  private type def grow(this: ArrayDeque[T]) : void
+    = resize(
+      if(0U == capacity) 8U
+      else (capacity * 2U),
+      capacity
+    )
 
   /**
-   * If capacity/2 > after, release elements to hold at most after elements.
+   * If capacity/3 > after, release elements to hold at most after elements.
    *
    * @note will keep 8 elements; if releasing them as well is a good idea, the
    *       user has to call trimToSize explicitly
    */
   private type def shrink(this: ArrayDeque[T]) : void {
-    val after = size() - 1U
-    if(capacity / 2U > after)
-      this.resize(if (8U > after) 8U else after)
+    // note: called after index updates
+    val after = size()
+    if(capacity / 3U > after)
+      resize(if (8U > after) 8U else after, after)
   }
 
   /**
@@ -197,28 +214,27 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    * array.
    *
    * @pre length < after
-   * @post if exact capacity == after
+   * @pre capacity != after
+   * @post capacity == after
    */
-  private type def resize(this: ArrayDeque[T], after : size_t) : void {
-    if(after == capacity)
-      return
-
+  private type def resize(this: ArrayDeque[T], after : size_t, length : size_t) : void {
     var n = new FlatArray[T](after);
-    var i = 0U;
-    val length = size()
 
     if (0U != length) {
-      begin = 0U
-      end = length
+      var i = 0U;
       while(i < length) {
         n(i) = this(i);
         ++i
       }
+      begin = 0U
+      end = length - 1U
     } else {
       begin = end = after
     }
+
     delete data
     data = n
+    capacity = after
   }
 }
 
@@ -226,7 +242,7 @@ public class ArrayDequeIterator[T : Type[_]] <: Iterator[T] {
   val data : ArrayDeque[T]
   var pos = 0U
   new (data := data : ArrayDeque[T]);
-  delete;
+  public delete;
 
   override
   def hasNext = pos < data.size()
