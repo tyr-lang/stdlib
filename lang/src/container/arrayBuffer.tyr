@@ -218,13 +218,13 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
   }
 
   /**
-   * If capacity/2 > after, release elements to hold at most after elements.
+   * If capacity/3 > after, release elements to hold at most after elements.
    *
    * @note will keep 8 elements; if releasing them as well is a good idea, the
    *       user has to call trimToSize explicitly
    */
   private type def shrink(this: ArrayBuffer[T], after : size_t) : void {
-    if(capacity / 2U > after)
+    if(capacity / 3U > after)
       this.resize(if (8U > after) 8U else after)
   }
 
