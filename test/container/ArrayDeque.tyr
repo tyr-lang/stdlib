@@ -10,17 +10,17 @@ type ArrayDequeTest {
     xs.push("")
     xs.push("-")
 
-    r |= 2U == xs.size()
+    r &= 2U == xs.size()
   
-    r |= "-" == xs.peek()
-    r |= "-" == xs.peek()
-    r |= "-" == xs.peek()
-    r |= 2U == xs.size()
+    r &= "-" == xs.peek()
+    r &= "-" == xs.peek()
+    r &= "-" == xs.peek()
+    r &= 2U == xs.size()
 
-    r |= "-" == xs.pop()
-    r |= "" == xs.pop()
+    r &= "-" == xs.pop()
+    r &= "" == xs.pop()
 
-    r |= xs.empty()
+    r &= xs.empty()
     delete xs
     r
   }
@@ -32,17 +32,17 @@ type ArrayDequeTest {
     xs.pushFront("")
     xs.pushFront("-")
 
-    r |= 2U == xs.size()
+    r &= 2U == xs.size()
   
-    r |= "-" == xs.peekFront()
-    r |= "-" == xs.peekFront()
-    r |= "-" == xs.peekFront()
-    r |= 2U == xs.size()
+    r &= "-" == xs.peekFront()
+    r &= "-" == xs.peekFront()
+    r &= "-" == xs.peekFront()
+    r &= 2U == xs.size()
 
-    r |= "-" == xs.popFront()
-    r |= "" == xs.popFront()
+    r &= "-" == xs.popFront()
+    r &= "" == xs.popFront()
 
-    r |= xs.empty()
+    r &= xs.empty()
     delete xs
     r
   }
@@ -54,17 +54,17 @@ type ArrayDequeTest {
     xs.pushFront("")
     xs.pushFront("-")
 
-    r |= 2U == xs.size()
+    r &= 2U == xs.size()
   
-    r |= "" == xs.peek()
-    r |= "-" == xs.peekFront()
-    r |= "-" == xs.peekFront()
-    r |= 2U == xs.size()
+    r &= "" == xs.peek()
+    r &= "-" == xs.peekFront()
+    r &= "-" == xs.peekFront()
+    r &= 2U == xs.size()
 
-    r |= "" == xs.pop()
-    r |= "-" == xs.pop()
+    r &= "" == xs.pop()
+    r &= "-" == xs.pop()
 
-    r |= xs.empty()
+    r &= xs.empty()
     delete xs
     r
   }
@@ -76,17 +76,17 @@ type ArrayDequeTest {
     xs.push(0)
     xs.push(1)
 
-    r |= 2U == xs.size()
+    r &= 2U == xs.size()
   
-    r |= 1 == xs.peek()
-    r |= 0 == xs.peekFront()
+    r &= 1 == xs.peek()
+    r &= 0 == xs.peekFront()
 
-    r |= 2U == xs.size()
+    r &= 2U == xs.size()
 
-    r |= 0 == xs.popFront()
-    r |= 1 == xs.popFront()
+    r &= 0 == xs.popFront()
+    r &= 1 == xs.popFront()
 
-    r |= xs.empty()
+    r &= xs.empty()
     delete xs
     r
   }
@@ -95,22 +95,55 @@ type ArrayDequeTest {
     var xs = new ArrayDeque[String]
     var r = xs.empty()
 
-    // TODO note to self: das hier ist komplett broken; hier muss was in sleipnir falsch sein
-    "whob"!!;
-
     range(0, 100).foreach i do {
       xs.push("")
     }
 
-    "whob"!!;
-
-    r |= 100U == xs.size()
+    r &= 100U == xs.size()
 
     range(0, 100).foreach i do {
-      r |= "" == xs.pop()
+      r &= "" == xs.pop()
     }
     
-    r |= xs.empty()
+    r &= xs.empty()
+    delete xs
+    r
+  }
+
+  test "loop front" {
+    var xs = new ArrayDeque[String]
+    var r = xs.empty()
+
+    range(0, 100).foreach i do {
+      xs.pushFront("")
+    }
+
+    r &= 100U == xs.size()
+
+    range(0, 100).foreach i do {
+      r &= "" == xs.popFront()
+    }
+
+    r &= xs.empty()
+    delete xs
+    r
+  }
+
+  test "loop queue" {
+    var xs = new ArrayDeque[String]
+    var r = xs.empty()
+
+    range(0, 100).foreach i do {
+      xs.pushFront("")
+    }
+
+    r &= 100U == xs.size()
+
+    range(0, 100).foreach i do {
+      r &= "" == xs.pop()
+    }
+
+    r &= xs.empty()
     delete xs
     r
   }

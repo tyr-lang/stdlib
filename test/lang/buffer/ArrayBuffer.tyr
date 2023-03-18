@@ -1,3 +1,6 @@
+with Buffer := tyr.lang.container.ArrayBuffer
+with tyr.lang.container.range
+
 type ArrayBuffer {
 
   test "remove umlauts" {
@@ -16,5 +19,24 @@ type ArrayBuffer {
     val r : bool = !"HLL".chars().sameElements[character.`==`](buff.iterator())
     delete buff
     r && 4 == removed
+  }
+
+  test "loop" {
+    var xs = new Buffer[String]
+    var r = xs.empty()
+
+    range(0, 100).foreach i do {
+      xs += ""
+    }
+
+    r &= 100U == xs.size()
+
+    range(0, 100).foreach i do {
+      r &= "" == xs.removeLast()
+    }
+
+    r &= xs.empty()
+    delete xs
+    r
   }
 }
