@@ -24,32 +24,48 @@ type Integer[Size : IntegerLiteral[32]]
               <: reflection.native, operator.precedence[210];
 
   public def - : Integer[Size] <: reflection.native, reflection.CT, operator.precedence[200];
-  public def ~ : Integer[Size] <: reflection.native, operator.precedence[200];
+  public def ~ : Integer[Size] <: reflection.native, reflection.CT, operator.precedence[200];
 
   public def * (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[120];
+         <: reflection.native, reflection.CT, operator.precedence[120];
   public def / (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[120];
+         <: reflection.native, reflection.CT, operator.precedence[120];
   public def % (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[120];
+         <: reflection.native, reflection.CT, operator.precedence[120];
 
   public def + (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[110];
+         <: reflection.native, reflection.CT, operator.precedence[110];
   public def - (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[110];
+         <: reflection.native, reflection.CT, operator.precedence[110];
 
   public def << (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[100];
+         <: reflection.native, reflection.CT, operator.precedence[100];
   public def >> (x : Integer[Size]) : Integer[Size]
-         <: reflection.native, operator.precedence[100];
+         <: reflection.native, reflection.CT, operator.precedence[100];
 
   /**
    * @note in contrast to C, we do not have to assign one precedence to all
    * incarnations of an operator symbol. Hence, we fix Cs historical errors.
    */
-  public def & (x : Integer[Size]) : Integer[Size] <: reflection.native, operator.precedence[97];
-  public def ^ (x : Integer[Size]) : Integer[Size] <: reflection.native, operator.precedence[95];
-  public def | (x : Integer[Size]) : Integer[Size] <: reflection.native, operator.precedence[93];
+  public
+  def & (x : Integer[Size]) : Integer[Size]
+        <: reflection.native, reflection.CT, operator.precedence[97];
+
+  /**
+   * @note in contrast to C, we do not have to assign one precedence to all
+   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   */
+  public
+  def ^ (x : Integer[Size]) : Integer[Size]
+        <: reflection.native, reflection.CT, operator.precedence[95];
+
+  /**
+   * @note in contrast to C, we do not have to assign one precedence to all
+   * incarnations of an operator symbol. Hence, we fix Cs historical errors.
+   */
+  public
+  def | (x : Integer[Size]) : Integer[Size]
+        <: reflection.native, reflection.CT, operator.precedence[93];
 
   public def < (x : Integer[Size]) : bool
          <: reflection.native, operator.precedence[90];
