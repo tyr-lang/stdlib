@@ -27,14 +27,16 @@ public class Type[+T : Type[any] := any] <: Object, mem.eternal {
    * @todo add with CT in 0.7
    */
   // type def == (this : Type, that : Type) : bool
-  //            <: CT, native, operator.precedence[80];
+  //            <: reflection.native, reflection.CT, operator.precedence[80];
 
-  /* create an unelaborated intersection type */
+  /* create an unevaluated intersection type */
   public type def & (this : Type[_], x : Type[_]) : Type[_]
-                    <: reflection.native, inline, operator.precedence[97];
-  /* create an unelaborated union type */
+                    <: reflection.native, reflection.CT, inline,
+                       operator.precedence[97];
+  /* create an unevaluated union type */
   public type def | (this : Type[_], x : Type[_]) : Type[_]
-                    <: reflection.native, inline, operator.precedence[93];
+                    <: reflection.native, reflection.CT, inline,
+                       operator.precedence[93];
 
 
   /**
