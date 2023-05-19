@@ -68,16 +68,18 @@ type Integer[Size : IntegerLiteral[32]]
         <: reflection.native, reflection.CT, operator.precedence[93];
 
   public def < (x : Integer[Size]) : bool
-         <: reflection.native, operator.precedence[90];
+         <: reflection.native, reflection.CT, operator.precedence[90];
   public def <= (x : Integer[Size]) : bool
-         <: reflection.native, operator.precedence[90];
+         <: reflection.native, reflection.CT, operator.precedence[90];
   public def > (x : Integer[Size]) : bool
-         <: reflection.native, operator.precedence[90];
+         <: reflection.native, reflection.CT, operator.precedence[90];
   public def >= (x : Integer[Size]) : bool
-         <: reflection.native, operator.precedence[90];
+         <: reflection.native, reflection.CT, operator.precedence[90];
 
-  public def != (x : Integer[Size]) : bool <: reflection.native, operator.precedence[80];
-  public def == (x : Integer[Size]) : bool <: reflection.native, operator.precedence[80];
+  public def != (x : Integer[Size]) : bool
+         <: reflection.native, reflection.CT, operator.precedence[80];
+  public def == (x : Integer[Size]) : bool
+         <: reflection.native, reflection.CT, operator.precedence[80];
 
 
   // self modifying binary operators
