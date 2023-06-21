@@ -97,14 +97,12 @@ class StringLiteral <: String, reflection.noVar, mem.eternal, mem.primordial {
  * A String that is backed by a contiguous bytes of at least length bytes. It is
  * not null terminated. This is basically an abstraction that allows efficient
  * read-processing of strings.
- *
- * TODO This view should use read-only data once available
  */
 public class SolidStringView <: String {
 
   public new (
     length := length : container.size_t,
-    data := data : mem.HeapPointer[byte]
+    data := data : CRef[byte]
   );
   public delete;
 
@@ -113,7 +111,7 @@ public class SolidStringView <: String {
   /**
    * @note allow tyr.io to access string literal data
    */
-  public val data : mem.HeapPointer[byte];
+  public val data : CRef[byte];
 
   public def size : container.size_t = length;
 
