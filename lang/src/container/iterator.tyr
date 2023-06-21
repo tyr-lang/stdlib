@@ -8,10 +8,8 @@
  * @note All exhaustive binder calls consume the iterator
  *
  * @author Timm Felden
- *
- * TODO Iterator should be covariant in T
  */
-public class Iterator[T : Type[any]] <: abstract {
+public class Iterator[+T : Type[any]] <: abstract {
 
   /**
    * retrieve the next element and move the iterator by one element
