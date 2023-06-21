@@ -99,8 +99,10 @@ public class Class[+T : Class[Object] := Object] <: Type[T], mem.eternal {
    */
   public type def ? (this : Class[Object], ref : Object) : bool
                     <: operator.precedence[90] =
-    null == ref ||
-    ((this.minTID <= ref.class.minTID) &! ref.class.maxTID <= this.maxTID)
+    null == ref || {
+      val cls = ref.class
+      ((this.minTID <= cls.minTID) &! cls.maxTID <= this.maxTID)
+    }
 
   /**
    * Check if ref is an instance of this type and return it in that case
