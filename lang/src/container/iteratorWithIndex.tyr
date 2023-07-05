@@ -1,0 +1,27 @@
+/**
+ * An iterator that counts the index of the returned element.
+ *
+ * @note The semantics of the public API is that of Iterator
+ *
+ * @note The argument iterators are deleted when they run empty or when this is
+ *       deleted.
+ *
+ * @note The iterator wraps the other iterator.
+ *
+ * @author Timm Felden
+ */
+public class IteratorWithIndex[T : Type[any]] <: Iterator[Pair[size_t, T]] {
+
+  private val inner : Iterator[T]
+  private var index : size_t
+
+  public new(inner := from : Iterator[T]) {
+    index = 0U
+  }
+
+  override
+  def hasNext() : bool = inner.hasNext()
+
+  override
+  def next() = new Pair[size_t, T](++index, inner.next())
+}
