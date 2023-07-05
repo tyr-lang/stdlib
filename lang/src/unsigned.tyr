@@ -14,7 +14,9 @@ type Unsigned[Size : IntegerLiteral[32]]
   public type def -- (this : Ref[Unsigned[Size]]) : Unsigned[Size]
               <: reflection.native, operator.precedence[210];
 
-  public def ~ : Unsigned[Size] <: reflection.native, operator.precedence[200];
+  public
+  def ~ : Unsigned[Size]
+      <: reflection.native, reflection.CT, operator.precedence[200];
 
   public def * (x : Unsigned[Size]) : Unsigned[Size]
          <: reflection.native, operator.precedence[120];
@@ -116,14 +118,16 @@ type Unsigned[Size : IntegerLiteral[32]]
    * Zeroextend if NewSize > Size;
    * nop if NewSize == Size.
    */
-  public def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize] <: reflection.native;
+  public
+  def resize[NewSize : IntegerLiteral[32]] : Unsigned[NewSize]
+      <: reflection.native, reflection.CT;
 
   /**
    * Transform the value to a signed integer.
    *
    * @note this is a nop
    */
-  public def sign : Integer[Size] <: reflection.native;
+  public def sign : Integer[Size] <: reflection.native, reflection.CT;
 
   /**
    * truncate/zero extend the value to 64 and unsign it then

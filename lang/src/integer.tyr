@@ -133,14 +133,16 @@ type Integer[Size : IntegerLiteral[32]]
    * Signextend if NewSize > Size;
    * nop if NewSize == Size.
    */
-  public def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize] <: reflection.native;
+  public
+  def resize[NewSize : IntegerLiteral[32]] : Integer[NewSize]
+      <: reflection.native, reflection.CT;
 
   /**
    * Transform the value to an unsigned integer.
    *
    * @note this is a nop
    */
-  public def unsign : Unsigned[Size] <: reflection.native;
+  public def unsign : Unsigned[Size] <: reflection.native, reflection.CT;
 
   /**
    * Return the absolute value of this integer. Undefined for MIN_VALUE.
