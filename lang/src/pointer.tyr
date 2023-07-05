@@ -35,6 +35,11 @@ public type observablePointer <: pointer {
 
 
 /**
- * The type of null. This is the bottom element of the observable pointer latice
+ * The type of null. This is the bottom element of the observable pointer
+ * latice.
+ *
+ * @note this is the type of an entity that is known to be null. It is
+ *   completely correct that the compiler won't let you perform operations on
+ *   them as they will all fail anyway.
  */
 public interface Null <: observablePointer, final;
