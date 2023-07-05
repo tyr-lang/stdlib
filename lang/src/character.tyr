@@ -12,7 +12,7 @@
  */
 public type character <: Unsigned[21] {
 
-  public def toInt = resize[32]().sign()
+  public def toInt <: inline = resize[32]().sign()
 
   /**
    * Yes, it is that bad
