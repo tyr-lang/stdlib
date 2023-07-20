@@ -50,13 +50,11 @@ public type Block[T : Type[any]] <: reflection.native, reflection.noVar {
  * Block parameters are invariant in T. Hence, the shape in matching parameters
  * with inferred type requires a marker type.
  *
- * @todo should be abstract
- *
  * @todo could be replaced by an existantial type BlockParameter[Type.some(true)]
  *
  * @author Timm Felden
  */
-public type ABlockParameter <: reflection.noVar;
+public interface ABlockParameter <: any, reflection.noVar;
 
 /**
  * A block prameter can be constructed from the name of a local variable.
@@ -74,13 +72,4 @@ public type ABlockParameter <: reflection.noVar;
  */
 public
 type BlockParameter[T : Type[any]]
-      <: ABlockParameter, reflection.native, reflection.noVar {
-
-  /** 
-   * Update a block parameter.
-   */
-  public
-  def `=` (v : T) : void
-        <: reflection.CT, reflection.native, operator.precedence[20],
-           operator.rightAssociative;
-}
+      <: Ref[T], ABlockParameter, reflection.native, reflection.noVar;
