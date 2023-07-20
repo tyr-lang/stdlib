@@ -22,7 +22,7 @@ type raw {
    *
    * @return a pointer to the new memory
    */ 
-  public type def `new`(t : Type[any]) : any <: reflection.native;
+  public type def `new`(t : Type[any]) : Null <: reflection.native;
 
   /**
    * Release heap-allocated memory.
