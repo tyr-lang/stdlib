@@ -140,7 +140,7 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
   }
 
   /**
-   * Remove all elements that satisfy the argument preducate
+   * Remove all elements that satisfy the argument predicate
    *
    * @return the number of removed elements
    */
@@ -155,6 +155,53 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
 
       // eval predicate
       x = e
+      val rem = predicate.eval()
+
+      // update data
+      if rem {
+        ++removed
+      } else {
+        // copy an element if required
+        if (write != read){
+          data(write) = e
+        }
+
+        ++write
+      }
+      ++read
+    }
+
+    // shrink data
+    if(0U != removed) {
+      length -= removed
+      this.shrink(length)
+    }
+
+    removed
+  }
+
+  /**
+   * Remove all elements that satisfy the argument predicate
+   *
+   * @note  the buffer is modified during the runtime of the binder. Only
+   *   elements after including index are still valid.
+   *
+   * @return  the number of removed elements
+   */
+  public
+  def removeIf(x : BlockParameter[T], index : BlockParameter[size_t],
+               predicate : Block[bool]) : size_t {
+    var read = 0U
+    var write = 0U
+    var removed = 0U
+
+    while(read < length) {
+      // read current
+      var e = data(read)
+
+      // eval predicate
+      x = e
+      index = read
       val rem = predicate.eval()
 
       // update data
