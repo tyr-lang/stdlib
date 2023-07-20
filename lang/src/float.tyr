@@ -69,6 +69,13 @@ public type Float[Size : IntegerLiteral[32]] <: reflection.native {
 
   public def ceil : Float[Size] <: reflection.native;
   public def floor : Float[Size] <: reflection.native;
+
+  /**
+   * Convert the float to an integer
+   */
+  public
+  def toInt[NewSize : IntegerLiteral[32]] : Integer[NewSize]
+      <: reflection.native;
 }
 
 /**

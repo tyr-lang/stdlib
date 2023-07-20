@@ -153,6 +153,13 @@ type Integer[Size : IntegerLiteral[32]]
    * truncate/sign extend the value to 64 and unsign it then
    */
   public def implicit : container.index_t <: reflection.native;
+
+  /**
+   * Convert the integer to a float
+   */
+  public
+  def toFloat[NewSize : IntegerLiteral[32]] : Float[NewSize]
+      <: reflection.native;
 }
 
 /**
