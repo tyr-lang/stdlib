@@ -61,5 +61,7 @@ type HeapPointer[T : Type[any]]
    */
   public def toRef : Ref[T] <: reflection.native;
 
+  // TODO this should be native and it should have a placement realization;
+  // sleipnir should realize native functions with placement realizations by translating the placement target instead
   public def implicit : Ref[T] <: inline = toRef()
 }

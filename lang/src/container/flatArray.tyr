@@ -72,6 +72,7 @@ type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
    * @note accessing elements of an array can only be done, if it has an adress
    */
   // TODO in Tyr 0.7
+  // note to self: I guess there should be two apply's one with CRef/CRef and one with Ref/Ref and there shouldn't be an update
   // public def apply(this : CRef[FlatSizedArray[T, Size]], index : index_t) : T
   // <: reflection.native;
 
@@ -89,7 +90,7 @@ type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
    * @note it is the callers obligation to ensure that the index is valid
    * @note accessing elements of an array can only be done, if it has an adress
    *
-   * @todo should be [S <: T](size_t, S) : S
+   * @todo apply should be (...) : Ref[T]
    */
   public
   def update (this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T
