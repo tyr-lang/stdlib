@@ -31,11 +31,11 @@
  * @note The evaluation of a function taking Blocks will evaluate each parameter
  *       at most once, i.e. non-CT parameters will be stored in anonymous values.
  *
- * @todo should be covariant
+ * @note Block is essentially a CFG literal.
  *
  * @author Timm Felden
  */
-public type Block[T : Type[any]] <: reflection.native, reflection.noVar {
+public type Block[+T : Type[any]] <: reflection.native, reflection.noVar {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression.
