@@ -14,8 +14,10 @@ type CRef[+T : Type[any] <: reflection.keepGenerics]
 
   /**
    * Implicit dereference allow value types to be used by reference.
+   *
+   * @note CT evaluation is currently restricted to effectively-stateless vals
    */
-  public def implicit : T <: reflection.native;
+  public def implicit : T <: reflection.CT, reflection.native;
 }
 
 
