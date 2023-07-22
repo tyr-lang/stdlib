@@ -248,7 +248,7 @@ public class ArrayDequeIterator[T : Type[_]] <: Iterator[T] {
   def hasNext = pos < data.size()
 
   override
-  def next {
+  def next : T {
     val r = data(pos)
     ++pos
     r
