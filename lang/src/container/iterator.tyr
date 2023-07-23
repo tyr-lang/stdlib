@@ -1,11 +1,16 @@
 /**
  * Abstraction of iteration over a container.
  *
- * @note Iterator has currently no map, because the resulting container would
- *       likely result in a memory leak. This statement may no longer be true
- *       when escape-based auto delete is implemented.
+ * @note  Iterators must be deleted before the iterated container.
  *
- * @note All exhaustive binder calls consume the iterator
+ * @note  It is unspecified for Iterators in general if they can deal with
+ *   modifications of the underlying container.
+ *
+ * @note  Iterator has currently no map, because the resulting container would
+ *   likely result in a memory leak. This statement may no longer be true
+ *   when escape-based auto delete is implemented.
+ *
+ * @note  All exhaustive binder calls consume the iterator
  *
  * @author Timm Felden
  */

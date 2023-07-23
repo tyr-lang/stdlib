@@ -1,0 +1,13 @@
+/**
+ * An iterator that also offers a peek function to look into the current element
+ * again.
+ *
+ * @note peek should be O(1) or not provided
+ */
+public interface WithPeek[T : Type[_]] <: Iterator[T] {
+  /**
+   * @pre hasNext()
+   * @return the element that would be returned by next()
+   */
+  public def peek : T;
+}
