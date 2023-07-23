@@ -1,0 +1,299 @@
+with tyr.lang.container.Iterable
+with tyr.lang.container.Iterator
+with tyr.lang.container.iterator.WithPeek
+with tyr.lang.container.Seq
+with tyr.lang.container.index_t
+with tyr.lang.container.size_t
+with tyr.lang.mem.HeapPointer
+
+/**
+ * An implementation of a doubly-linked list.
+ *
+ * @author Timm Felden
+ */
+public class ListBuffer[T : Type[any]] <: Seq[T] {
+  /**
+   * The first list node. Can be null or equal end.
+   */
+  private var begin : HeapPointer[LinkedListNode[T]];
+
+  /**
+   * The last list node. Can be null or equal begin.
+   */
+  private var end : HeapPointer[LinkedListNode[T]];
+
+  /**
+   * The current number of list nodes owned by this list.
+   */
+  private var length : size_t;
+
+  /**
+   * Create a new empty dequeue.
+   */
+  public new () {
+    begin = end = null
+    length = 0U
+  }
+
+  /**
+   * Create a new dequeue copying elements from an Iterable.
+   */
+  public new (source : Iterable[T]) {
+    length = 0U
+    begin = end = null
+    source.foreach e do (push(e))
+  }
+
+  public delete {
+    // delete all nodes
+    var n = begin
+    while(null != n) {
+      var p = n
+      n = n.right
+      delete p
+    }
+  }
+
+  override def iterator : LinkedListIterator[T]
+         = new LinkedListIterator[T](begin)
+
+  /**
+   * Access element without checking if it exists
+   *
+   * @note this has O(index) complexity
+   */
+  public
+  def apply(index : index_t) : T {
+    val i = iterator()
+    i.skip(index)
+    // TODO with exceptions, we should throw if skip.return != index.unpack
+    val r = i.current.element
+    delete i
+    r
+  }
+  /**
+   * Update element without checking if it exists
+   *
+   * @note this has O(index) complexity
+   */
+  public
+  def update(index : index_t, v : T) : T {
+    val i = iterator()
+    i.skip(index)
+    // TODO with exceptions, we should throw if skip.return != index.unpack
+    val r = (i.current.element = v)
+    delete i
+    r
+  }
+
+  /**
+   * Check if an index is defined
+   */
+  public def isDefined(index : index_t) : bool = index.unpack < length
+
+  override def size : size_t = length
+
+  public type def += (this: ListBuffer[T], v : T) : void
+              <: operator.precedence[20], operator.rightAssociative
+              := push;
+
+  /**
+   * Insert an element at the end of the buffer.
+   */
+  public def push(v : T) : void {
+    end = new HeapPointer[LinkedListNode[T]](
+      new LinkedListNode[T](end, null, v)
+    )
+
+    // update other links
+    if (0U == length) {
+      begin = end
+    } else {
+      end.left.right = end
+    }
+
+    ++length
+  }
+
+  /**
+   * Take an element from the end of the buffer
+   */
+  public def pop : void {
+    --length
+
+    val n = end;
+    end = end.left
+    delete n
+
+    // update other links
+    if (0U == length) {
+      begin = null
+    } else {
+      end.right = null
+    }
+  }
+
+  /**
+   * Return the element at the end of the buffer
+   */
+  public def peek : T = end.element
+
+  /**
+   * Insert an element at the start of the buffer.
+   */
+  public def pushFront(v : T) : void {
+    begin = new HeapPointer[LinkedListNode[T]](
+      new LinkedListNode[T](null, begin, v)
+    )
+
+    // update other links
+    if (0U == length) {
+      end = begin
+    } else {
+      begin.right.left = begin
+    }
+
+    ++length
+  }
+
+  /**
+   * Take an element from the start of the buffer
+   */
+  public def popFront : void = {
+    --length
+
+    val n = begin;
+    begin = begin.right
+    delete n
+
+    // update other links
+    if (0U == length) {
+      end = null
+    } else {
+      begin.left = null
+    }
+  }
+
+  /**
+   * Return the element at the start of the buffer
+   */
+  public def peekFront : T = begin.element
+
+  /**
+   * Merge two ListBuffers. If you don't use this function, using ArrayDeque is
+   * likely a better option. Other is always deleted.
+   */
+  public def merge (other : ListBuffer[T]) : void {
+    // empty other
+    if(0U == other.length) {
+      delete other
+      return
+    }
+
+    // empty this
+    if(0U == length) {
+      begin = other.begin
+      end = other.end
+      length = other.length
+      delete other
+      return
+    }
+
+    // else, an actual merge
+    end.right = other.begin
+    other.begin.left = end
+    end = other.end
+    length += other.length
+
+    // prevent other.delete from deleting our nodes
+    other.begin = null
+    delete other
+  }
+
+  /**
+   * Remove all elements from the container
+   */
+  public def clear() : void {
+    while(0U != length)
+      pop()
+  }
+}
+
+/**
+ * A list node is owned by exactly one list buffer at any time.
+ */
+type LinkedListNode[T : Type[_]] {
+  /**
+   * previous element
+   */
+  var left : HeapPointer[LinkedListNode[T]];
+  /**
+   * next element
+   */
+  var right : HeapPointer[LinkedListNode[T]];
+  var element : T;
+
+  new (
+    left := left : HeapPointer[LinkedListNode[T]],
+    right := right : HeapPointer[LinkedListNode[T]],
+    element := element : T
+  );
+}
+
+public class LinkedListIterator[T : Type[_]] <: Iterator[T], WithPeek[T] {
+  var current : HeapPointer[LinkedListNode[T]]
+  new (current := current : HeapPointer[LinkedListNode[T]]);
+  public delete;
+
+  override
+  def hasNext = null != current
+
+  override
+  def next : T {
+    val r = current.element
+    current = current.right
+    r
+  }
+
+  override
+  def peek : T = current.element
+
+  /**
+   * skip count elements
+   *
+   * @return the number of elements that have actually been skipped
+   */
+  public def skip(count : index_t) : size_t {
+    var c = 0U
+    var r = count.unpack
+    while(0U != r && hasNext()) {
+      ++c
+      next()
+    }
+    c
+  }
+
+  test "empty" {
+    val x = new LinkedListIterator[int](null);
+
+    val r = !x.hasNext()
+
+    delete x
+    r
+  }
+
+  test "empty forall" {
+    val x = new LinkedListIterator[int](null);
+
+    0 == x.fold(0) l, r do (l = l + r)
+  }
+
+  test "empty exists" {
+    val x = new LinkedListIterator[int](null);
+
+    val r = !x.exists i do (i == 3)
+
+    delete x
+    r
+  }
+}
