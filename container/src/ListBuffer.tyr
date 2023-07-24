@@ -217,6 +217,22 @@ public class ListBuffer[T : Type[any]] <: Seq[T] {
     while(0U != length)
       pop()
   }
+
+  test "to array" {
+    var xs = new ListBuffer[int]
+
+    xs += 1
+    xs += 2
+    xs += 3
+
+    var arr = xs.iterator().toBuffer()
+
+    val r = arr(1) == 2
+
+    delete xs, arr
+
+    r
+  }
 }
 
 /**
