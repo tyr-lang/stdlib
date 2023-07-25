@@ -29,7 +29,7 @@ public class Array[T : Type[any]] <: Seq[T] {
 
   public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
 
-  public def apply(index : index_t) : Ref[T] = data(index);
+  public def apply(index : index_t) : T = data(index);
   public def update(index : index_t, v : T) : T = data.update(index, v);
 
   public def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
@@ -39,16 +39,16 @@ public class Array[T : Type[any]] <: Seq[T] {
   public def view (offset : index_t = 0.implicit())
                   = ArrayView[T].from(data.shift(offset))
 
-  /**
-   * Perform action for each remaining element of the array. Allow the block to
-   * change the elements.
-   */
-  public def foreach (x : BlockParameter[Ref[T]], action : Block[any]) : void {
-    var i = 0U
-    while(i < length) {
-      x = data(i)
-      ++i
-      action.eval()
-    }
-  }
+  // /**
+  //  * Perform action for each remaining element of the array. Allow the block to
+  //  * change the elements.
+  //  */
+  // public def foreach (x : BlockParameter[Ref[T]], action : Block[any]) : void {
+  //   var i = 0U
+  //   while(i < length) {
+  //     x = data(i)
+  //     ++i
+  //     action.eval()
+  //   }
+  // }
 }
