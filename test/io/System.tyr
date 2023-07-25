@@ -1,0 +1,8 @@
+type System {
+  with tyr.io.System.out
+
+  test "print" {
+    // note: everybody would expect this to work
+    out.put("print\n")
+  }
+}

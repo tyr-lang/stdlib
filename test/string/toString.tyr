@@ -6,10 +6,8 @@ type toString <: suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
   // tests for int
   type def check(number : int, expected : StringLiteral) {
     val s = to(number)
-    val v = s.view()
-    out.put(v)
+    out.put(s)
     "\n"!!;
-    delete v
     val r = equals(expected, s)
     delete s
     r  
@@ -42,10 +40,8 @@ type toString <: suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
   // tests for pointer
   type def check(number : pointer, expected : StringLiteral) {
     val s = to(number)
-    val v = s.view()
-    out.put(v)
+    out.put(s)
     "\n"!!;
-    delete v
     val r = equals(expected, s)
     delete s
     r
