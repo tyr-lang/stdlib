@@ -40,7 +40,7 @@ public class StringBuffer <: String {
 
   public def apply (index : index_t) = data(index.unpack)
 
-  public def view : SolidStringView = new SolidStringView(
+  public def implicit : SolidStringView = new SolidStringView(
     data := mem.HeapPointer[byte] !! data.view(),
     length := data.size()
   )

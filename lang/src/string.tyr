@@ -79,6 +79,9 @@ class StringLiteral <: String, reflection.noVar, mem.eternal, mem.primordial {
   public def bytes : container.Iterator[byte] =
     new container.FlatArrayIterator[byte](data, length);
 
+  public def implicit : SolidStringView =
+    new SolidStringView(length, CRef[byte] !! data)
+
   /**
    * print the string to std out
    *
@@ -98,26 +101,14 @@ class StringLiteral <: String, reflection.noVar, mem.eternal, mem.primordial {
  * not null terminated. This is basically an abstraction that allows efficient
  * read-processing of strings.
  */
-public class SolidStringView <: String {
+public type SolidStringView {
 
-  public new (
-    length := length : container.size_t,
-    data := data : CRef[byte]
-  );
-  public delete;
+  public val size : container.size_t;
 
-  public val length : container.size_t;
-
-  /**
-   * @note allow tyr.io to access string literal data
-   */
   public val data : CRef[byte];
 
-  public def size : container.size_t = length;
-
-  public def bytes : container.Iterator[byte] =
-    new container.FlatArrayIterator[byte](
-      container.FlatArray[byte] !! data,
-      length
-    );
+  public new (
+    size := length : container.size_t,
+    data := data : CRef[byte]
+  );
 }

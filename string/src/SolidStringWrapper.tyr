@@ -1,0 +1,26 @@
+/**
+ * Wraps a SolidStringView to implement the String API.
+ *
+ * @note Requires deletion. Delete does not release any memory other than the
+ *   wrapper itself.
+ */
+public class SolidStringViewWrapper <: String {
+
+  val length : container.size_t;
+
+  val data : CRef[byte];
+
+  public new (view : SolidStringView) {
+    length = view.size
+    data = view.data
+  }
+  public delete;
+
+  public def size : container.size_t = length;
+
+  public def bytes : container.Iterator[byte] =
+    new container.FlatArrayIterator[byte](
+      container.FlatArray[byte] !! data,
+      length
+    );
+}

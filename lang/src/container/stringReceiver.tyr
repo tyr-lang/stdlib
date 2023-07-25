@@ -1,0 +1,32 @@
+/**
+ * A StringReceiver can be used to build string representations of an instance.
+ * It is the abstract base of all such classes and makes no assumptions about
+ * buffering and flushing.
+ *
+ * @note making it an abstract class is a concious performance decision. In many
+ *   cases, this can mean that the underlying buffer or output provides the
+ *   receiver as a proxy.
+ */
+class StringReceiver <: abstract {
+
+  // Other WithShows may use this to produce their result
+  // note: the format provided by # is consumed by the next call to +
+  def # (format : StringLiteral) : this.class;
+  def + (ref : StringReceiverTarget) : this.class;
+
+  // WithShows may use these functions too
+  def hintBytes(size : index_t) : void;
+  def put(c : character) : void;
+  /**
+   * @note  The bytes provided by the str can become invalid immediately after
+   *   the call.
+   */
+  def put(str : SolidStringView) : void;
+}
+
+/**
+ * Something that can be inserted into a string receiver.
+ */
+interface StringReceiverTarget {
+    def insert(format : StringLiteral, sr : StringReceiver) : void;
+}

@@ -160,6 +160,12 @@ type Integer[Size : IntegerLiteral[32]]
   public
   def toFloat[NewSize : IntegerLiteral[32]] : Float[NewSize]
       <: reflection.native;
+
+  /**
+   * Allow inserting the value into a StringReceiver
+   */
+  public def implicit : _internal_.IntegerShowOps <: inline =
+    new _internal_.IntegerShowOps(resize[64](), Size);
 }
 
 /**

@@ -48,11 +48,8 @@ public type CFile <: OpaquePointer["FILE"] {
   public def put (data : CString) : void <: inline
                  = fputs(data, this);
 
-  public def put (data : StringLiteral) : void <: inline
-                 = fwrite(data.data, 1U, data.length, this);
-
   public def put (data : SolidStringView) : void <: inline
-                 = fwrite(data.data, 1U, data.length, this);
+                 = fwrite(data.data, 1U, data.size, this);
 
   test "eof stdout" {
     // note: this cannot be the case
