@@ -12,6 +12,19 @@ public class Array[T : Type[any]] <: Seq[T] {
     data = new FlatArray[T](length)
   }
 
+  public new (size : index_t, init : Block[T]) {
+    length = size.unpack
+    data = new FlatArray[T](length)
+
+    var i = 0U
+    while(i < length) {
+      data(i) = init.eval()
+      ++i
+    }
+  }
+
+  // new , Block[T] init
+
   delete {
     delete data;
   }
@@ -27,4 +40,17 @@ public class Array[T : Type[any]] <: Seq[T] {
 
   public def view (offset : index_t = 0.implicit())
                   = ArrayView[T].from(data.shift(offset))
+
+  /**
+   * Perform action for each remaining element of the array. Allow the block to
+   * change the elements.
+   */
+  public def foreach (x : BlockParameter[T], action : Block[any]) : void {
+    var i = 0U
+    while(i < length) {
+      x = data(i)
+      ++i
+      action.eval()
+    }
+  }
 }
