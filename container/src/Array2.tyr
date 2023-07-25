@@ -1,0 +1,67 @@
+with tyr.lang.container.size_t
+with tyr.lang.container.index_t
+with tyr.lang.container.Seq
+with tyr.lang.container.Iterator
+with tyr.lang.container.FlatArray
+with tyr.lang.container.FlatArrayIterator
+with tyr.lang.container.ArrayView
+
+/**
+ * An array of arrays that knows its size and type.
+ *
+ * @author Timm Felden
+ */
+public class Array2[T : Type[any]] <: Seq[T] {
+  public val length : size_t;
+  private var data : FlatArray[T];
+
+  public new (size : index_t) {
+    length = size.unpack
+    data = new FlatArray[T](length*length)
+  }
+
+  public new (size : index_t, init : Block[T]) {
+    length = size.unpack
+    data = new FlatArray[T](length*length)
+
+    var i = 0U
+    val end = length * length
+    while(i < end) {
+      data(i) = init.eval()
+      ++i
+    }
+  }
+
+  delete {
+    delete data;
+  }
+
+  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length*length)
+
+  public def apply(x : index_t, y : index_t) : T = data(x.unpack * length + y.unpack);
+  public def update(x : index_t, y : index_t, v : T) : T = data.update(x.unpack * length + y.unpack, v);
+
+  public def isDefined(x : index_t, y : index_t) : bool
+    = 0U <= x.unpack && x.unpack < length && 0U <= y.unpack && y.unpack < length
+
+  /** the length of a single dimension */
+  public def sizeSingle : size_t = length
+  /** @note this is the total number of elements */
+  public def size : size_t = length*length
+
+  public def view (offset : index_t = 0.implicit())
+                  = ArrayView[T].from(data.shift(offset))
+
+  // /**
+  //  * Perform action for each remaining element of the array. Allow the block to
+  //  * change the elements.
+  //  */
+  // public def foreach (x : BlockParameter[Ref[T]], action : Block[any]) : void {
+  //   var i = 0U
+  //   while(i < length*length) {
+  //     x = data(i)
+  //     ++i
+  //     action.eval()
+  //   }
+  // }
+}
