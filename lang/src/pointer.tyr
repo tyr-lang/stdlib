@@ -15,8 +15,7 @@ public type pointer <: any, reflection.native;
 
 
 /**
- * An observable pointer that can be observed by regular code in the form of
- * equivalence.
+ * An pointer that can be observed by regular code in the form of equivalence.
  *
  * @author Timm Felden
  */

@@ -70,6 +70,11 @@ public type Float[Size : IntegerLiteral[32]] <: reflection.native {
   public def ceil : Float[Size] <: reflection.native;
   public def floor : Float[Size] <: reflection.native;
 
+  public def sqrt : Float[Size] <: reflection.native;
+
+  public def sin : Float[Size] <: reflection.native;
+  public def cos : Float[Size] <: reflection.native;
+
   /**
    * Convert the float to an integer
    */
