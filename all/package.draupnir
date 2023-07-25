@@ -2,7 +2,7 @@
 name=tyr.all
 
 with=tyr.container
-with=tyr.debug
+# currently broken: with=tyr.debug
 with=tyr.io
 with=tyr.math
 with=tyr.string
