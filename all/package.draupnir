@@ -4,3 +4,4 @@ name=tyr.all
 with=tyr.container
 with=tyr.io
 with=tyr.string
+with=tyr.math
