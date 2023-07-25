@@ -1,0 +1,136 @@
+with container.index_t
+
+public type Vector/*[R : Ring = float]*/ {
+  public var x : float
+  public var y : float
+  public var z : float
+
+  public new {
+    x = y = z = .0f
+  }
+
+  public new (other : Vector) {
+    x = other.x
+    y = other.y
+    z = other.z
+  }
+
+  public new (
+    x := x : float,
+    y := y : float,
+    z := z : float
+  );
+
+  public def == (v : Vector) : bool {
+		x == v.x && y == v.y && z == v.z
+	}
+
+  public def != (this : Vector, v : Vector) : bool {
+		x != v.x || y != v.y || z != v.z
+	}
+
+	public def + (v : Vector) : Vector
+    = new Vector(x+v.x, y+v.y, z+v.z)
+
+	public def += (this : Ref[Vector], v : Vector) : Ref[Vector] {
+		x += v.x
+    y += v.y
+    z += v.z
+		this
+	}
+
+	public def - : Vector
+    = new Vector(-x, -y, -z)
+
+	public def - (v : Vector) : Vector
+    = new Vector(x-v.x, y-v.y, z-v.z)
+
+	public def -= (this : Ref[Vector], v : Vector) : Ref[Vector] {
+		x -= v.x
+    y -= v.y
+    z -= v.z
+		this
+	}
+
+	public def * (s : float) : Vector
+    = new Vector(x-s, y-s, z-s)
+
+	public def *= (this : Ref[Vector], s : float) : Ref[Vector] {
+		x *= s
+    y *= s
+    z *= s
+		this
+	}
+
+	public def * (v : Vector) : float
+    = x*v.x + y*v.y + z*v.z
+
+  public def cross(v : Vector) : Vector
+    = new Vector (
+      y*v.z - z*v.y,
+		  z*v.x - x*v.z,
+		  x*v.y - y*v.x
+    )
+
+  public def apply(this : Ref[Vector], i : index_t) : Ref[float]
+    = switch i.unpack {
+      if 0U x
+      if 1U y
+      else z
+    }
+
+  public def apply(i : index_t) : float
+    = switch i.unpack {
+      if 0U x
+      if 1U y
+      else z
+    }
+
+	public def length = (x*x + y*y + z*z).sqrt()
+
+	/**angle between two vectors in radian */
+	// float angle(const Vector3& v) const {
+		// acosf((this*v)/(length()*v.length()));
+	//}
+
+	/**
+   * make the length of this vector equal 1
+   *
+   * @note does nothing for zero vectors
+   */
+	public def normalize(this : Ref[Vector]) : Ref[Vector] {
+		var len = length();
+		if (len != 0.0f) {
+			len = 1.0f/len
+			x *= len
+      y *= len
+      z *= len
+		}
+		this
+	}
+
+	/**
+   * paralel part of this vector on v
+   */
+	public def para(v : Vector) : Vector {
+		val len = (v.x*x + v.y*y + v.z*z)/(v.x*v.x + v.y*v.y + v.z*v.z)
+		new Vector(v.x*len, v.y*len, v.z*len)
+	}
+
+  /**
+   * same as parallel but works only if length of normal == 1; this version is
+   * faster
+   */
+	public def paraNormal(normal : Vector) : Vector {
+		val len = normal.x*x + normal.y*y + normal.z*z;
+		new Vector(normal.x*len, normal.y*len, normal.z*len)
+	}
+
+	/**
+   * distance between two Vectors interpreted as points
+   *
+   * this is equal to sqrt((this-v)*(this-v))
+   */
+	public type def distance(this : Vector, v : Vector) : float
+    = ((x-v.x)*(x-v.x) + (y-v.y)*(y-v.y) + (z-v.z)*(z-v.z)).sqrt()
+}
