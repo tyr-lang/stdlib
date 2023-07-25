@@ -12,20 +12,25 @@ with tyr.lang.container.ArrayView
  * @author Timm Felden
  */
 public class Array2[T : Type[any]] <: Seq[T] {
-  public val length : size_t;
+  public val lengthX : size_t;
+  public val lengthY : size_t;
   private var data : FlatArray[T];
 
-  public new (size : index_t) {
-    length = size.unpack
-    data = new FlatArray[T](length*length)
+  public new (sizeX : index_t, sizeY : index_t = sizeX) {
+    lengthX = sizeX.unpack
+    lengthY = sizeY.unpack
+
+    data = new FlatArray[T](lengthX*lengthY)
   }
 
-  public new (size : index_t, init : Block[T]) {
-    length = size.unpack
-    data = new FlatArray[T](length*length)
+  public new (sizeX : index_t, sizeY : index_t, init : Block[T]) {
+    lengthX = sizeX.unpack
+    lengthY = sizeY.unpack
+
+    val end = lengthX*lengthY
+    data = new FlatArray[T](end)
 
     var i = 0U
-    val end = length * length
     while(i < end) {
       data(i) = init.eval()
       ++i
@@ -36,18 +41,17 @@ public class Array2[T : Type[any]] <: Seq[T] {
     delete data;
   }
 
-  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length*length)
+  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, lengthX*lengthY)
 
-  public def apply(x : index_t, y : index_t) : T = data(x.unpack * length + y.unpack);
-  public def update(x : index_t, y : index_t, v : T) : T = data.update(x.unpack * length + y.unpack, v);
+  public def apply(x : index_t, y : index_t) : T = data(x.unpack * lengthY + y.unpack);
+  public def update(x : index_t, y : index_t, v : T) : T = data.update(x.unpack * lengthY + y.unpack, v);
 
   public def isDefined(x : index_t, y : index_t) : bool
-    = 0U <= x.unpack && x.unpack < length && 0U <= y.unpack && y.unpack < length
+    = 0U <= x.unpack && x.unpack < lengthX &&
+      0U <= y.unpack && y.unpack < lengthY
 
-  /** the length of a single dimension */
-  public def sizeSingle : size_t = length
   /** @note this is the total number of elements */
-  public def size : size_t = length*length
+  public def size : size_t = lengthX*lengthY
 
   public def view (offset : index_t = 0.implicit())
                   = ArrayView[T].from(data.shift(offset))
