@@ -139,6 +139,6 @@ public type Vector/*[R : Ring = float]*/ {
    *
    * this is equal to (this-v)*(this-v)
    */
-  public type def distance2(this : Vector, v : Vector) : float
+  public type def distanceSquared(this : Vector, v : Vector) : float
     = (x-v.x)*(x-v.x) + (y-v.y)*(y-v.y) + (z-v.z)*(z-v.z)
 }
