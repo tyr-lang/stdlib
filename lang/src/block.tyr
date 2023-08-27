@@ -35,13 +35,17 @@
  *
  * @author Timm Felden
  */
-public type Block[+T : Type[any]] <: reflection.native, reflection.noVar {
+public
+type Block[+T : Type[any]] <: final, reflection.native, reflection.noVar {
 
   /**
-   * Implicit conversion at compile time into regular execution of an expression.
+   * Implicit conversion at compile time into regular execution of an expression
    *
    * @note this function cannot be inline, as it would make function bodys using
-   *       blocks unrealizable
+   *   blocks unrealizable
+   *
+   * @note this function cannot be called implicit because there would be no way
+   *   to create code then as the actual blocks would get automatically inserted
    */
   public def eval : T <: reflection.CT, reflection.native;
 }
@@ -72,4 +76,4 @@ public interface ABlockParameter <: any, reflection.noVar;
  */
 public
 type BlockParameter[T : Type[any]]
-      <: Ref[T], ABlockParameter, reflection.native, reflection.noVar;
+      <: final, Ref[T], ABlockParameter, reflection.native, reflection.noVar;
