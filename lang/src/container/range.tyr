@@ -12,7 +12,7 @@ public type range {
 }
 
 /**
- * An array that knows its size and type.
+ * Step over integers until the last value which is exclusive. Increment by one on each step.
  *
  * @author Timm Felden
  */
