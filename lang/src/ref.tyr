@@ -44,8 +44,6 @@ type Ref[T : Type[any] <: reflection.keepGenerics]
   /** 
    * Assign a value to the target of this reference. I.e. the location pointed
    * to by this will be overwritten by v.
-   *
-   * @todo The correct result type would be v.this.type
    */
   public
   def `=` (v : T) : v.type
