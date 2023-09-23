@@ -163,8 +163,12 @@ type Integer[Size : IntegerLiteral[32]]
 
   /**
    * Allow inserting the value into a StringReceiver
+   *
+   * @note the necessity to call this explicitly should eventually be removed
+   *   with a type interface and a respective template-inference-enabled insert
+   *   or conversion operator or function
    */
-  public def implicit : _internal_.IntegerShowOps <: inline =
+  public def show : _internal_.IntegerShowOps <: inline =
     new _internal_.IntegerShowOps(resize[64](), Size);
 }
 
