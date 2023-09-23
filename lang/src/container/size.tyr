@@ -15,6 +15,10 @@ public type size_t := Unsigned[64];
  *       sign extend values on conversion.
  *
  * @todo CT type evaluation in Tyr 0.7 should be able to handle this
+ *
+ * @todo remove implicits to this type and implement all such implicits with
+ *   implicit from once we can have template implicits and have type inference
+ *   for them
  */
 public type index_t {
   public val unpack : size_t;
