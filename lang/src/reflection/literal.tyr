@@ -1,0 +1,16 @@
+/**
+ * For now, just a marker type used in sanity checks. Eventually, this will get
+ * a type parameter to fix literal value tracking and CT evaluation.
+ *
+ * @note this type is consider an implementation detail and has no guarantees
+ *   whatsoever
+ *
+ * @note Types inheriting Literal should be final and not provide implicits;
+ *   however, I failed to enforce this, because it simply isn't the case atm.
+ *   It's even at a point where I have no idea how to replace the index_t
+ *   implicit conversion by something equally usable but less dangerous.
+ *
+ * @note it seems that there is currently no way to have a NullLiteral with this
+ *   semantics
+ */
+interface Literal <: any;

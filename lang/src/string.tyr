@@ -49,8 +49,8 @@ public type StringEQR <: EQR[String] {
     = left == right || (
       left.size() == right.size() && {
         var rs = right.bytes()
-        var ls = left.bytes();
-        val r = ls.forall c do(c == rs.next())
+        var ls = left.bytes()
+        val r = ls.forall c do (c == rs.next())
         delete rs
         delete ls
         r
@@ -63,7 +63,8 @@ public type StringEQR <: EQR[String] {
  * StringLiteral!
  */
 public
-class StringLiteral <: String, reflection.noVar, mem.eternal, mem.primordial {
+class StringLiteral <: String, reflection.Literal,
+    reflection.CT, reflection.noVar, mem.eternal, mem.primordial, final {
 
   private new <: reflection.native;
 

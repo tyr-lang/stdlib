@@ -178,7 +178,8 @@ type Integer[Size : IntegerLiteral[32]]
  * @author Timm Felden
  */
 public type IntegerLiteral[Size : IntegerLiteral[32]]
-      <: Integer[Size], reflection.CT, reflection.noVar {
+      <: Integer[Size], reflection.Literal,
+         reflection.CT, reflection.noVar, final {
 
   test "IntegerLiteral" {
     // this test is currently used to instantiate the IntegerLiteral type

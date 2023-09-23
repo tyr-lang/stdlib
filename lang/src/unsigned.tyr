@@ -145,5 +145,6 @@ type Unsigned[Size : IntegerLiteral[32]]
  */
 public
 type UnsignedLiteral[Size : IntegerLiteral[32]]
-      <: Unsigned[Size], reflection.CT, reflection.noVar;
+      <: Unsigned[Size], reflection.Literal,
+         reflection.CT, reflection.noVar, final;
 

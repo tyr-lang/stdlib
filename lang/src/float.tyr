@@ -88,7 +88,8 @@ public type Float[Size : IntegerLiteral[32]] <: reflection.native {
  */
 public
 type FloatLiteral[Size : IntegerLiteral[32]]
-      <: Float[Size], reflection.CT, reflection.noVar;
+      <: Float[Size], reflection.Literal,
+         reflection.CT, reflection.noVar, final;
 
 // common Float names
 public type float  := Float[32];

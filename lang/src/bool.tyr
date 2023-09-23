@@ -63,4 +63,6 @@ public type bool <: reflection.native {
   }
 }
 
-public type boolLiteral <: bool, reflection.CT, reflection.noVar;
+public
+type boolLiteral
+  <: bool, reflection.Literal, reflection.CT, reflection.noVar, final;
