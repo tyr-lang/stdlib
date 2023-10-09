@@ -38,7 +38,7 @@ public class StringBuffer <: String {
   override def bytes = data.iterator()
   override def size : size_t = data.size()
 
-  public def apply (index : index_t) = data(index.unpack)
+  public def apply (index : index_t) : byte = data(index.unpack)
 
   public def implicit : SolidStringView = new SolidStringView(
     data := mem.HeapPointer[byte] !! data.view(),
