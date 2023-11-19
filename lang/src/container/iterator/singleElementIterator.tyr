@@ -1,0 +1,16 @@
+/**
+ * Wraps a single value in an iterator is if returned by an iterable with only
+ * one element.
+ */
+public class SingleElementIterator[+T : Type[_]] <: Iterator[T] {
+  val x : T
+  var fresh = true
+
+  new(x := x : T);
+
+  override def hasNext = fresh
+  override def next {
+    fresh = false
+    x
+  }
+}
