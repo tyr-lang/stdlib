@@ -1,0 +1,27 @@
+with iterator.EmptyIterator
+with iterator.SingleElementIterator
+
+/**
+ * An option contains one or zero elements.
+ */
+public class Option[+T : Type[_]] <: Seq[T], abstract {
+  public type def some(x : T) <: mem.make = new Some[T](x)
+  public type def none(x : T) = None[T].get
+}
+
+class Some[+T : Type[_]] <: Option[T] {
+  val x : T
+  new(x := x : T);
+
+  override def size = 1U
+  override def iterator = new SingleElementIterator[T](x)
+}
+
+class None[+T : Type[_]] <: Option[T], mem.eternal {
+  public type val get = new None[T]
+
+  private new;
+
+  override def size = 0U
+  override def iterator = EmptyIterator[T].get
+}
