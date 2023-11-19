@@ -106,7 +106,7 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
     if(capacity < n)
       this.grow(n)
 
-    vs.foreach v do {
+    vs.foreach v : T do {
       this.data(length) = v;
       ++length
     }

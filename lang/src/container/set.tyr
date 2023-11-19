@@ -19,7 +19,7 @@ class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
    * Check if all elements of vs are contained in this set.
    */
   public
-  def containsAll(vs : Iterable[T]) : bool = vs.forall v do (contains(v));
+  def containsAll(vs : Iterable[T]) : bool = vs.forall v : T do (contains(v));
   public
   type def apply(this : Set[T, EQ], vs : Iterable[T]) : bool <: inline
     = containsAll(vs);
@@ -43,7 +43,7 @@ class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
    */
   public def addAll(vs : Iterable[T]) : bool {
     var modified = false
-    vs.foreach v do {
+    vs.foreach v : T do {
       modified |= add(v)
     }
     modified
@@ -71,7 +71,7 @@ class Set[T : Type[_], EQ : def(T, T) : bool = MinEQR[T].equals]
    */
   public def removeAll(vs : Iterable[T]) : bool {
     var modified = false
-    vs.foreach v do {
+    vs.foreach v : T do {
       modified |= remove(v)
     }
     modified

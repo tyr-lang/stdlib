@@ -50,7 +50,7 @@ public type StringEQR <: EQR[String] {
       left.size() == right.size() && {
         var rs = right.bytes()
         var ls = left.bytes()
-        val r = ls.forall c do (c == rs.next())
+        val r = ls.forall c : byte do (c == rs.next())
         delete rs
         delete ls
         r

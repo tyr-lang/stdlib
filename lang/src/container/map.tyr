@@ -19,7 +19,7 @@ class Map[K : Type[_], V : Type[_], EQ : def(K, K) : bool = MinEQR[K].equals]
    * Check if all elements of ks are contained in this map.
    */
   public
-  def containsAll(ks : Iterable[K]) : bool = ks.forall k do (contains(k));
+  def containsAll(ks : Iterable[K]) : bool = ks.forall k : K do (contains(k));
   public
   type def apply(this : Map[K, V, EQ], ks : Iterable[K]) : bool <: inline
     = containsAll(ks);
@@ -57,7 +57,7 @@ class Map[K : Type[_], V : Type[_], EQ : def(K, K) : bool = MinEQR[K].equals]
    */
   public def addAll(ps : Iterable[Pair[K, V]]) : bool {
     var modified = false
-    ps.foreach p do {
+    ps.foreach p : Pair[K, V] do {
       modified |= add(p)
     }
     modified
@@ -86,7 +86,7 @@ class Map[K : Type[_], V : Type[_], EQ : def(K, K) : bool = MinEQR[K].equals]
    */
   public def removeAll(ks : Iterable[K]) : bool {
     var modified = false
-    ks.foreach k do {
+    ks.foreach k : K do {
       modified |= remove(k)
     }
     modified
