@@ -17,7 +17,7 @@ public property abstract <: reflection.TypeProperty;
  * @note Final types have bottom types as implicit subtypes. Take this into
  *   account when designing algorithms operating on the type lattice.
  */
-public property final <: reflection.TypeProperty;
+public property final <: reflection.TypeProperty, reflection.FunctionProperty;
 
 
 /**
