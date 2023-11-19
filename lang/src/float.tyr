@@ -79,7 +79,7 @@ public type Float[Size : IntegerLiteral[32]] <: reflection.native {
    * Convert the float to an integer
    */
   public
-  def toInt[NewSize : IntegerLiteral[32]] : Integer[NewSize]
+  def toInt[NewSize : IntegerLiteral[32] = 32] : Integer[NewSize]
       <: reflection.native;
 }
 
