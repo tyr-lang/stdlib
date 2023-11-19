@@ -23,7 +23,7 @@ public class Object <: observablePointer, abstract {
    +   plus type inference.
    */
   public type def getClass(this : Object) : Class[this.type] <: inline
-    = this.`class`;
+    = this.class;
 
   /**
    * Does nothing. The field class is initialized before calling the first
