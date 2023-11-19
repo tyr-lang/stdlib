@@ -133,6 +133,16 @@ type Unsigned[Size : IntegerLiteral[32]]
    * truncate/zero extend the value to 64 and unsign it then
    */
   public def implicit : container.index_t <: reflection.native;
+
+  /**
+   * Allow inserting the value into a StringReceiver
+   *
+   * @note the necessity to call this explicitly should eventually be removed
+   *   with a type interface and a respective template-inference-enabled insert
+   *   or conversion operator or function
+   */
+  public def show : _internal_.UnsignedShowOps <: inline =
+    new _internal_.UnsignedShowOps(resize[64](), Size);
 }
 
 /**

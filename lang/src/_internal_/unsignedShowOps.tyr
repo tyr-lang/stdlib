@@ -2,18 +2,18 @@ with container.StringReceiver;
 with container.StringReceiverTarget;
 
 /**
- * Holds functions to put an Integer into a StringReceiver.
+ * Holds functions to put an Unsigned into a StringReceiver.
  */
-class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
+class UnsignedShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
   // note to self: stackAllocated should be handeled by new and delete
   // correctly; this implies that valgrind cannot detect multiple deteles of
   // stackAllocated objcets but this is likely ok as most usecases will not
   // involve a delete anyway; there should be a postCheck warning if a delete
   // is defined
 
-  val v : long
+  val v : Unsigned[64]
   val size : int
-  new (v := v : long, size := size : int);
+  new (v := v : Unsigned[64], size := size : int);
 
   override
   def insert(format : StringLiteral, sr : StringReceiver) : void {
@@ -25,19 +25,13 @@ class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
     var p = bufferSize;
 
     var i = v
-    while (i != 0L) {
-      val rem = i % 10L
+    while (i > 0U) {
+      val rem = i % 10U
       // '0' + value
-      val c = 0x30i8 + byte !! rem.abs()
+      val c = 0x30i8 + byte !! rem.implicit()
       --p
       b(p) = c
-      i /= 10L
-    }
-
-    if(v < 0L) {
-      // '-'
-      --p
-      b(p) = 0x2di8
+      i /= 10U
     }
 
     val view = new SolidStringView(bufferSize-p, CRef[byte] !! b.shift(p));
