@@ -1,32 +1,79 @@
 /**
  * A StringReceiver can be used to build string representations of an instance.
- * It is the abstract base of all such classes and makes no assumptions about
- * buffering and flushing.
+ * The receiver is the part that builds the actual string.
+ * The StringReceiverTarget provides translations for types that can be
+ * transformed into strings.
+ *
+ * StringReceiver is the abstract base of all such classes and makes no
+ * assumptions about buffering and flushing.
  *
  * @note making it an abstract class is a concious performance decision. In many
  *   cases, this can mean that the underlying buffer or output provides the
  *   receiver as a proxy.
  */
-class StringReceiver <: abstract {
+public class StringReceiver <: abstract {
 
-  // Other WithShows may use this to produce their result
-  // note: the format provided by # is consumed by the next call to +
-  def # (format : StringLiteral) : this.class;
-  def + (ref : StringReceiverTarget) : this.class;
+  protected var format : StringLiteral = null
 
-  // WithShows may use these functions too
-  def hintBytes(size : index_t) : void;
-  def put(c : character) : void;
   /**
-   * @note  The bytes provided by the str can become invalid immediately after
-   *   the call.
+   * Provide a format to the next target added to the stream.
+   * Semantics of the format are specific to the next target.
+   *
+   * @note  the format provided by # is consumed by the next call and must,
+   *   hence, be added on each subsequent call if it should apply there, too.
    */
-  def put(str : SolidStringView) : void;
+  public def # (format : StringLiteral) : this.type <: final {
+    this.format = format
+    this
+  }
+
+  /**
+   * Add a target to the receiver.
+   */
+  public def + (ref : StringReceiverTarget) : this.type <: final {
+    ref.insert(format, this)
+    format = null
+    this
+  }
+
+  /**
+   * Targets may hint the number of bytes they expect to write. The exact
+   * semantics are undefined. Receiver implementations may ignore this hint.
+   * If targets overestimate the actual bytes writenn, receivers are expected
+   * to behave efficiently and gracefully.
+   *
+   * @note  calling this must not result in observable side-effects wrt. the
+   *   received string.
+   */
+  public def hintBytes(size : index_t) : void;
+
+  /**
+   * Allow a target to put a single character into the receiver.
+   */
+  public def put(c : character) : void;
+
+  /**
+   * Allow a target to put an array of characters into the receiver.
+   *
+   * @note  The bytes provided by str can become invalid immediately after
+   *   the call.
+   *
+   * @note  str must not be null
+   *
+   * @note  A receiver must expect str to be empty
+   */
+  public def put(str : SolidStringView) : void;
 }
 
 /**
  * Something that can be inserted into a string receiver.
  */
-interface StringReceiverTarget {
-    def insert(format : StringLiteral, sr : StringReceiver) : void;
+public interface StringReceiverTarget {
+  /**
+   * Insert this into sr. Called by StringReceiver.+
+   *
+   * @note format is null if no format is set
+   */
+  protected private[StringReceiver]
+  def insert(format : StringLiteral, sr : StringReceiver) : void;
 }
