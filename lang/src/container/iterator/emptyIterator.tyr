@@ -1,0 +1,11 @@
+/**
+ * An iterator that is always empty.
+ */
+public class EmptyIterator[+T : Type[_]] <: Iterator[T], mem.eternal {
+  public type val get = new EmptyIterator[T]
+
+  private new;
+
+  override def hasNext = false
+  override def next : T := null
+}
