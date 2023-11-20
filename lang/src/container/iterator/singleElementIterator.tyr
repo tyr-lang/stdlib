@@ -6,7 +6,7 @@ public class SingleElementIterator[+T : Type[_]] <: Iterator[T] {
   val x : T
   var fresh = true
 
-  new(x := x : T);
+  public new(x := x : T);
 
   override def hasNext = fresh
   override def next {
