@@ -1,6 +1,9 @@
 with container.ArrayBuffer;
 with container.index_t;
 with container.size_t;
+with container.UTF8Iterator;
+with container.iterator.SingleElementIterator;
+
 
 /**
  * A string buffer that acts as a String and can be modified. Concatenations
@@ -8,7 +11,7 @@ with container.size_t;
  */
 public class StringBuffer <: String {
 
-  private val data : ArrayBuffer[byte];
+  val data : ArrayBuffer[byte];
 
   /**
    * Wrap an ArrayBuffer of bytes in a StringBuffer that takes ownership of it.
@@ -52,6 +55,9 @@ public class StringBuffer <: String {
     other.bytes().foreach c do (data += c)
   }
 
+  public def receive() = new StringReceiverProxy(this)
+  public def :: <: operator.postfix := receive
+
   test "use" {
     val buff = new StringBuffer
     buff += "hello"
@@ -67,5 +73,31 @@ public class StringBuffer <: String {
 
     delete buff
     r
+  }
+}
+
+class StringReceiverProxy <: container.StringReceiver {
+  private val base : StringBuffer;
+  new (base := base : StringBuffer);
+
+  override
+  def hintBytes(size : index_t) : void {
+    val b = base.data
+    b.ensureCapacity(b.size() + size.unpack)
+  }
+
+  override
+  def put(c : character) : void {
+    new UTF8Iterator(new SingleElementIterator[character](c)).foreach b do {
+      base += b
+    }
+  }
+
+  override
+  def put(str : SolidStringView) : void {
+    val d = base.data
+    val s = d.size()
+    d.ensureCapacity(s + str.size)
+    mem.raw.copy(base.data.view(s), str.data, str.size)
   }
 }
