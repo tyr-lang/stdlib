@@ -24,7 +24,8 @@ class BufferedIterator[T : Type[any]] <: Iterator[T], iterator.WithPeek[T] {
    */
   private var head : T;
 
-  new(from : Iterator[T]) {
+  public
+  new (from : Iterator[T]) {
     if(from.hasNext()){
       it = from
       head = it.next()
