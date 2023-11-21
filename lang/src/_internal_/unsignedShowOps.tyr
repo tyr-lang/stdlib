@@ -17,21 +17,34 @@ class UnsignedShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
 
   override
   def insert(format : StringLiteral, sr : StringReceiver) : void {
-    val bufferSize = 20U;
+    // format as single character
+    if ("c" == format) {
+      sr.put(character !! (v : Unsigned[64]))
+      return
+    }
 
-    // a long can be 19 digits and a - sign
+    // worst case buffer size is base 2: one sign and 64 digits
+    val bufferSize = 65U;
+
     var b = new container.FlatSizedArray[byte, bufferSize];
     // insert chars in reverse
     var p = bufferSize;
 
+    // check different bases
+    var base = 10U
+    if ("b" == format)
+      base = 2U
+    else if ("x" == format)
+      base = 16U
+
     var i = v
-    while (i > 0U) {
-      val rem = i % 10U
+    while (i > 0U || bufferSize == p) {
+      val rem = i % base
       // '0' + value
       val c = 0x30i8 + byte !! rem.implicit()
       --p
       b(p) = c
-      i /= 10U
+      i /= base
     }
 
     val view = new SolidStringView(bufferSize-p, CRef[byte] !! b.shift(p));

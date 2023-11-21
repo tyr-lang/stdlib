@@ -17,21 +17,34 @@ class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
 
   override
   def insert(format : StringLiteral, sr : StringReceiver) : void {
-    val bufferSize = 20U;
+    // format as single character
+    if ("c" == format) {
+      sr.put(character !! (v : long))
+      return
+    }
 
-    // a long can be 19 digits and a - sign
+    // worst case buffer size is base 2: one sign and 64 digits
+    val bufferSize = 65U;
+
     var b = new container.FlatSizedArray[byte, bufferSize];
     // insert chars in reverse
     var p = bufferSize;
 
+    // check different bases
+    var base = 10L
+    if ("b" == format)
+      base = 2L
+    else if ("x" == format)
+      base = 16L
+
     var i = v
-    while (i != 0L) {
-      val rem = i % 10L
+    while (i != 0L || bufferSize == p) {
+      val rem = i % base
       // '0' + value
       val c = 0x30i8 + byte !! rem.abs()
       --p
       b(p) = c
-      i /= 10L
+      i /= base
     }
 
     if(v < 0L) {
