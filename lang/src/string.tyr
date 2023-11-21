@@ -1,3 +1,6 @@
+with container.StringReceiver
+with container.StringReceiverTarget
+
 /**
  * A string is a sequence of human readable characters. A string shall behave
  * like an Array[byte] of utf-8-endocding of these characters.
@@ -10,7 +13,7 @@
  */
 public class String <: Object/* TODO blocker 0.7
                 , InheritedHash[String]
-                */, abstract {
+                */, StringReceiverTarget, abstract {
 
   /**
    * @return the number of bytes required to represent this string in UTF-8.
@@ -33,6 +36,10 @@ public class String <: Object/* TODO blocker 0.7
    */
   public def chars : container.Iterator[character] =
     new container.CharacterIterator(bytes())
+
+  override def insert(format : StringLiteral, sr : StringReceiver) : void {
+    chars().foreach c : character do { sr.put(c) }
+  }
 }
 
 /**
@@ -80,8 +87,13 @@ class StringLiteral <: String, reflection.Literal,
   public def bytes : container.Iterator[byte] =
     new container.FlatArrayIterator[byte](data, length);
 
+  override def insert(format : StringLiteral, sr : StringReceiver) : void {
+    sr.put(this)
+  }
+
   public def implicit : SolidStringView =
-    new SolidStringView(length, CRef[byte] !! data)
+    new SolidStringView(length, CRef[byte] !!
+      (data : container.FlatArray[byte]))
 
   /**
    * print the string to std out
