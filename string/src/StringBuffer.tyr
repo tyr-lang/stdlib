@@ -56,7 +56,8 @@ public class StringBuffer <: String {
   }
 
   public def receive() = new StringReceiverProxy(this)
-  public def :: <: operator.postfix := receive
+  public
+  def :: (ref : StringReceiverTarget) <: operator.postfix = receive() + ref
 
   test "use" {
     val buff = new StringBuffer

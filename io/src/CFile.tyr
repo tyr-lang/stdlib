@@ -1,4 +1,8 @@
 with mem.OpaquePointer;
+with container.iterator.SingleElementIterator
+with container.StringReceiver
+with container.StringReceiverTarget
+with container.UTF8Iterator
 
 /**
  * The Tyr equivalent of C's FILE*
@@ -51,6 +55,10 @@ public type CFile <: OpaquePointer["FILE"] {
   public def put (data : SolidStringView) : void <: inline
                  = fwrite(data.data, 1U, data.size, this);
 
+  public def receive() = new CFileReceiverProxy(this)
+  public
+  def :: (ref : StringReceiverTarget) <: operator.postfix = receive() + ref
+
   test "eof stdout" {
     // note: this cannot be the case
     !eof(System.out)
@@ -59,5 +67,39 @@ public type CFile <: OpaquePointer["FILE"] {
   test "eof stdout extension" {
     // note: this cannot be the case
     !System.out.eof()
+  }
+
+  test "std out stream" {
+    System.out :: "stuff" + """
+more stuff!
+"""
+  }
+
+  test "std out stream numbers" {
+    System.out :: 7.show() + "\n"
+  }
+
+  test "std out stream numbers long" {
+    System.out :: -31337L.show() + "\n"
+  }
+}
+
+class CFileReceiverProxy <: container.StringReceiver {
+  private val base : CFile;
+  new (base := base : CFile);
+
+  override
+  def hintBytes(size : container.index_t) : void {}
+
+  override
+  def put(c : character) : void {
+    new UTF8Iterator(new SingleElementIterator[character](c)).foreach b do {
+      base.put(b.resize[32]())
+    }
+  }
+
+  override
+  def put(str : SolidStringView) : void {
+    base.put(str)
   }
 }
