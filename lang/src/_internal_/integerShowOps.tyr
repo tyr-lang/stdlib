@@ -39,9 +39,9 @@ class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
 
     var i = v
     while (i != 0L || bufferSize == p) {
-      val rem = i % base
-      // '0' + value
-      val c = 0x30i8 + byte !! rem.abs()
+      val rem = byte !! (i % base).abs()
+      // '0'/'a' + value
+      val c = (if (rem >= 10i8) 0x57i8 else 0x30i8) + rem
       --p
       b(p) = c
       i /= base
