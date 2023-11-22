@@ -79,6 +79,22 @@ more stuff!
     System.out :: 7.show() + "\n"
   }
 
+  test "std out stream numbers b" {
+    System.out.receive() # "b" + 7.show() + "\n"
+  }
+
+  test "std out stream numbers c" {
+    System.out.receive() # "c" + 64.show() + "==@\n"
+  }
+
+  test "std out stream numbers x" {
+    System.out.receive() # "x" + 26.show() + "\n"
+  }
+
+  test "std out stream numbers -x" {
+    System.out.receive() # "x" + -26.show() + "\n"
+  }
+
   test "std out stream numbers long" {
     System.out :: -31337L.show() + "\n"
   }
