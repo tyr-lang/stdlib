@@ -1,0 +1,298 @@
+with container.Iterator
+with container.ArrayBuffer
+
+/**
+ * Provides encode and decode function for base64 encoding.
+ *
+ * @note we don't do padding
+ *
+ * @see https://datatracker.ietf.org/doc/html/rfc4648#section-4
+ */
+public type base64 {
+
+  public
+  type def encode (bytes : Iterator[byte]) : ArrayBuffer[byte] {
+    val r = new ArrayBuffer[byte]
+
+    // if there is a byte, we read it into this buffer and encode it
+    // if the buffer is full, we encode the last byte and flush it
+    var inBuffer = 0u
+    // a copy of the buffer used for efficient flushing
+    var nextIn = 0u
+
+    // the bit start offset for putting a byte into the inBuffer
+    // can be 16, 8, 0
+    var inOffset = 16u
+
+    // can be 18, 12, 6, 0
+    var outOffset = 18u
+
+    var more = true
+
+    while more {
+      // read into buffer
+      if (0u != outOffset) {
+        if (!bytes.hasNext()) {
+          // if we are at a 4 chars border, we can quit, otherwise we need to
+          // write the last character
+          if (16u == inOffset)
+            break
+          else
+            more = false
+
+        } else {
+          inBuffer = nextIn | bytes.next().unsign().resize[32]() << inOffset
+          inOffset = (inOffset + 16u) % 24u
+
+          nextIn = inBuffer
+        }
+      } else {
+        nextIn = 0u
+      }
+
+      // write next character
+      val c = switch ((inBuffer >> outOffset) & 0x3fu32).resize[8]() {
+        // A-Z
+        if 0x00u8 0x41u8
+        if 0x01u8 0x42u8
+        if 0x02u8 0x43u8
+        if 0x03u8 0x44u8
+        if 0x04u8 0x45u8
+        if 0x05u8 0x46u8
+        if 0x06u8 0x47u8
+        if 0x07u8 0x48u8
+        if 0x08u8 0x49u8
+        if 0x09u8 0x4au8
+        if 0x0au8 0x4bu8
+        if 0x0bu8 0x4cu8
+        if 0x0cu8 0x4du8
+        if 0x0du8 0x4eu8
+        if 0x0eu8 0x4fu8
+        if 0x0fu8 0x50u8
+        if 0x10u8 0x51u8
+        if 0x11u8 0x52u8
+        if 0x12u8 0x53u8
+        if 0x13u8 0x54u8
+        if 0x14u8 0x55u8
+        if 0x15u8 0x56u8
+        if 0x16u8 0x57u8
+        if 0x17u8 0x58u8
+        if 0x18u8 0x59u8
+        if 0x19u8 0x5au8
+
+        // a-z
+        if 0x1au8 0x61u8
+        if 0x1bu8 0x62u8
+        if 0x1cu8 0x63u8
+        if 0x1du8 0x64u8
+        if 0x1eu8 0x65u8
+        if 0x1fu8 0x66u8
+        if 0x20u8 0x67u8
+        if 0x21u8 0x68u8
+        if 0x22u8 0x69u8
+        if 0x23u8 0x6au8
+        if 0x24u8 0x6bu8
+        if 0x25u8 0x6cu8
+        if 0x26u8 0x6du8
+        if 0x27u8 0x6eu8
+        if 0x28u8 0x6fu8
+        if 0x29u8 0x70u8
+        if 0x2au8 0x71u8
+        if 0x2bu8 0x72u8
+        if 0x2cu8 0x73u8
+        if 0x2du8 0x74u8
+        if 0x2eu8 0x75u8
+        if 0x2fu8 0x76u8
+        if 0x30u8 0x77u8
+        if 0x31u8 0x78u8
+        if 0x32u8 0x79u8
+        if 0x33u8 0x7au8
+
+        // 0-9
+        if 0x34u8 0x30u8
+        if 0x35u8 0x31u8
+        if 0x36u8 0x32u8
+        if 0x37u8 0x33u8
+        if 0x38u8 0x34u8
+        if 0x39u8 0x35u8
+        if 0x3au8 0x36u8
+        if 0x3bu8 0x37u8
+        if 0x3cu8 0x38u8
+        if 0x3du8 0x39u8
+
+        // +
+        if 0x3eu8 0x2bu8
+
+        // /
+        if 0x3fu8 0x2fu8
+
+        // note: else is not reachable, but Tyr cannot prove it atm and there is
+        // also no syntax for that case anyway
+        else 0u8
+      }
+      outOffset = (outOffset + 18u) % 24u
+
+      r += c.sign()
+    }
+
+    return r;
+  }
+
+  /**
+   * Decodes bytes holding base64-encoded data.
+   * Invalid characters will be skipped.
+   * If the last group containing only a single character is discarded.
+   */
+  public
+  type def decode (bytes : Iterator[byte]) : ArrayBuffer[byte] {
+    val r = new ArrayBuffer[byte]
+
+    // if there is a byte, we read it into this buffer and encode it
+    // if the buffer is full, we encode the last byte and flush it
+    var inBuffer = 0u
+
+    // the bit start offset for putting a byte into the inBuffer
+    // can be 18, 12, 6, 0
+    var inOffset = 18u
+
+    // can be 16, 8, 0
+    var outOffset = 16u
+
+    while true {
+      // read into buffer
+      if (!bytes.hasNext()) {
+        break
+      }
+
+      // read next character
+      val c = switch bytes.next().unsign() {
+        // A-Z
+        if 0x41u8 0x00u8
+        if 0x42u8 0x01u8
+        if 0x43u8 0x02u8
+        if 0x44u8 0x03u8
+        if 0x45u8 0x04u8
+        if 0x46u8 0x05u8
+        if 0x47u8 0x06u8
+        if 0x48u8 0x07u8
+        if 0x49u8 0x08u8
+        if 0x4au8 0x09u8
+        if 0x4bu8 0x0au8
+        if 0x4cu8 0x0bu8
+        if 0x4du8 0x0cu8
+        if 0x4eu8 0x0du8
+        if 0x4fu8 0x0eu8
+        if 0x50u8 0x0fu8
+        if 0x51u8 0x10u8
+        if 0x52u8 0x11u8
+        if 0x53u8 0x12u8
+        if 0x54u8 0x13u8
+        if 0x55u8 0x14u8
+        if 0x56u8 0x15u8
+        if 0x57u8 0x16u8
+        if 0x58u8 0x17u8
+        if 0x59u8 0x18u8
+        if 0x5au8 0x19u8
+
+        // a-z
+        if 0x61u8 0x1au8
+        if 0x62u8 0x1bu8
+        if 0x63u8 0x1cu8
+        if 0x64u8 0x1du8
+        if 0x65u8 0x1eu8
+        if 0x66u8 0x1fu8
+        if 0x67u8 0x20u8
+        if 0x68u8 0x21u8
+        if 0x69u8 0x22u8
+        if 0x6au8 0x23u8
+        if 0x6bu8 0x24u8
+        if 0x6cu8 0x25u8
+        if 0x6du8 0x26u8
+        if 0x6eu8 0x27u8
+        if 0x6fu8 0x28u8
+        if 0x70u8 0x29u8
+        if 0x71u8 0x2au8
+        if 0x72u8 0x2bu8
+        if 0x73u8 0x2cu8
+        if 0x74u8 0x2du8
+        if 0x75u8 0x2eu8
+        if 0x76u8 0x2fu8
+        if 0x77u8 0x30u8
+        if 0x78u8 0x31u8
+        if 0x79u8 0x32u8
+        if 0x7au8 0x33u8
+
+        // 0-9
+        if 0x30u8 0x34u8
+        if 0x31u8 0x35u8
+        if 0x32u8 0x36u8
+        if 0x33u8 0x37u8
+        if 0x34u8 0x38u8
+        if 0x35u8 0x39u8
+        if 0x36u8 0x3au8
+        if 0x37u8 0x3bu8
+        if 0x38u8 0x3cu8
+        if 0x39u8 0x3du8
+
+        // +
+        if 0x2bu8 0x3eu8
+        // - (url base64)
+        if 0x2du8 0x3eu8
+
+        // /
+        if 0x2fu8 0x3fu8
+        // _ (url base64)
+        if 0x5fu8 0x3fu8
+
+        // if the next character wasn't valid, simply skip it
+        // for the moment, this handles both = and invalid characters
+        // and it makes the overal decode algorithm a total function
+        else continue
+      }
+
+      inBuffer |= c.resize[32]() << inOffset
+      inOffset = (inOffset + 18u) % 24u
+
+      if (12u != inOffset) {
+        r += (inBuffer >> outOffset).resize[8]().sign()
+        outOffset = (outOffset + 16u) % 24u
+
+        // reset buffer      
+        if (18u == inOffset) {
+          inBuffer = 0u
+        }
+      }
+      // else, skip the first character
+    }
+
+    r
+  }
+
+  test "encode" {
+    val bytes = "Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark".bytes()
+    val coded = encode(bytes)
+    {
+      91U == coded.size()
+    } && {
+      val expected = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms"
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+
+  test "decode" {
+    val bytes = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms".bytes()
+    val coded = decode(bytes)
+    {
+      68U == coded.size()
+    } && {
+      val expected = "Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark"
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+}

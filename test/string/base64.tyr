@@ -1,0 +1,96 @@
+with tyr.string.base64.encode
+with tyr.io.System.out
+
+type base64encode {
+
+  test "empty" {
+    val bytes = "".bytes()
+    val coded = encode(bytes)
+    out :: coded.size().show() + ": "
+    coded.foreach c do {
+        out.receive() # "c" + c.show() + " "
+    };
+
+    {
+      0U == coded.size()
+    } && {
+      val expected = ""
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+  test "single" {
+    val bytes = "M".bytes()
+    val coded = encode(bytes)
+    out :: coded.size().show() + ": "
+    coded.foreach c do {
+        out.receive() # "c" + c.show() + " "
+    };
+
+    {
+      2U == coded.size()
+    } && {
+      val expected = "TQ"
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+  test "double" {
+    val bytes = "Ma".bytes()
+    val coded = encode(bytes)
+    out :: coded.size().show() + ": "
+    coded.foreach c do {
+        out.receive() # "c" + c.show() + " "
+    };
+
+    {
+      3U == coded.size()
+    } && {
+      val expected = "TWE"
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+  test "triplett" {
+    val bytes = "Pol".bytes()
+    val coded = encode(bytes)
+    out :: coded.size().show() + ": "
+    coded.foreach c do {
+        out.receive() # "c" + c.show() + " "
+    };
+
+    {
+      4U == coded.size()
+    } && {
+      val expected = "UG9s"
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+  test "long text" {
+    val bytes = "Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark".bytes()
+    val coded = encode(bytes)
+    out :: coded.size().show() + ": "
+    coded.foreach c do {
+        out.receive() # "c" + c.show() + " "
+    };
+
+    {
+      91U == coded.size()
+    } && {
+      val expected = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms"
+      expected.bytes().sameElements(coded.iterator())
+    } && {
+      delete coded
+      true
+    }
+  }
+}
