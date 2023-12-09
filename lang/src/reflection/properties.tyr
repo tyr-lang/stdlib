@@ -86,5 +86,8 @@ public property CT <: TypeProperty, FunctionProperty;
 /**
  * Tell the compiler to keep generic types instead of raw types for non-generic
  * template parameters.
+ *
+ * @note  This affects type equality and creates distinct instances for
+ *   parameters sharing the same runtime representation.
  */
 public property keepGenerics <: CTParameterProperty;
