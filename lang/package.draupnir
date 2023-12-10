@@ -3,3 +3,6 @@ name=tyr.lang
 
 # We use libc. So, make it available to everybody.
 extern c from libc
+
+# We use libm to realize common math function with C implementations.
+extern math from libm

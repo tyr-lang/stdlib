@@ -66,14 +66,33 @@ public type Float[Size : IntegerLiteral[32]] <: reflection.native {
     this = this - v;
   }
 
+  public def abs : Float[Size] <: reflection.native;
 
   public def ceil : Float[Size] <: reflection.native;
   public def floor : Float[Size] <: reflection.native;
 
   public def sqrt : Float[Size] <: reflection.native;
 
-  public def sin : Float[Size] <: reflection.native;
+  public def log : Float[Size] <: reflection.native;
+  public def log2 : Float[Size] <: reflection.native;
+  public def log10 : Float[Size] <: reflection.native;
+
   public def cos : Float[Size] <: reflection.native;
+  public def sin : Float[Size] <: reflection.native;
+  public def tan : Float[Size] <: reflection.native;
+
+  public def acos : Float[Size] <: reflection.native;
+  public def asin : Float[Size] <: reflection.native;
+  public def atan : Float[Size] <: reflection.native;
+  public type def atan (this : Float[Size], y : Float[Size]) : Float[Size]
+           <: reflection.native;
+
+  /**
+   * @return this * m + a
+   */
+  public
+  type def fma (this : Float[Size], m : Float[Size], a : Float[Size])
+       : Float[Size] <: reflection.native;
 
   /**
    * Convert the float to an integer
