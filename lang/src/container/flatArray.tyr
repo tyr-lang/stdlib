@@ -43,7 +43,7 @@ public type FlatArray[T : Type[any]] <: observablePointer, reflection.native {
  * An array of Ts. In essence, this corresponds to C's T[Size].
  * The representation of the array is truely flat, i.e. it can be embedded into
  * other containers.
- * It is legal to have Size == 0, but not Size < 0.
+ * It is legal to have Size == 0.
  * A flat zero-sized array is only useful to index-access fields of the arrays
  * base type following its definition.
  * It would be nice if the compiler could provide diagnostics for this pattern
@@ -71,10 +71,9 @@ type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
    * @note it is the callers obligation to ensure that the index is valid
    * @note accessing elements of an array can only be done, if it has an adress
    */
-  // TODO in Tyr 0.7
-  // note to self: I guess there should be two apply's one with CRef/CRef and one with Ref/Ref and there shouldn't be an update
-  // public def apply(this : CRef[FlatSizedArray[T, Size]], index : index_t) : T
-  // <: reflection.native;
+   public
+   def apply (this : CRef[FlatSizedArray[T, Size]], index : index_t) : CRef[T]
+             <: reflection.native;
 
   /**
    * Return the element at the given index (starting at 0).
@@ -82,7 +81,7 @@ type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
    * @note accessing elements of an array can only be done, if it has an adress
    */
   public
-  def apply (this : Ref[FlatSizedArray[T, Size]], index : index_t) : T
+  def apply (this : Ref[FlatSizedArray[T, Size]], index : index_t) : Ref[T]
             <: reflection.native;
 
   /**
@@ -93,22 +92,22 @@ type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
    * @todo apply should be (...) : Ref[T]
    */
   public
-  def update (this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : T
+  def update (this : Ref[FlatSizedArray[T, Size]], index : index_t, v : T) : Ref[T]
              <: reflection.native;
 
   /**
    * Return an array shifted by offset elements.
    */
-  public def shift (this : Ref[FlatSizedArray[T, Size]], offset : index_t)
+  public def shift (this : CRef[FlatSizedArray[T, Size]], offset : index_t)
                    : FlatArray[T]
                    = (FlatArray[T] !! this).shift(offset)
 
-  public def iterator (this : Ref[FlatSizedArray[T, Size]])
+  public def iterator (this : CRef[FlatSizedArray[T, Size]])
                       = new FlatArrayIterator[T](FlatArray[T] !! this, Size)
 
   /** for each element do action */
   public
-  def foreach (this : Ref[FlatSizedArray[T, Size]],
+  def foreach (this : CRef[FlatSizedArray[T, Size]],
                x : BlockParameter[T],
                action : Block[any])
               : void {
@@ -122,7 +121,7 @@ type FlatSizedArray[T : Type[any], Size : size_t] <: any, reflection.native {
 
   /** for each index and element do action */
   public
-  def foreach (this : Ref[FlatSizedArray[T, Size]],
+  def foreach (this : CRef[FlatSizedArray[T, Size]],
                idx : BlockParameter[size_t],
                x : BlockParameter[T],
                action : Block[any])
