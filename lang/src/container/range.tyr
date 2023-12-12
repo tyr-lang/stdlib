@@ -4,15 +4,21 @@
  * @author Timm Felden
  */
 public type range {
-  public type def apply(from : int, until : int) = new IntRangeIterator[32](from, until);
+
+  /**
+   * Iterate inclusive from exclusive until.
+   */
+  public type def apply(from : int, until : int)
+    = new IntRangeIterator(from, until - 1);
 
   test "sum" {
-    10 == range(0, 4).fold(0) l,r do (l+r)
+    6 == range(0, 4).fold(0) l,r do (l+r)
   }
 }
 
 /**
- * Step over integers until the last value which is exclusive. Increment by one on each step.
+ * Step over integers until the last value which is inclusive. Increment by one
+ * on each step.
  *
  * @author Timm Felden
  */
