@@ -1,0 +1,78 @@
+with tyr.lang.container.size_t
+with tyr.lang.container.index_t
+with tyr.lang.container.range
+with tyr.lang.container.Iterator
+with tyr.lang.container.FlatArray
+with tyr.lang.container.FlatSizedArray
+with tyr.lang.container.FlatArrayIterator
+with tyr.lang.container.ArrayView
+
+/**
+ * A flat sized array of arrays.
+ *
+ * @author Timm Felden
+ */
+public
+type FlatSizedArray2[T : Type[any], SizeX : size_t, SizeY : size_t = SizeX,
+  TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED : size_t = SizeX * SizeY] {
+  private var data : FlatSizedArray[T, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]
+
+  public new;
+
+  public new (init : Block[T]) {
+    data = new FlatSizedArray[T, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]
+
+    var i = 0U
+    while(i < TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED) {
+      data(i) = init.eval()
+      ++i
+    }
+  }
+
+  // we do not require a delete as it would be a nop anyway
+
+  public def iterator(this : Ref[FlatSizedArray2[T, SizeX, SizeY, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]]) : FlatArrayIterator[T]
+    = data.iterator()
+
+  public def apply (this : CRef[FlatSizedArray2[T, SizeX, SizeY, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]],
+                    x : index_t, y : index_t) : CRef[T]
+    = data(x.unpack * SizeY + y.unpack);
+
+  public def apply (this : Ref[FlatSizedArray2[T, SizeX, SizeY, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]],
+                    x : index_t, y : index_t) : Ref[T]
+    = data(x.unpack * SizeY + y.unpack);
+
+  public def update (this : Ref[FlatSizedArray2[T, SizeX, SizeY, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]],
+                     x : index_t, y : index_t, v : T) : Ref[T]
+    = data.update(x.unpack * SizeY + y.unpack, v);
+
+  public def isDefined (x : index_t, y : index_t) : bool
+    = x.unpack < SizeX && y.unpack < SizeY
+
+  /** @note this is the total number of elements */
+  public def size : size_t = TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED
+
+  public
+  def view (this : Ref[FlatSizedArray2[T, SizeX, SizeY, TotalSizeDO_NOT_USE_IT_WILL_BE_REMOVED]],
+            offset : index_t = 0.implicit())
+    = ArrayView[T].from(data.shift(offset))
+
+  /**
+   * Perform action for each valid index pair
+   */
+  public
+  type def foreachIndex (x : BlockParameter[size_t], y : BlockParameter[size_t],
+                         action : Block[T]) : void {
+    var i = 0U
+    while(i < SizeX) {
+      x = i
+      ++i
+      var j = 0U
+      while(j < SizeY) {
+        y = j
+        ++j
+        action.eval()
+      }
+    }
+  }
+}
