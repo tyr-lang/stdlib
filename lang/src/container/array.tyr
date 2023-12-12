@@ -39,17 +39,16 @@ public class Array[T : Type[any]] <: Seq[T] {
   public def view (offset : index_t = 0.implicit())
                   = ArrayView[T].from(data.shift(offset))
 
-// TODO 0.7 this should be enabled again or removed; likely enabled
-  // /**
-  //  * Perform action for each remaining element of the array. Allow the block to
-  //  * change the elements.
-  //  */
-  // public def foreach (x : BlockParameter[Ref[T]], action : Block[any]) : void {
-  //   var i = 0U
-  //   while(i < length) {
-  //     x = data(i)
-  //     ++i
-  //     action.eval()
-  //   }
-  // }
+  /**
+   * Perform action for each remaining element of the array. Allow the block to
+   * change the elements.
+   */
+  public def foreach (x : BlockParameter[Ref[T]], action : Block[any]) : void {
+    var i = 0U
+    while(i < length) {
+      x = data(i)
+      ++i
+      action.eval()
+    }
+  }
 }
