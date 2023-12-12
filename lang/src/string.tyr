@@ -11,7 +11,7 @@ with container.StringReceiverTarget
  *       string onto hashCode. I.e. if hashCode were 8 bytes long, every 8 bytes
  *       shall be converted to a hashCode and all hashCodes shall be xored.
  */
-public class String <: Object/* TODO blocker 0.7
+public class String <: Object/* TODO blocker 0.9
                 , InheritedHash[String]
                 */, StringReceiverTarget, abstract {
 
@@ -47,7 +47,7 @@ public class String <: Object/* TODO blocker 0.7
  * - they are identical
  * - they have the same length and all bytes are the same
  *
- * TODO 0.7 extend to HashedEQR
+ * TODO 0.9 extend to HashedEQR
  */
 public type StringEQR <: EQR[String] {
 

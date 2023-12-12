@@ -44,7 +44,7 @@ public type IdentityHash[T : Type[any]] <: MinEQR[T], Hash[T] {
  * aware of each other.
  *
  * @note the hash code of null is 0 to be consistent with IdentityHash
- *//* TODO blocker 0.7
+ *//* TODO blocker 0.9 (see InheritedEQR)
 interface InheritedHash[T : Class] <: Object, InheritedEQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless

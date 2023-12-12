@@ -68,21 +68,24 @@ public interface EQOps[T : Type[any], E : EQR[T]] <: any {
  * possible to provide a correct implementation. In these scenarios, the type
  * hierarchy below T should be sealed and all redefinitions of eq should be
  * aware of each other.
- *//* TODO blocker 0.7: What is missing in the code below is a means to express
+ *//* TODO blocker 0.9: What is missing in the code below is a means to express
   that this.type <: T resulting in eq applications in equals not being type
-  correct
+  correct. T : Class[T] currently results in an elaboration cycle. Maybe we need
+  to add a PO to allow this case explicitly.
 
-interface InheritedEQR[T : Class] <: Object, EQR[T] {
+interface InheritedEQR[T : Class[T]] <: Object, EQR[T] {
   /**
    * Dispatching implementation of eq. Dispatching is performed on this unless
    * this is null. In that case dispathing is performed on v.
    * /
+  protected
   def eq(v : T) : bool;
 
   /**
    * Perform the required null-check and reordering to work with null.equals(v).
    * @todo Requires the type checker to realize that instances of T : Class are at least Objects
    * /
+  override
   type def equals (left : T, right : T) : bool {
     if(left == right)
       true
@@ -91,4 +94,4 @@ interface InheritedEQR[T : Class] <: Object, EQR[T] {
     else
       left.eq(right)
   }
-}*/
+}//*/

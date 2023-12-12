@@ -24,7 +24,7 @@ public class Type[+T : Type[any] := any] <: Object, mem.eternal {
    * identical types can exist at most once. Further, it can be decided at
    * compile time for compile-time types.
    *
-   * @todo add with CT in 0.7
+   * @todo add with CT in 0.9
    */
   // type def == (this : Type, that : Type) : bool
   //            <: reflection.native, reflection.CT, operator.precedence[80];
