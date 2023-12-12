@@ -47,8 +47,7 @@ public class Array2[T : Type[any]] <: Seq[T] {
   public def update(x : index_t, y : index_t, v : T) : T = data.update(x.unpack * lengthY + y.unpack, v);
 
   public def isDefined(x : index_t, y : index_t) : bool
-    = 0U <= x.unpack && x.unpack < lengthX &&
-      0U <= y.unpack && y.unpack < lengthY
+    = x.unpack < lengthX && y.unpack < lengthY
 
   /** @note this is the total number of elements */
   public def size : size_t = lengthX*lengthY
