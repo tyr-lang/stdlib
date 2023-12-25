@@ -62,7 +62,7 @@ type FlatSizedArray2[T : Type[any], SizeX : size_t, SizeY : size_t = SizeX,
    */
   public
   type def foreachIndex (x : BlockParameter[size_t], y : BlockParameter[size_t],
-                         action : Block[T]) : void {
+                         action : Block[any]) : void {
     var i = 0U
     while(i < SizeX) {
       x = i
