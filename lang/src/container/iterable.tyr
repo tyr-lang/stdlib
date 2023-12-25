@@ -21,20 +21,14 @@ public class Iterable[T : Type[any]] <: abstract {
   /**
    * Perform action for each element
    */
-  public def foreach (x : BlockParameter[T], action : Block[any]) : void {
-    val iter = iterator()
-    // TODO iter.foreach (x, action)
-    iter.foreach y : T do { x = y; action.eval() }
-  }
+  public def foreach (x : BlockParameter[T], action : Block[any]) : void
+    = iterator().foreach(x, action)
 
   /**
    * Count the number of elements fulfilling predicate
    */
-  public def count (x : BlockParameter[T], predicate : Block[bool]) : int {
-    val iter = iterator()
-    // TODO val r = iter.count (x, predicate)
-    iter.count y : T do { x = y; predicate.eval() }
-  }
+  public def count (x : BlockParameter[T], predicate : Block[bool]) : int
+    = iterator().count(x, predicate)
 
   /**
    * Check predicate until the predicate is false or all elements have been
@@ -42,8 +36,7 @@ public class Iterable[T : Type[any]] <: abstract {
    */
   public def forall (x : BlockParameter[T], predicate : Block[bool]) : bool {
     val iter = iterator()
-    // TODO val r = iter.forall (x, predicate)
-    val r = iter.forall y : T do { x = y; predicate.eval() }
+    val r = iter.forall(x, predicate)
     delete iter
     r
   }
@@ -54,8 +47,7 @@ public class Iterable[T : Type[any]] <: abstract {
    */
   public def exists (x : BlockParameter[T], predicate : Block[bool]) : bool {
     val iter = iterator()
-    // TODO val r = iter.exists (x, predicate)
-    val r = iter.exists y : T do { x = y; predicate.eval() }
+    val r = iter.exists(x, predicate)
     delete iter
     r
   }
@@ -63,15 +55,9 @@ public class Iterable[T : Type[any]] <: abstract {
   /**
    * fold elements of this container
    */
-  public def fold (initial : T,
+  public
+  def fold (initial : T,
             left : BlockParameter[T], right : BlockParameter[T],
-            step : Block[T]) : T {
-    val iter = iterator()
-    // TODO val r = iter.fold (initial, left, right, step)
-    iter.fold (initial) L : T, R : T do {
-      left = L
-      right = R
-      step.eval()
-    }
-  }
+            step : Block[T]) : T
+    = iterator().fold(initial, left, right, step)
 }
