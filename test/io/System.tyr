@@ -1,8 +1,13 @@
 type System {
   with tyr.io.System.out
+  with tyr.io.System.getPID
 
   test "print" {
     // note: everybody would expect this to work
     out.put("print\n")
+  }
+
+  test "PID" {
+    0 != getPID()
   }
 }

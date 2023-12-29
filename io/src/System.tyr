@@ -5,4 +5,17 @@ public type System {
   public type val out : CFile extern c.stdout;
   public type val err : CFile extern c.stderr;
   public type val in : CFile extern c.stdin;
+
+  /**
+   * The process ID.
+   *
+   * @note Tyr assumes the host OS to be POSIX-compliant
+   */
+  public type def getPID : int extern c.getpid;
+  /**
+   * The parent process ID.
+   *
+   * @note Tyr assumes the host OS to be POSIX-compliant
+   */
+  public type def getParentPID : int extern c.getppid;
 }
