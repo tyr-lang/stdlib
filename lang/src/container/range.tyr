@@ -9,7 +9,7 @@ public type range {
    * Iterate inclusive from exclusive until.
    */
   public type def apply(from : int, until : int)
-    = new IntRangeIterator(from, until - 1);
+    = new IntRangeIterator(from, until);
 
   test "sum" {
     6 == range(0, 4).fold(0) l,r do (l+r)
@@ -33,7 +33,7 @@ public class IntRangeIterator[Size : IntegerLiteral[32] = 32]
   }
 
   override def next : Integer[Size] {
-    val r = current
+    val r : Integer[Size] = current
     ++current
     r
   }
