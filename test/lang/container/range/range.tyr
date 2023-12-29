@@ -1,0 +1,19 @@
+with tyr.io.System.out
+with tyr.lang.container.range
+
+type T {
+  test "sum" {
+    6 == range(0, 4).fold(0) l,r do ({
+      out :: r.show() + "\n"
+      l+r
+    })
+  }
+
+  test "count" {
+    var x = 0
+    range(0, 100).foreach i do {
+      ++x
+    }
+    100 == x
+  }
+}
