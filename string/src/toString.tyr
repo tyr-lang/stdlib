@@ -61,9 +61,9 @@ public type toString {
 
     val i : Unsigned[64] = Unsigned[64] !! v
     while (p != 0U) {
-      val rem = i >> --p*4U & 0xfU
+      val rem : Unsigned[64] = i >> --p*4U & 0xfU
       // '0' + value
-      val c = (if(rem < 10U) 0x30i8 else (0x41i8 - 0xai8)) + byte !! rem
+      val c = (if(rem < 10U) 0x30i8 else (0x41i8 - 0xai8)) + rem.resize[8]().sign()
       r += c
     }
 
