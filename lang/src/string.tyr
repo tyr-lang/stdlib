@@ -21,6 +21,11 @@ public class String <: Object/* TODO blocker 0.9
   public def size : container.size_t;
 
   /**
+   * @return true if 0 == size()
+   */
+  public type def empty(this : String) : bool = 0U == size();
+
+  /**
    * @return exactly size bytes representing this string as UTF-8 byte sequence.
    *
    * @note if the string is zero-terminated and the zero is considered part of
@@ -70,7 +75,7 @@ public type StringEQR <: EQR[String] {
  * StringLiteral!
  */
 public
-class StringLiteral <: String, reflection.Literal,
+class StringLiteral <: String, ProvidesSolidStringView, reflection.Literal,
     reflection.CT, reflection.noVar, mem.eternal, mem.primordial, final {
 
   private new <: reflection.native;
@@ -91,7 +96,7 @@ class StringLiteral <: String, reflection.Literal,
     sr.put(this)
   }
 
-  public def implicit : SolidStringView =
+  override def implicit : SolidStringView =
     new SolidStringView(length, CRef[byte] !!
       (data : container.FlatArray[byte]))
 
@@ -107,6 +112,10 @@ class StringLiteral <: String, reflection.Literal,
   test "show" {
     "show!\n"!!
   }
+}
+
+public interface ProvidesSolidStringView <: String {
+  public def implicit : SolidStringView;
 }
 
 /**

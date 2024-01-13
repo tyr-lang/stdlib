@@ -16,9 +16,9 @@ public class SolidStringViewWrapper <: String {
   }
   public delete;
 
-  public def size : container.size_t = length;
+  override def size : container.size_t = length;
 
-  public def bytes : container.Iterator[byte] =
+  override def bytes : container.Iterator[byte] =
     new container.FlatArrayIterator[byte](
       container.FlatArray[byte] !! data,
       length

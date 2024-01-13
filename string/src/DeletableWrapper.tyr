@@ -1,0 +1,16 @@
+/**
+ * Wraps a String to prevent its deletion by consuming APIs.
+ *
+ * @note Use SolidStringViewWrapper for solid strings.
+ */
+public class DeletableWrapper <: String {
+
+  val data : String;
+
+  public new (data := data : String);
+  public delete;
+
+  override def size : container.size_t = data.size();
+
+  override def bytes : container.Iterator[byte] = data.bytes();
+}
