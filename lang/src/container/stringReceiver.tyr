@@ -30,7 +30,7 @@ public class StringReceiver <: abstract {
   /**
    * Add a target to the receiver.
    */
-  public def + (ref : StringReceiverTarget) : this.type <: final {
+  public def - (ref : StringReceiverTarget) : this.type <: final {
     ref.insert(format, this)
     format = null
     this
