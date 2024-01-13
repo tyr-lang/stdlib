@@ -9,20 +9,34 @@ class Map[K : Type[_], V : Type[_], EQ : def(K, K) : bool = MinEQR[K].equals]
    * Check if k is contained in this map.
    */
   public def contains(k : K) : bool;
+
+  /**
+   * Return the value stored for k in this map.
+   *
+   * @pre contains(k)
+   */
+  public def get(k : K) : V;
   /**
    * Check if k is contained in this map.
    */
   public
-  type def apply(this : Map[K, V, EQ], k : K) : bool <: inline = contains(k);
+  type def apply(this : Map[K, V, EQ], k : K) : V <: inline = get(k);
+
+  public def getOrElse(k : K, otherwise : Block[V]) : V
+    = if(contains(k)) get(k) else otherwise.eval()
+
+  public def getOrUpdate(k : K, otherwise : Block[V]) : V
+    = if(contains(k)) get(k) else {
+        val r = otherwise.eval()
+        add(k, r)
+        r
+      }
 
   /**
    * Check if all elements of ks are contained in this map.
    */
   public
   def containsAll(ks : Iterable[K]) : bool = ks.forall k : K do (contains(k));
-  public
-  type def apply(this : Map[K, V, EQ], ks : Iterable[K]) : bool <: inline
-    = containsAll(ks);
 
   /**
    * Ensure that k is associated with v.

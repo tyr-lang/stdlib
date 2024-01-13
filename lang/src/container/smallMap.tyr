@@ -1,6 +1,6 @@
 
 /**
- * A map implementation with linear contains intended for small numbers of
+ * A map implementation with linear element access intended for small numbers of
  * elements.
  */
 public
@@ -21,7 +21,16 @@ class SmallMap[K : Type[_], V : Type[_],
   override def size = data.size()
 
   override
-  def contains(k : K) : bool = data.exists c : Pair[K,V] do (EQ(c.left, k))
+  def contains(k : K) : bool = data.exists p : Pair[K,V] do (EQ(p.left, k))
+
+  override
+  def get(k : K) : V {
+    data.foreach p : Pair[K,V] do {
+      if (EQ(p.left, k))
+        return p.right
+    }
+    return V !! 0
+  }
 
   override
   def add(k : K, v : V) : bool {
