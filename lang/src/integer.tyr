@@ -194,7 +194,6 @@ public type IntegerLiteral[Size : IntegerLiteral[32]]
 }
 
 // common Integer names
-public type byte  := Integer[8];
 public type short := Integer[16];
 public type int   := Integer[32];
 public type long  := Integer[64];

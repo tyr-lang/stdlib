@@ -172,3 +172,5 @@ type UnsignedLiteral[Size : IntegerLiteral[32]]
       <: Unsigned[Size], reflection.Literal,
          reflection.CT, reflection.noVar, final;
 
+// common Unsigned names
+public type byte := Unsigned[8];

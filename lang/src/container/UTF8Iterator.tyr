@@ -7,7 +7,7 @@
 public class UTF8Iterator <: Iterator[byte] {
 
   private
-  type def toByte(v : Unsigned[21]) : byte <: inline = v.resize[8]().sign()
+  type def toByte(v : Unsigned[21]) : byte <: inline = v.resize[8]()
 
   // backing iterator
   private var chars : Iterator[character];
@@ -48,7 +48,7 @@ public class UTF8Iterator <: Iterator[byte] {
 
     // consume 10xxxxxx parts
     while(n > 1U) {
-      bytes(idx) = (toByte(c) & 0x3fi8) | 0x80i8
+      bytes(idx) = (toByte(c) & 0x3fu8) | 0x80u8
       c >>= 6u21
       ++idx
       --n
@@ -57,13 +57,13 @@ public class UTF8Iterator <: Iterator[byte] {
     // return the first byte
     switch idx {
       if 1U {
-        return toByte(c) | 0xc0i8
+        return toByte(c) | 0xc0u8
       }
       if 2U {
-        return toByte(c) | 0xe0i8
+        return toByte(c) | 0xe0u8
       }
       else /*if 3U*/ {
-        return toByte(c) | 0xf0i8
+        return toByte(c) | 0xf0u8
       }
     }
   }

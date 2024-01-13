@@ -41,7 +41,7 @@ class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
     while (i != 0L || bufferSize == p) {
       val rem = byte !! (i % base).abs()
       // '0'/'a' + value
-      val c = (if (rem >= 10i8) 0x57i8 else 0x30i8) + rem
+      val c = (if (rem >= 10u8) 0x57u8 else 0x30u8) + rem
       --p
       b(p) = c
       i /= base
@@ -50,7 +50,7 @@ class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
     if(v < 0L) {
       // '-'
       --p
-      b(p) = 0x2di8
+      b(p) = 0x2du8
     }
 
     val view = new SolidStringView(bufferSize-p, CRef[byte] !! b.shift(p));

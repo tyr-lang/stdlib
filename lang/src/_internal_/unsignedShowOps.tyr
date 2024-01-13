@@ -41,7 +41,7 @@ class UnsignedShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
     while (i > 0U || bufferSize == p) {
       val rem = byte !! (i % base)
       // '0'/'a' + value
-      val c = (if (rem >= 10i8) 0x57i8 else 0x30i8) + rem
+      val c = (if (rem >= 10u8) 0x57u8 else 0x30u8) + rem
       --p
       b(p) = c
       i /= base
