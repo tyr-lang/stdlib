@@ -56,8 +56,8 @@ public class StringBuffer <: String, ProvidesSolidStringView {
   }
 
   public def receive() = new StringReceiverProxy(this)
-  public
-  def :: (ref : StringReceiverTarget) <: operator.postfix = receive() + ref
+  public def # (format : StringLiteral) = receive() # format
+  public def - (ref : StringReceiverTarget) = receive() - ref
 
   public def clear : void = data.clear()
 
@@ -65,7 +65,7 @@ public class StringBuffer <: String, ProvidesSolidStringView {
     val buff = new StringBuffer
     buff += "hello"
     // " "
-    buff += 0x20i8
+    buff += 0x20u8
     buff += "world"
     buff += "!"
 

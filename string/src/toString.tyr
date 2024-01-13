@@ -24,7 +24,7 @@ public type toString {
     while (i != 0) {
       val rem = i % 10
       // '0' + value
-      val c = 0x30i8 + byte !! rem.abs()
+      val c = 0x30u8 + byte !! rem.abs()
       --p
       b(p) = c
       i /= 10
@@ -33,7 +33,7 @@ public type toString {
     if(v < 0) {
       // '-'
       --p
-      b(p) = 0x2di8
+      b(p) = 0x2du8
     }
 
     val from = container.ArrayView[byte].from(b.shift(p));
@@ -54,8 +54,8 @@ public type toString {
     val r = new container.ArrayBuffer[byte](18);
 
     // 0x
-    r += 0x30i8
-    r += 0x78i8
+    r += 0x30u8
+    r += 0x78u8
 
     var p = 16U;
 
@@ -63,7 +63,7 @@ public type toString {
     while (p != 0U) {
       val rem : Unsigned[64] = i >> --p*4U & 0xfU
       // '0' + value
-      val c = (if(rem < 10U) 0x30i8 else (0x41i8 - 0xai8)) + rem.resize[8]().sign()
+      val c = (if(rem < 10U) 0x30u8 else (0x41u8 - 0xau8)) + rem.resize[8]()
       r += c
     }
 

@@ -41,7 +41,7 @@ public type base64 {
             more = false
 
         } else {
-          inBuffer = nextIn | bytes.next().unsign().resize[32]() << inOffset
+          inBuffer = nextIn | bytes.next().resize[32]() << inOffset
           inOffset = (inOffset + 16u) % 24u
 
           nextIn = inBuffer
@@ -132,7 +132,7 @@ public type base64 {
       }
       outOffset = (outOffset + 18u) % 24u
 
-      r += c.sign()
+      r += c
     }
 
     return r;
@@ -165,7 +165,7 @@ public type base64 {
       }
 
       // read next character
-      val c = switch bytes.next().unsign() {
+      val c = switch bytes.next() {
         // A-Z
         if 0x41u8 0x00u8
         if 0x42u8 0x01u8
@@ -254,7 +254,7 @@ public type base64 {
       inOffset = (inOffset + 18u) % 24u
 
       if (12u != inOffset) {
-        r += (inBuffer >> outOffset).resize[8]().sign()
+        r += (inBuffer >> outOffset).resize[8]()
         outOffset = (outOffset + 16u) % 24u
 
         // reset buffer      
