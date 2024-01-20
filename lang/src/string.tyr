@@ -73,6 +73,12 @@ public type StringEQR <: EQR[String] {
 /**
  * Literal strings that can be evaluated at CT. Be aware of null being a valid
  * StringLiteral!
+ *
+ * @note to self: once I change literals forcing them to hold their value as
+ *   template argument, I would also need to insert an abstract base type like
+ *   SomeStringLiteral. This will be the case for all literal types that have
+ *   APIs that differ from their base type. The APIs should also be implemented
+ *   in these types.
  */
 public
 class StringLiteral <: String, ProvidesSolidStringView, reflection.Literal,
