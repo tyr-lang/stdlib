@@ -104,6 +104,9 @@ class StringLiteral <: String, ProvidesSolidStringView, reflection.Literal,
    * print the string to std out
    *
    * @note this operator will be removed eventually; likely after adding varargs
+   *
+   * @TODO 0.8 add a deprecation property so that this can be removed with 0.9;
+   *   it is now simply "with tyr.io.System.out" and "out - v";
    */
   public
   type def !!(v : StringLiteral) : void
