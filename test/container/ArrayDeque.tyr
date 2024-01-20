@@ -2,25 +2,35 @@ with tyr.container.ArrayDeque
 with tyr.lang.container.range
 
 type ArrayDequeTest {
+  with tyr.io.System.out
 
   test "stack" {
     var xs = new ArrayDeque[String]
     var r = xs.empty()
 
+    out - "empty: " - r.show() - "\n"
+
     xs.push("")
     xs.push("-")
 
     r &= 2U == xs.size()
+    out - "push: " - r.show() - "\n"
   
     r &= "-" == xs.peek()
     r &= "-" == xs.peek()
     r &= "-" == xs.peek()
     r &= 2U == xs.size()
+    out - "peek: " - r.show() - "\n"
 
     r &= "-" == xs.pop()
+    out - "pop -: " - r.show() - "\n"
+
     r &= "" == xs.pop()
+    out - "pop: " - r.show() - "\n"
 
     r &= xs.empty()
+    out - "empty: " - r.show() - "\n"
+
     delete xs
     r
   }
