@@ -23,7 +23,7 @@ public type FlatArray[T : Type[any]] <: observablePointer, reflection.native {
    * Return the element at the given index (starting at 0).
    * @note it is the callers obligation to ensure that the index is valid
    */
-  public def apply(index : index_t) : T <: reflection.native;
+  public def apply(index : index_t) : Ref[T] <: reflection.native;
 
   /**
    * Update the element at the given index with v and return v (starting at 0).
@@ -31,7 +31,7 @@ public type FlatArray[T : Type[any]] <: observablePointer, reflection.native {
    *
    * @todo should be [S <: T](size_t, S) : S
    */
-  public def update(index : index_t, v : T) : T <: reflection.native;
+  public def update(index : index_t, v : T) : v.type <: reflection.native;
 
   /**
    * Return an array shifted by offset elements.

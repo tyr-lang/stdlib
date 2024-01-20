@@ -26,6 +26,7 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
    *
    * @param size the initial capacity of the buffer.
    */
+   // TODO 0.7 WTF? remove implicit
   public new (size : index_t = 8.implicit()) {
     length = 0U
     capacity = size.unpack
@@ -51,8 +52,11 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
 
   /**
    * Access element without checking if it exists
+   *
+   * @note  the returned Ref is only valid until the next call to any
+   *   function on this
    */
-  public def apply(index : index_t) : T = data(index.unpack)
+  public def apply(index : index_t) : Ref[T] = data(index.unpack)
   /**
    * Update element without checking if it exists
    */
