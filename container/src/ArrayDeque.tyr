@@ -120,7 +120,7 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    * Take an element from the end of the buffer
    */
   public def pop : T = {
-    val r = data(end)
+    val r : T = data(end)
 
     if (begin == end)
       begin = end = capacity
@@ -154,7 +154,7 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    * Take an element from the start of the buffer
    */
   public def popFront : T = {
-    val r = data(begin)
+    val r : T = data(begin)
 
     if (begin == end)
       begin = end = capacity
@@ -217,7 +217,8 @@ public class ArrayDeque[T : Type[any]] <: Seq[T] {
    * @pre capacity != after
    * @post capacity == after
    */
-  private type def resize(this: ArrayDeque[T], after : size_t, length : size_t) : void {
+  private
+  type def resize(this: ArrayDeque[T], after : size_t, length : size_t) : void {
     var n = new FlatArray[T](after);
 
     if (0U != length) {
