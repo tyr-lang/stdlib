@@ -6,9 +6,9 @@ type base64encode {
   test "empty" {
     val bytes = "".bytes()
     val coded = encode(bytes)
-    out :: coded.size().show() + ": "
+    out - coded.size().show() - ": "
     coded.foreach c do {
-        out.receive() # "c" + c.show() + " "
+        out # "c" - c.show() - " "
     };
 
     {
@@ -24,9 +24,9 @@ type base64encode {
   test "single" {
     val bytes = "M".bytes()
     val coded = encode(bytes)
-    out :: coded.size().show() + ": "
+    out - coded.size().show() - ": "
     coded.foreach c do {
-        out.receive() # "c" + c.show() + " "
+        out # "c" - c.show() - " "
     };
 
     {
@@ -42,9 +42,9 @@ type base64encode {
   test "double" {
     val bytes = "Ma".bytes()
     val coded = encode(bytes)
-    out :: coded.size().show() + ": "
+    out - coded.size().show() - ": "
     coded.foreach c do {
-        out.receive() # "c" + c.show() + " "
+        out # "c" - c.show() - " "
     };
 
     {
@@ -60,9 +60,9 @@ type base64encode {
   test "triplett" {
     val bytes = "Pol".bytes()
     val coded = encode(bytes)
-    out :: coded.size().show() + ": "
+    out - coded.size().show() - ": "
     coded.foreach c do {
-        out.receive() # "c" + c.show() + " "
+        out # "c" - c.show() - " "
     };
 
     {
@@ -78,9 +78,9 @@ type base64encode {
   test "long text" {
     val bytes = "Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark".bytes()
     val coded = encode(bytes)
-    out :: coded.size().show() + ": "
+    out - coded.size().show() - ": "
     coded.foreach c do {
-        out.receive() # "c" + c.show() + " "
+        out # "c" - c.show() - " "
     };
 
     {

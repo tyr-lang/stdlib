@@ -4,7 +4,7 @@ with tyr.lang.container.range
 type T {
   test "sum" {
     6 == range(0, 4).fold(0) l,r do ({
-      out :: r.show() + "\n"
+      out - r.show() - "\n"
       l+r
     })
   }
