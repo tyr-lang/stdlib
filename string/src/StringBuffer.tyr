@@ -79,7 +79,7 @@ public class StringBuffer <: String, ProvidesSolidStringView {
   }
 }
 
-class StringReceiverProxy <: container.StringReceiver {
+public class StringReceiverProxy <: container.StringReceiver {
   private val base : StringBuffer;
   new (base := base : StringBuffer);
 
