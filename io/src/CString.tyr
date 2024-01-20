@@ -22,7 +22,7 @@ public type CString <: FlatArray[byte] {
       this(i) = c;
       ++i
     }
-    this(i) = 0i8
+    this(i) = 0u8
   }
 
   /**

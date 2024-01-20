@@ -56,8 +56,8 @@ public type CFile <: OpaquePointer["FILE"] {
                  = fwrite(data.data, 1U, data.size, this);
 
   public def receive() = new CFileReceiverProxy(this)
-  public
-  def :: (ref : StringReceiverTarget) <: operator.postfix = receive() + ref
+  public def # (format : StringLiteral) = receive() # format
+  public def - (ref : StringReceiverTarget) = receive() - ref
 
   test "eof stdout" {
     // note: this cannot be the case
@@ -70,33 +70,33 @@ public type CFile <: OpaquePointer["FILE"] {
   }
 
   test "std out stream" {
-    System.out :: "stuff" + """
+    System.out - "stuff" - """
 more stuff!
 """
   }
 
   test "std out stream numbers" {
-    System.out :: 7.show() + "\n"
+    System.out - 7.show() - "\n"
   }
 
   test "std out stream numbers b" {
-    System.out.receive() # "b" + 7.show() + "\n"
+    System.out.receive() # "b" - 7.show() - "\n"
   }
 
   test "std out stream numbers c" {
-    System.out.receive() # "c" + 64.show() + "==@\n"
+    System.out.receive() # "c" - 64.show() - "==@\n"
   }
 
   test "std out stream numbers x" {
-    System.out.receive() # "x" + 26.show() + "\n"
+    System.out.receive() # "x" - 26.show() - "\n"
   }
 
   test "std out stream numbers -x" {
-    System.out.receive() # "x" + -26.show() + "\n"
+    System.out.receive() # "x" - -26.show() - "\n"
   }
 
   test "std out stream numbers long" {
-    System.out :: -31337L.show() + "\n"
+    System.out - -31337L.show() - "\n"
   }
 }
 
@@ -110,7 +110,7 @@ class CFileReceiverProxy <: container.StringReceiver {
   override
   def put(c : character) : void {
     new UTF8Iterator(new SingleElementIterator[character](c)).foreach b do {
-      base.put(b.resize[32]())
+      base.put(b.resize[32]().sign())
     }
   }
 
