@@ -45,6 +45,15 @@ public type bool <: reflection.native {
     if (!this) {this = v.eval()}; this
   }
 
+  /**
+   * Allow inserting the value into a StringReceiver
+   *
+   * @note should be turned to implicit once Integer and Unsigned are converted
+   *   by implicits, too.
+   */
+  public def show : _internal_.BoolShowOps <: inline =
+    new _internal_.BoolShowOps(this);
+
   // TODO type val unknown <: native; <- an unknown bool constant required to prevent immediate CT-evaluation of some test code
 
   test "trivial cfg" {
