@@ -24,7 +24,7 @@ class SmallMap[K : Type[_], V : Type[_],
   def contains(k : K) : bool = data.exists p : Pair[K,V] do (EQ(p.left, k))
 
   override
-  def get(k : K) : V {
+  def apply(k : K) : V {
     data.foreach p : Pair[K,V] do {
       if (EQ(p.left, k))
         return p.right
@@ -33,25 +33,23 @@ class SmallMap[K : Type[_], V : Type[_],
   }
 
   override
-  def add(k : K, v : V) : bool {
-    if (!contains(k)) {
-        data += new Pair[K, V](k, v)
-        true
+  def update(k : K, v : V) : void {
+    val i = data.indexOf p : Pair[K,V] do (EQ(p.left, k))
+    if (!data.isDefined(i)) {
+      data += new Pair[K, V](k, v)
     } else {
-        false
+      data(i).left = k
+      data(i).right = v
     }
   }
 
   override
-  def remove(k : K) : bool {
-    var i = data.indexOf c : Pair[K,V] do (EQ(c.left, k))
-    if (-1L.unsign() != i) {
-        val e = data.removeLast()
-        if (!data.empty())
-          data(i) = e
-        true
-    } else {
-        false
+  def remove(k : K) : void {
+    val i = data.indexOf c : Pair[K,V] do (EQ(c.left, k))
+    if (data.isDefined(i)) {
+      val e = data.removeLast()
+      if (!data.empty())
+        data(i) = e
     }
   }
 }
