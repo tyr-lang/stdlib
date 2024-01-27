@@ -37,6 +37,10 @@ public class StringReceiver <: abstract {
     } else {
       ref.insert(format, this)
     }
+
+    if(ConsumedStringReceiverTarget ? ref)
+      delete ref
+
     format = null
     this
   }
@@ -82,3 +86,8 @@ public interface StringReceiverTarget {
   protected private[StringReceiver]
   def insert(format : StringLiteral, sr : StringReceiver) : void;
 }
+
+/**
+ * A string receiver target that is deleted on consumption.
+ */
+public interface ConsumedStringReceiverTarget <: StringReceiverTarget;

@@ -1,10 +1,10 @@
 with container.StringReceiver;
-with container.StringReceiverTarget;
+with container.ConsumedStringReceiverTarget;
 
 /**
  * Holds functions to put an Integer into a StringReceiver.
  */
-class IntegerShowOps <: StringReceiverTarget /* TODO mem.stackAllocated */ {
+class IntegerShowOps <: ConsumedStringReceiverTarget /* TODO mem.stackAllocated */ {
   // note to self: stackAllocated should be handeled by new and delete
   // correctly; this implies that valgrind cannot detect multiple deteles of
   // stackAllocated objcets but this is likely ok as most usecases will not
