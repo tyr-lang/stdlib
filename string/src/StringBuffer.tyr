@@ -98,9 +98,6 @@ public class StringReceiverProxy <: container.StringReceiver {
 
   override
   def put(str : SolidStringView) : void {
-    val d = base.data
-    val s = d.size()
-    d.ensureCapacity(s + str.size)
-    mem.raw.copy(base.data.view(s), str.data, str.size)
+    base.data.appendAll(str.size, container.ArrayView[byte] !! str.data)
   }
 }

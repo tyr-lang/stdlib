@@ -116,6 +116,22 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
     }
   }
 
+  /**
+   * Insert all elements at the end of the buffer.
+   */
+  public def appendAll(count : size_t, vs : ArrayView[T]) : void {
+    if(0U == count)
+      return;
+
+    val n = length + count
+    if(capacity < n)
+      this.grow(n)
+
+    mem.raw.copy(view(length), vs, count)
+
+    length = n
+  }
+
   public type def removeLast(this : ArrayBuffer[T]) : T = {
     var i = --length
     val r = data(i)
