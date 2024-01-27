@@ -2,7 +2,6 @@ with container.FlatArray;
 with container.FlatArrayIterator
 with io.CString
 with io.System
-with string.toStringadr
 
 /**
  * Allows printing and retrieving of stack traces.
