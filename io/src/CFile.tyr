@@ -29,6 +29,8 @@ public type CFile <: OpaquePointer["FILE"] {
   public def flush : int extern c.fflush;
 
   public type def fclose (this : CFile) : int extern c.fclose;
+  public type def close (this : CFile) : bool <: inline = 0 != fclose(this);
+
   public delete {
     fclose(this);
   }
