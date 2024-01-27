@@ -1,2 +1,4 @@
 src=src
 name=tyr.io
+
+with tyr.string
