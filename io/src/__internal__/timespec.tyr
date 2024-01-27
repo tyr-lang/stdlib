@@ -1,0 +1,36 @@
+/**
+ * C11 defines this as size_t, but we use it as if it were a long
+ */
+type time_t := long
+
+/**
+ * A POSIX time value *assuming* that the nanoseconds are stored in a long. In
+ * C11, this is specified. But there, it is not specified that C longs are the
+ * same size as Tyr longs.
+ */
+type timespec {
+  var seconds : time_t
+  var nanos : long
+
+  type def timespec_get(this : Ref[timespec], zone : timezone) : int
+    extern c.timespec_get;
+
+  def get(this : Ref[timespec]) : void {
+    timespec_get(this, timezone.TIME_UTC)
+  }
+
+  def toNanotime : time_t
+    = nanos + seconds * 1_000_000_000L
+
+  test "now after implementation" {
+    1706354849_000_000_000L < System.nanotime()
+  }
+}
+
+/**
+ * A C11/POSIX time base
+ */
+enum timezone <: int {
+  // apparently, this seems to be the only time zone that exists reliably
+  TIME_UTC = 1
+}

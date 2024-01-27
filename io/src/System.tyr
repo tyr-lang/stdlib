@@ -18,4 +18,21 @@ public type System {
    * @note Tyr assumes the host OS to be POSIX-compliant
    */
   public type def getParentPID : int extern c.getppid;
+
+  /**
+   * Return a time in nanoseconds.
+   *
+   * @note  There is no guarantee about monotonicity, timezone or actual
+   *   resolution. The current semantics is that it is a quick and dirty time
+   *   source. It is most certainly not correct wrt. leap whatever unit.
+   *
+   * @note  The result type is long to allow easy delta computations. If you
+   *   want to work with time, please provide a time library with adequate
+   *   functionality.
+   */
+  public type def nanotime : long {
+    var ts : __internal__.timespec
+    ts.get()
+    ts.toNanotime()
+  }
 }
