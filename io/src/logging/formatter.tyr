@@ -1,0 +1,52 @@
+with tyr.string.StringBuffer
+
+/**
+ * A log formatter turns a message into a log line.
+ *
+ * @note A formatter is only applied for logsinks operating on strings.
+ */
+public class Formatter <: abstract {
+  def format (m : Message, s : StringBuffer) : void;
+}
+
+/**
+ * The implicit default formatter. The line is written as:
+ * [time|level]topic source( {context})?\n
+ * message\n\n
+ */
+public class DefaultFormatter <: Formatter {
+  type def toLevel(s : level) : StringLiteral = switch s {
+    if desparate "desparate"
+    if trace     "trace"
+    if debug     "debg"
+    if info      "info"
+    if warning   "warn"
+    if error     "error"
+    if fatal     "fatal"
+    if terminal  "terminal"
+    if lifecycle "life"
+    else         "???"
+  }
+
+  override
+  def format (m : Message, s : StringBuffer) {
+    val r = s.receive()
+
+    r - "[" - m.ts.show() - "|" - toLevel(m.level) - "]" -
+    m.topic.name - " " - m.source
+
+    if(null != m.context) {
+      r - " { "
+      var inner = false
+      m.context.foreach p do {
+        if inner {r - ", "} else {inner = true}
+        r - p.left - "=" - p.right
+      }
+      r - " }"
+    }
+
+    r - "\n" - m.msg - "\n\n"
+
+    delete r
+  }
+}

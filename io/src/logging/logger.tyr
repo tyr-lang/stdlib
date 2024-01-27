@@ -1,0 +1,132 @@
+with container.SmallMap
+with tyr.string.StringBuffer
+with tyr.string.StringReceiverProxy
+
+with __internal__.time_t
+
+/**
+ * A log pipeline is what most people would perceive as logger. It consists of
+ * exactly one formatter and at least one log sink. It owns one log worker
+ * thread, has a name and can have a startup message.
+ */
+public type Logger {
+
+  // logging API functions
+
+  public
+  def fatal (this : CRef[Logger], message : Block[String]) : void <: inline
+    = fatal(topic.default, message)
+  public def fatal (this : CRef[Logger], t : topic, message : Block[String]) : void
+    = if(canLog(level.fatal, t)) put(level.fatal, t, message.eval())
+
+  // note: the stream version uses a bound stream to make sure the end of using
+  // it is properly detected
+  public
+  def fatal (this : CRef[Logger], s : BlockParameter[StringReceiverProxy],
+             message : Block[any]) : void
+    = fatal(topic.default, s, message)
+  public
+  def fatal (this : CRef[Logger], t : topic = topic.default, s : BlockParameter[StringReceiverProxy],
+             message : Block[any]) : void {
+    if(canLog(level.fatal, t)) {
+      val sb = new StringBuffer
+      s = sb.receive()
+      message.eval()
+      put(level.fatal, t, sb)
+    }
+  }
+
+  // val error : ImplicitGlobalLogStream[level.error]
+
+  // val warning : ImplicitGlobalLogStream[level.warning]
+
+  // val info : ImplicitGlobalLogStream[level.info]
+
+  // val implicit : ImplicitGlobalLogStream[level.info]
+  // def apply
+
+  // val debug : ImplicitGlobalLogStream[level.debug]
+
+  // val trace : ImplicitGlobalLogStream[level.trace]
+
+
+
+  // for the moment, we ignore that calling System.exit bypasses all global
+  // deallocations
+  val abortProgramExecution = null
+
+  /**
+   * Wait for all log messages of this thread to be written
+   */
+  public def await : void {
+    // TODO once there are threads
+    // note: until we really have threads, this is simply a nop
+  }
+
+  public def canLog(s : level, t : topic = topic.default) : bool
+   = levels.getOrElse(t, t.defaultLevel) <= s
+
+  public def setLogLevel(s : level, t : topic = topic.default) : void
+   = if (levels.getOrElse(t, t.defaultLevel) != s) levels(t) = s
+
+  // TODO there should be some reconfigure function that allows an entry point
+  // to configure the logger; such a function only makes sense if entryPoints
+  // were allowed to set a pre-initialization function
+
+
+  // implementation
+
+  /**
+   * Base time can be used to configure time being relative to e.g. program
+   * start, machine start or UTC.
+   */
+  var baseTime : time_t
+
+  val worker : Daemon
+
+  val levels : SmallMap[topic, level]
+
+  public new {
+    baseTime = 0L
+    levels = new SmallMap[topic, level]
+    worker = new Daemon
+  }
+
+  delete {
+    put(level.lifecycle, topic.default, "Shutdown")
+    await()
+    delete worker
+    delete levels
+  }
+
+  def makeContext() : SmallMap[StringLiteral, String] {
+    // TODO
+    null
+  }
+
+  def makeSource() : String {
+    "TBD.tyr:666"
+  }
+
+  private def put(this : CRef[Logger], s : level, t : topic, msg : String) {
+    // TODO queue and parallelism
+    worker.process(new Message(
+      msg,
+      makeContext(),
+      makeSource(),
+      t,
+      s
+    ))
+  }
+
+  test "use" {
+    var global = new Logger()
+    global.fatal("hello")
+
+    global.fatal s do {
+      s - "world!\n"
+    }
+
+    delete global
+  }
+}

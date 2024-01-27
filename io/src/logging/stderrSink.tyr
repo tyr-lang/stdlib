@@ -1,0 +1,11 @@
+/**
+ * This sink writes formatted log messages to stderr.
+ */
+public class StderrSink <: StringSink {
+  with System.err
+
+  override def write(s : SolidStringView) : void {
+    err.put(s)
+    err.flush()
+  }
+}

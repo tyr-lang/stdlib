@@ -1,0 +1,79 @@
+with container.SmallMap
+with __internal__.time_t
+
+/**
+ * This is a work package sent to the daemon.
+ */
+class WorkPackage <: abstract;
+
+// TODO replace, obviously
+
+/**
+ * This is an unprocessed log message.
+ */
+public class Message <: WorkPackage, final {
+  new(
+    msg := msg : String,
+    context := context : SmallMap[StringLiteral, String],
+    source := source : String,
+    topic := topic : logging.topic,
+    level := level : logging.level
+  );
+  delete {
+    delete msg
+    if (null != context) {
+      context.foreach p do {
+        delete p.right
+      }
+      delete context
+    }
+    delete source
+  }
+
+  /**
+   * The user-provided message. It is deleted by the worker after processing the
+   * message.
+   */
+  public val msg : String
+
+  /**
+   * Null if no context has been configured.
+   *
+   * Keys are either StringLiteral or StringBuffer.
+   * They need to be deleted once the message has been evaluated.
+   * A user-provided StringBuffer is copied before passing.
+   *
+   * @note the type of this might change without further notice to improve
+   *   performance; we could use a single string buffer to hold the content and
+   *   indices in the map to save allocations
+   */
+  public val context : SmallMap[StringLiteral, String]
+
+  /**
+   * The source line creating the call
+   */
+  public val source : String
+
+  /**
+   * The processing time stamp provided by the worker thread
+   */
+  public var ts : time_t = System.nanotime()
+
+  /**
+   * The topic of this message.
+   */
+  public val topic : topic
+
+  /**
+   * The level of this message. It is known to have been valid when the message
+   * was put into the queue. It does not matter if it is still valid.
+   */
+  public val level : level
+}
+
+
+class Command <: WorkPackage;
+
+class AwaitCommand <: Command {
+  // await should contain a mutex that gets released once the worker arrives there
+}

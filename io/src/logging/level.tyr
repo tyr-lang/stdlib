@@ -1,0 +1,19 @@
+/**
+ * Log levels allow selection of log messages. A log message is processed if
+ * it specifies at least the current log level.
+ *
+ * It is an error to a level not specified by this enum.
+ *
+ * @see https://opentelemetry.io/docs/specs/otel/logs/data-model/#field-severitynumber
+ */
+public enum level {
+  desparate = 2,
+  trace = 3,
+  debug = 7,
+  info = 11,
+  warning = 15,
+  error = 19,
+  fatal = 21,
+  terminal = 23,
+  lifecycle = 24
+}

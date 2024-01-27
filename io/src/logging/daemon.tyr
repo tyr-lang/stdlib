@@ -1,0 +1,102 @@
+with container.ArrayBuffer
+with tyr.string.StringBuffer
+
+with tyr.io.System.out
+
+/**
+ * The daemon processes messages.
+ */
+class Daemon {
+  /**
+   * Reconfiguration is possible while this is false. It is set to true once
+   * the first message is written.
+   *
+   * @note  the on-demand initialization is required to ensure that programs
+   *   logging nothing do not create log files
+   */
+  private var configured = false
+
+  private var formatter : Formatter
+  private var buffer : StringBuffer
+  private val sinks : ArrayBuffer[Sink]
+
+  new {
+    formatter = new DefaultFormatter
+    buffer = new StringBuffer
+
+    sinks = new ArrayBuffer[Sink]
+  }
+
+  delete {
+    sinks.foreach s do {
+      delete s
+    }
+    delete sinks
+    delete buffer
+    delete formatter
+  }
+
+  private
+  def reconfigure : void {
+    // ensure that this does not get called twice
+    configured = true
+
+    if sinks.empty() {
+      sinks += new StderrSink
+      sinks += new TmpFileSink
+    }
+  }
+
+  def process(m : Message) : void {
+    if (!configured)
+      reconfigure()
+
+    buffer.clear()
+    sinks.foreach s do {
+      switch s {
+        if StringSink {
+          if (buffer.empty()) {
+            formatter.format(m, buffer)
+          }
+
+          s.write(buffer)
+        }
+        if RawSink {
+          s.write(m)
+        }
+        else {/* ignored for the moment*/}
+      }
+    }
+    delete m
+  }
+
+  test "default sinks uninitialized" {
+    val d = new Daemon
+
+    null != d.sinks &&
+    0U == d.sinks.size() &&
+    d.sinks.forall s do (StringSink ? s)
+  }
+
+  test "default sinks" {
+    val d = new Daemon
+    val m = new Message("test", null, "_.tyr:123", topic.default, level.info)
+
+    d.process(m)
+
+    null != d.sinks &&
+    2U == d.sinks.size() &&
+    StderrSink ? d.sinks(0) &&
+    TmpFileSink ? d.sinks(1) &&
+    d.sinks.forall s do (StringSink ? s)
+  }
+
+  test "process default" {
+    val d = new Daemon
+    val m = new Message("test", null, "_.tyr:123", topic.default, level.info)
+
+    d.process(m)
+
+    delete d
+  }
+}

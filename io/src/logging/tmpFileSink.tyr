@@ -1,0 +1,25 @@
+with tyr.string.StringBuffer
+
+/**
+ * This sink writes formatted log messages to /tmp/log$PID.txt.
+ */
+public class TmpFileSink <: StringSink {
+  var out : CFile
+
+  new {
+    val path = new StringBuffer
+    val r = path.receive()
+    r - "/tmp/log" - System.getPID().show() - ".txt"
+    delete r
+    out = CFile.open(path, "w")
+    delete path
+  }
+  delete {
+    delete out
+  }
+
+  override def write(s : SolidStringView) : void {
+    out.put(s)
+    out.flush()
+  }
+}

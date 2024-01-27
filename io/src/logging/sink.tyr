@@ -1,0 +1,24 @@
+/**
+ * A log sink is either a StringSink or a RawSink.
+ *
+ * StringSinks take a fully formatted String.
+ * RawSinks take the raw message.
+ *
+ * Sinks are not allowed to log themselves. Further, they shall not fail as
+ * their errors will not be taken care of.
+ */
+public class Sink <: abstract;
+
+/**
+ * This sink writes a view of the buffered and fully formatted message.
+ */
+public class StringSink <: Sink, abstract {
+  public def write(s : SolidStringView) : void;
+}
+
+/**
+ * This sink takes the raw message and writes it. Prefer to use StringSink.
+ */
+public class RawSink <: Sink, abstract {
+  public def write(m : Message) : void;
+}

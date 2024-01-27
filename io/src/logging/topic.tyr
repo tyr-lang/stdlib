@@ -1,0 +1,12 @@
+/**
+ * A topic has a unique name and a default level.
+ */
+public type topic {
+  public type val default = new topic("default", level.info)
+
+  public val name : StringLiteral
+  public val defaultLevel : level
+
+  public
+  new(name := name : StringLiteral, defaultLevel := defaultLevel : level);
+}
