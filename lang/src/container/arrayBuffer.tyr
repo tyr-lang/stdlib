@@ -26,8 +26,7 @@ public class ArrayBuffer[T : Type[any]] <: Seq[T] {
    *
    * @param size the initial capacity of the buffer.
    */
-   // TODO 0.7 WTF? remove implicit
-  public new (size : index_t = 8.implicit()) {
+  public new (size : index_t = 8) {
     length = 0U
     capacity = size.unpack
     data = new FlatArray[T](capacity)
