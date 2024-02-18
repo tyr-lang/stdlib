@@ -7,11 +7,6 @@
  *       start to implement a dynamic linking approach.
  *       (note to self: my initial SKilL next pointer algorithm was sufficient)
  *
- * @note Class shall eventually get a generic invariant type paramater that
- *       represents the represented type at CT. That type parameter cannot be a
- *       regulare CT parameter, because it would make type representation
- *       infinite.
- *
  * @note Implementiations of classes are actually anonymous sub types of Class
  *       whose class is the Class of classes.
  *
