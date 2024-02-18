@@ -36,7 +36,8 @@
  * @author Timm Felden
  */
 public
-type Block[+T : Type[any]] <: final, reflection.native, reflection.noVar {
+type Block[+T : Type[any] <: reflection.keepGenerics]
+  <: final, reflection.native, reflection.noVar {
 
   /**
    * Implicit conversion at compile time into regular execution of an expression
