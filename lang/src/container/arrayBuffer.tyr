@@ -3,7 +3,7 @@
  *
  * @author Timm Felden
  */
-public class ArrayBuffer[T : Type[any]] <: Seq[T] {
+public class ArrayBuffer[T : Type[any]] <: IndexedSeq[T] {
   /**
    * The number of valid elements in the buffer.
    *

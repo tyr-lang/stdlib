@@ -1,0 +1,21 @@
+/**
+ * The base class of mutable indexed sequential containers.
+ * Indices range from 0 to size(), eclusively.
+ */
+public class IndexedSeq[T : Type[_]] <: Seq[T], abstract {
+
+  /**
+   * @return the element at the given index
+   */
+  public def apply(index : index_t) : Ref[T];
+  /**
+   * update the element at the given index
+   * @return v
+   */
+  public def update(index : index_t, v : T) : T;
+
+  /**
+   * @return 0U <= index.unpack && index.unpack < size()
+   */
+  public def isDefined(index : index_t) : bool;
+}
