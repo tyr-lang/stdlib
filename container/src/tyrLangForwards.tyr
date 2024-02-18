@@ -1,0 +1,4 @@
+public type Array := tyr.lang.container.Array
+public type ArrayBuffer := tyr.lang.container.ArrayBuffer
+
+public type Iterator := tyr.lang.container.Iterator
