@@ -1,12 +1,16 @@
 /**
  * The type of a type.
  *
- * @note this type is currently used only for typing and has no RT semantics
+ * @note  this type is currently used only for typing and has no RT semantics
  *
- * @note Type, like IntegerLiteral, require special treatment by the compiler as
- *   overload resolution uses implicit Type[_] shapes to type parameter types
+ * @note  Type, like IntegerLiteral, require special treatment by the compiler
+ *   as overload resolution uses implicit Type[_] shapes to type parameter types
  *
- * @note the signature of this type cannot be changed without changing the compiler
+ * @note  the signature of this type cannot be changed without changing the
+ *   compiler
+ *
+ * @note  Type acts as if it had a proxy[T] property, but it cannot have one as
+ *   this would introduce an unsolvable elaboration cycle as of Tyr 0.7
  *
  * @todo 0.8 should be sealed
  */

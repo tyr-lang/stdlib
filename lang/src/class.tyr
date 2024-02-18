@@ -25,8 +25,7 @@
  * @author Timm Felden
  */
 public
-class Class[+T : Class[Object] := Object] <: Type[T], mem.eternal,
-    reflection.proxy[T] {
+class Class[+T : Class[Object] := Object] <: Type[T], mem.eternal {
 
   /**
    * Class initialization is performed by the back-end globally.
