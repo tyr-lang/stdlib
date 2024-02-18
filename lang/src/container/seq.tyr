@@ -3,7 +3,7 @@
  *
  * @note This class is a view. As such it is covariant but offers no update.
  */
-public class Seq[T : Type[any]] <: Iterable[T], abstract {
+public class Seq[+T : Type[any]] <: Iterable[T], abstract {
 
   /**
    * The number of elements in this container.
