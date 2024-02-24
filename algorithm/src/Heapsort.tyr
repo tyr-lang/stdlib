@@ -1,18 +1,28 @@
 with container.FlatArray;
+with container.IndexedSeq;
 with container.index_t;
 with container.size_t;
 
-/**
- * Sort an ArrayView in place
- *
- * TODO get rid of the implicit calls
- */
-public type Heapsort [
-  T : Type,
+public type Heapsort[
+  T : Type[_],
   cmp : def (T, T) : bool
 ] {
-  type def sort(data : FlatArray[T], size : index_t) : void {
+
+  public
+  type def apply(data : FlatArray[T], size : index_t) : void := flatArray
+  public
+  type def apply(data : IndexedSeq[T]) : void := indexedSeq
+
+  /**
+   * Sort an FlatArray in place
+   */
+  public type def flatArray(data : FlatArray[T], size : index_t) : void {
     var n = size.unpack
+
+    // handle empty and singleton containers efficiently and correctly
+    if(n <= 1U)
+      return;
+
     var value : T;
     var parent : size_t;
     var child : size_t;
@@ -41,7 +51,7 @@ public type Heapsort [
       }
 
       if (child == n) {
-        if (!cmp(data(--child), value.implicit())) {
+        if (!cmp(data(--child), value)) {
           data(parent) = data(child)
           data(child) = value
           continue
@@ -50,7 +60,7 @@ public type Heapsort [
         child = parent
 
       } else {
-        if (!cmp(data(parent), value.implicit())) {
+        if (!cmp(data(parent), value)) {
           data(parent) = value
           continue
         }
@@ -61,7 +71,76 @@ public type Heapsort [
       while (child != root) {
         parent = (child - 1U) >> 1U
 
-        if (!cmp(data(parent), value.implicit()))
+        if (!cmp(data(parent), value))
+          break;
+
+        data(child) = data(parent)
+        child = parent
+      }
+
+      data(child) = value
+    }
+  }
+
+  /**
+   * Sort an IndexedSeq in place
+   */
+  public type def indexedSeq(data : IndexedSeq[T]) : void {
+    var n = data.size()
+
+    // handle empty and singleton containers efficiently and correctly
+    if(n <= 1U)
+      return;
+
+    var value : T;
+    var parent : size_t;
+    var child : size_t;
+
+    var root = n >> 1U;
+
+    while (true) {
+      if (0U != root) {
+        parent = --root
+        value = data(root)
+
+      } else if ( 0U != --n ) {
+        value = data(n)
+        data(n) = data(0)
+        parent = 0U
+
+      } else
+        return;
+
+      while ((child = (parent + 1U) << 1U) < n) {
+        if (cmp(data(child), data(child - 1U)))
+          --child;
+
+        data(parent) = data(child)
+        parent = child
+      }
+
+      if (child == n) {
+        if (!cmp(data(--child), value)) {
+          data(parent) = data(child)
+          data(child) = value
+          continue
+        }
+
+        child = parent
+
+      } else {
+        if (!cmp(data(parent), value)) {
+          data(parent) = value
+          continue
+        }
+
+        child = (parent - 1U) >> 1U
+      }
+
+      while (child != root) {
+        parent = (child - 1U) >> 1U
+
+        if (!cmp(data(parent), value))
           break;
 
         data(child) = data(parent)
@@ -73,7 +152,7 @@ public type Heapsort [
   }
 
   test "sort3" {
-    val sort = Heapsort[int, int.`<`].sort
+    val sort = Heapsort[int, int.`<`].flatArray
     var arr = new FlatArray[int](4)
 
     arr(0) = 7
@@ -91,8 +170,9 @@ public type Heapsort [
   }
 
   test "sort" {
-    val sort = Heapsort[int, int.`<`].sort
     var arr = new FlatArray[int](4)
+    val sort =
+      Heapsort[int, int.`<`].apply : def (FlatArray[int], index_t) : void
 
     arr(0) = 7
     arr(1) = 1
