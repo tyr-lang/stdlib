@@ -1,0 +1,57 @@
+type HeapsortTest {
+  with tyr.algorithm.Heapsort
+  with tyr.container.ArrayBuffer
+
+  type def shorter (a : String, b : String) = a.size() < b.size()
+
+  test "empty" {
+    var buff = new ArrayBuffer[String]
+
+    Heapsort[String, HeapsortTest.shorter](buff)
+
+    val r = buff.empty()
+    delete buff
+    r
+  }
+
+  test "single" {
+    var buff = new ArrayBuffer[String]
+
+    buff += "z"
+
+    Heapsort[String, HeapsortTest.shorter](buff)
+
+    val r = buff(0) == "z"
+    delete buff
+    r
+  }
+
+  test "two" {
+    var buff = new ArrayBuffer[String]
+
+    buff += "one"
+    buff += "z"
+
+    Heapsort[String, HeapsortTest.shorter](buff)
+
+    val r = buff(0) == "z"
+    delete buff
+    r
+  }
+
+  test "many" {
+    var buff = new ArrayBuffer[String]
+
+    buff += "stuff"
+    buff += "many"
+    buff += "three"
+    buff += "one"
+    buff += "z"
+
+    Heapsort[String, HeapsortTest.shorter](buff)
+
+    val r = buff(0) == "z"
+    delete buff
+    r
+  }
+}
