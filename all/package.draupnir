@@ -1,8 +1,9 @@
 # this package imports all tyr packages
 name=tyr.all
 
-with=tyr.container
+with tyr.algorithm
+with tyr.container
 # currently broken: with=tyr.debug
-with=tyr.io
-with=tyr.math
-with=tyr.string
+with tyr.io
+with tyr.math
+with tyr.string
