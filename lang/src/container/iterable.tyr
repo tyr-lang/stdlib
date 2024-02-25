@@ -27,7 +27,7 @@ public class Iterable[+T : Type[any]] <: abstract {
   /**
    * Count the number of elements fulfilling predicate
    */
-  public def count (x : BlockParameter[T], predicate : Block[bool]) : int
+  public def count (x : BlockParameter[T], predicate : Block[bool]) : size_t
     = iterator().count(x, predicate)
 
   /**

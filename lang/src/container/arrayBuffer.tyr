@@ -344,9 +344,9 @@ public class ArrayBuffer[T : Type[any]] <: IndexedSeq[T] {
   }
 
   override [Iterable.count]
-  def count (x : BlockParameter[T], predicate : Block[bool]) : int {
+  def count (x : BlockParameter[T], predicate : Block[bool]) : size_t {
     var i = 0U
-    var r = 0
+    var r = 0U
     while(i < length) {
       x = data(i)
       if(predicate.eval())

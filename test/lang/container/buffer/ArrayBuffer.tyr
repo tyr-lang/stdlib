@@ -39,4 +39,26 @@ type ArrayBuffer {
     delete xs
     r
   }
+
+  test "count" {
+    var xs = new Buffer[String]
+    var r = xs.empty()
+
+    range(0, 100).foreach i do {
+      xs += ""
+    }
+
+    r &= 100U == xs.size()
+    r &= (100U == xs.count x do (true))
+
+    range(0, 100).foreach i do {
+      r &= "" == xs.removeLast()
+    }
+
+    r &= xs.empty()
+    r &= 0U == xs.count x do (true)
+
+    delete xs
+    r
+  }
 }

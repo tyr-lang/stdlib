@@ -54,9 +54,9 @@ public class Iterator[+T : Type[any]] <: abstract {
    *
    * @post !hasNext
    */
-  public def count (x : BlockParameter[T], predicate : Block[bool]) : int
+  public def count (x : BlockParameter[T], predicate : Block[bool]) : size_t
           <: mem.consumed  {
-    var r = 0
+    var r = 0U
     while(hasNext()) {
       x = next()
       if(predicate.eval())
