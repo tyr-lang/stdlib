@@ -46,6 +46,6 @@ type Ref[T : Type[any] <: reflection.keepGenerics]
    * to by this will be overwritten by v.
    */
   public
-  def `=` (v : T) : v.type
+  def = (v : T) : v.type
       <: reflection.native, operator.precedence[20], operator.rightAssociative;
 }
