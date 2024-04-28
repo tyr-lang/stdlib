@@ -35,8 +35,8 @@ public class ChainedIterator[T : Type[any]] <: Iterator[T] {
    * @note In consequence, it is not allowed to pass null
    */
   type def apply(left : Iterator[T], right : Iterator[T]) : Iterator[T] {
-    if left.hasNext() {
-      if right.hasNext() {
+    if (left.hasNext()) {
+      if (right.hasNext()) {
         new ChainedIterator[T](left, right)
 
       } else {
