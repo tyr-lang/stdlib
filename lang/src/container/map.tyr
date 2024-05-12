@@ -18,7 +18,7 @@ class Map[K : Type[_], V : Type[_], EQ : def(K, K) : bool = MinEQR[K].equals]
   /**
    * Return the value stored for k in this map.
    *
-   * @pre contains(k)]
+   * @pre contains(k)
    */
   public def apply(k : K) : V;
 
