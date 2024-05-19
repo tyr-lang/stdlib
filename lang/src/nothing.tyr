@@ -1,26 +1,33 @@
 /**
- * The computation will result in an exception on termination.
+ * The computation will throw instead of terminating the regular control flow.
+ * Hence, WillThrow inherits from every other type except NoReturn, as any
+ * result can be produced by throwing an exception before its production.
  *
- * @todo WillThrow inherits from every other type except NoReturn, as any result
- *       can be produced by throwing an exception before its production.
+ * @param T  the type of exception that will be thrown
  *
- * @todo Add generic type parameter for exception types that should be expected.
+ * @note  one can still get any other exception out of such a call
  *
- * @todo Check that only NoReturn implements WillThrow
+ * @note  It should be legal to throw an exception at places where a type has to
+ *   be supplied. The semantics of such a behaviour would be that the throw
+ *   happens before the evaluation of that type. Such unevaluatable types can be
+ *   replaced by Class[NoReturn].
  *
- * @note It should be legal to throw an exception at places where a type has to
- * be supplied. The semantics of such a behaviour would be that the throw
- * happens before the evaluation of that type. Such unevaluatable types can be
- * replaced by Class[NoReturn].
+ * @note  This is an interface, as value type interfaces are the only legal
+ *   subtype of anything else.
  *
  * @note to self: there should be a rule causing all types below WillThrow[Null]
  *   to be replaced by NoReturn
  *
- * @note this is an interface, as value type interfaces are the only legal
- * subtype of anything else.
+ * @todo  restrict explicit usage to function return types
+ *
+ * @todo 0.8: Class exceptions.Throwable
+ *
+ * @todo 0.8: why can this be final? it shouldn't be
+ *   private[_root_] protected[NoReturn] or sealed
  */
 public
-interface WillThrow[+T : Class[Object/*Exception*/]] <: any, reflection.native, final;
+interface WillThrow[+T : Class[_]] <:
+    any, reflection.native, final;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to

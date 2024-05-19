@@ -1,0 +1,33 @@
+/**
+ * The base class of all exception handling. It is not allowed to be used
+ * directly.
+ */
+class Throwable <: abstract {
+
+  /**
+   * A linked list of suppressed exceptions.
+   */
+  public var suppressed : Throwable;
+
+  protected[tyr.lang] new {
+    suppressed = null
+  }
+
+  delete {
+    delete suppressed
+  }
+
+  /**
+   * Throw this exceptions.
+   */
+  public
+  type def throw(this : Throwable) : WillThrow[this.type] <:
+      reflection.native, final;
+
+  /**
+   * Let a caught exception continue as if it had not been caught.
+   */
+  public
+  type def rethrow(this : Throwable) : WillThrow[this.type] <:
+      reflection.native, final;
+}
