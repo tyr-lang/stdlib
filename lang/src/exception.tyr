@@ -2,4 +2,6 @@
  * An exception signals abnormal behaviour. It is the base class of catchable
  * throwables.
  */
-public class Exception <: exceptions.Throwable;
+public class Exception <: exceptions.Throwable {
+  override def message = "some exception"
+}

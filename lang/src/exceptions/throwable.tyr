@@ -21,13 +21,18 @@ class Throwable <: abstract {
    * Throw this exceptions.
    */
   public
-  type def throw(this : Throwable) : WillThrow[this.type] <:
+  type def throw(this : Throwable) : WillThrow[Throwable] <:
       reflection.native, final;
 
   /**
    * Let a caught exception continue as if it had not been caught.
    */
   public
-  type def rethrow(this : Throwable) : WillThrow[this.type] <:
+  type def rethrow(this : Throwable) : WillThrow[Throwable] <:
       reflection.native, final;
+
+  /**
+   * Produce a message that can be shown to explain what has happened.
+   */
+  public def message : String;
 }
