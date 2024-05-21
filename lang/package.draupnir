@@ -1,8 +1,11 @@
 src=src
 name=tyr.lang
 
-# We use libc. So, make it available to everybody.
+# We use libc for almost all basics.
 extern c from libc
+
+# We use libc++abi for exceptions.
+extern cxa from `libc++abi`
 
 # We use libm to realize common math function with C implementations.
 extern math from libm
