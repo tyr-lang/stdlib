@@ -1,0 +1,21 @@
+/**
+ * Trying to access unmapped virtual memory.
+ *
+ * @note  null should be signaled by creating a null access
+ *
+ * @todo  this class should be created by a factory ensuring correct allocation
+ *
+ * @todo  this class should hold the target pointer and print it in its message
+ *   this might require InvalidPointerAcess to be another subclass and segfault
+ *   to be abstract
+ */
+public class SegFault <: Exception {
+  override def message = "invalid pointer access"
+}
+
+/**
+ * Trying to load null is a common mistake. Hence, it deserves its own class.
+ */
+public class NullAccess <: SegFault, final {
+  override def message = "null pointer access"
+}

@@ -24,6 +24,8 @@
  *
  * @todo 0.8: why can this be final? it shouldn't be
  *   private[_root_] protected[NoReturn] or sealed
+ *
+ * @note  The repr of WillThrow is void.
  */
 public
 interface WillThrow[+T : Class[_]] <:

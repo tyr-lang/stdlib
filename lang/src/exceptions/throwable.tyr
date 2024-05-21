@@ -19,10 +19,26 @@ class Throwable <: abstract {
 
   /**
    * Throw this exceptions.
+   *
+   * @throws NullAccess  if null == this
+   *
+   * @note  this must be a fresh not null exception that is deleted once caught
+   *
+   * @note  Anything about exception handling is expensive. So, performing
+   *   checks really isn't an issue.
    */
   public
-  type def throw(this : Throwable) : WillThrow[Throwable] <:
-      reflection.native, final;
+  type def throw(this : Throwable) : WillThrow[Throwable] <: final {
+    if (null == this)
+      new NullAccess().throw()
+
+    // allocate an exception container for Throwable which is a pointer
+    val ex = __cxa_allocate_exception(8L);
+
+    (Ref[Throwable] !! (ex : Ref[byte])) = this;
+
+    __cxa_throw(ex, mkTypeID(), null);
+  }
 
   /**
    * Let a caught exception continue as if it had not been caught.
@@ -35,4 +51,22 @@ class Throwable <: abstract {
    * Produce a message that can be shown to explain what has happened.
    */
   public def message : String;
+
+  /** declare i8* @__cxa_allocate_exception(i64) */
+  private
+  type def __cxa_allocate_exception(size : long) : UntypedException
+    extern cxa.__cxa_allocate_exception;
+
+  /** declare void @__cxa_throw(i8*, i8*, i8*) */
+  private
+  type def __cxa_throw(e : UntypedException, t : pointer, dest : pointer)
+    : WillThrow[Throwable]
+    extern cxa.__cxa_allocate_exception;
+
+  /**
+   * Create the C++ typeID structure pased to throw
+   */
+  private type def mkTypeID() : CRef[byte] <: reflection.native;
 }
+
+private type UntypedException := Ref[byte]
