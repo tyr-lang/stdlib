@@ -11,9 +11,20 @@ class Throwable <: abstract {
 
   protected[tyr.lang] new {
     suppressed = null
+    // TODO Throwable should gather a stack trace on *allocation*
+    // each rethrow should add a stack line to a separate list
+    // note to self: we should check if we can add such a function with the
+    // exception as parameter lying to llvm that the function is pure to ensure
+    // that it isn't called if the exception would otherwise be optimized out
   }
 
-  delete {
+  /**
+   * Exceptions are deleted implicitly by handling them. As such, it is an error
+   * to store a reference to a thrown exception.
+   *
+   * Also, it would be an error if a destructor could throw. Hence, it is final.
+   */
+  delete <: final {
     delete suppressed
   }
 
@@ -28,23 +39,82 @@ class Throwable <: abstract {
    *   checks really isn't an issue.
    */
   public
-  type def throw(this : Throwable) : WillThrow[Throwable] <: final {
-    if (null == this)
-      new NullAccess().throw()
+  type def throw(this : Throwable) : WillThrow[Throwable] <: final, inline {
+    val t =
+      if (null == this)
+         new NullAccess
+       else
+         this
 
     // allocate an exception container for Throwable which is a pointer
     val ex = __cxa_allocate_exception(8L);
 
-    (Ref[Throwable] !! (ex : Ref[byte])) = this;
+    (Ref[Throwable] !! (ex : Ref[byte])) = t;
+
+    // note: the code below is likely rethrow
+
+    // TODO if there is a local handler, jump directly to that handler
 
     __cxa_throw(ex, mkTypeID(), null);
   }
 
   /**
+   * Suppress the current exception and throw the survivor.
+   *
+   * @note if the current exception is Fatal, the current exception stays and
+   *   this is suppressed instead, even if it is also Fatal
+   */
+  // public
+  // type def suppress(this : Throwable) : WillThrow[Throwable] <: final, inline {
+  //   val t =
+  //     if (null == this)
+  //       new NullAccess
+  //      else
+  //        this
+
+  //   val current = currentException()
+  //   if (null == current)
+  //     t.throw()
+
+  //   if (Fatal ? current) {
+  //     // note: strictly speaking, this is more complex; wait for exact rules
+  //     // until someone really runs into that issue
+  //     suppressed = current.suppressed
+  //     current.suppressed = t
+  //     t.cancel()
+  //     current.rethrow()
+  //   } else {
+  //     // note: strictly speaking, this is more complex; wait for exact rules
+  //     // until someone really runs into that issue
+  //     t.suppressed = current
+  //     current.cancel();
+  //     t.rethrow()
+  //   }
+  // }
+
+  /**
    * Let a caught exception continue as if it had not been caught.
+   *
+   * @todo  implement suppression as intended; this requires checking if there
+   *   is an exception below the current top.
+   *
+   * @note  rethrow does not strictly require that this has been thrown before;
+   *   if this has been subject to local throw optimization, the exception can
+   *   be fresh.
    */
   public
   type def rethrow(this : Throwable) : WillThrow[Throwable] <:
+      reflection.native, final;
+
+  /**
+   * Let a caught exception stop in the current handler. This function is called
+   * implicitly at the end of the handler and idempotent.
+   *
+   * @todo  implement suppression as intended; this requires checking if there
+   *   is an exception below the current top.
+   */
+  public
+  type def cancel(this : Throwable) : WillThrow[Throwable] <:
       reflection.native, final;
 
   /**
@@ -57,16 +127,33 @@ class Throwable <: abstract {
   type def __cxa_allocate_exception(size : long) : UntypedException
     extern cxa.__cxa_allocate_exception;
 
+  /**
+   * If there is an enclosing catch handler, jump to it and continue from there.
+   *
+   * @note  does nothing if none exists
+   *
+   * @note  this will result in stack traces getting a bit weird in this case
+   *   but we accept that given that it will actually allow us to optimize a lot
+   *   of resource handling code
+   */
+  private
+  type def __local_throw(e : pointer) : void <: reflection.native, final;
+
   /** declare void @__cxa_throw(i8*, i8*, i8*) */
   private
-  type def __cxa_throw(e : UntypedException, t : pointer, dest : pointer)
+  type def __cxa_throw(e : pointer, t : pointer, dest : pointer)
     : WillThrow[Throwable]
-    extern cxa.__cxa_allocate_exception;
+    extern cxa.__cxa_throw;
 
   /**
    * Create the C++ typeID structure pased to throw
    */
-  private type def mkTypeID() : CRef[byte] <: reflection.native;
+  private type def mkTypeID() : pointer <: reflection.native;
+
+  /**
+   * Read the current exception; null if not currently handling an exception
+   */
+  private type def currentException() : Throwable <: reflection.native;
 }
 
 private type UntypedException := Ref[byte]

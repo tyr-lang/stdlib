@@ -3,9 +3,16 @@
  * Hence, WillThrow inherits from every other type except NoReturn, as any
  * result can be produced by throwing an exception before its production.
  *
- * @param T  the type of exception that will be thrown
+ * @param T  The type of exception that will be thrown. Note that this has
+ *   mainly a documentation purpose. Reality is that this exception type is used
+ *   if nothing goes wrong. Still, one can end up receiving implicit exceptions.
  *
- * @note  one can still get any other exception out of such a call
+ * @note  One can still get any other exception out of such a call.
+ *
+ * @note  Handling exceptions from sources not defing the runtime exception type
+ *   as WillThrow parameter is undefined behaviour. The reason is that such
+ *   handlers can get optimized out resulting in other handlers catching the
+ *   exception or no handler at all catching the exception.
  *
  * @note  It should be legal to throw an exception at places where a type has to
  *   be supplied. The semantics of such a behaviour would be that the throw
@@ -20,7 +27,7 @@
  *
  * @todo  restrict explicit usage to function return types
  *
- * @todo 0.8: Class exceptions.Throwable
+ * @todo 0.8: Class[exceptions.Throwable]
  *
  * @todo 0.8: why can this be final? it shouldn't be
  *   private[_root_] protected[NoReturn] or sealed
@@ -38,7 +45,12 @@ interface WillThrow[+T : Class[_]] <:
  * cannot be observed from the perspective of the subsequent instruction in the
  * same function following regular control flow.
  *
- * @note this is an interface, as value type interfaces are the only legal
+ * @note  this is an interface, as value type interfaces are the only legal
  * subtype of anything else.
+ *
+ * @note  The repr of NoReturn is void as we do not emit code for entities that
+ *   are not observed.
+ *
+ * @note  Throwing null is already non-observable.
  */
 public interface NoReturn <: any, WillThrow[Null], reflection.native, final;

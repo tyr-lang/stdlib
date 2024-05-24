@@ -1,10 +1,21 @@
 /**
  * The most common form of zero space.
  *
- * @note There are a lot of language/compiler rules that allow conversions of
+ * @note  There are a lot of language/compiler rules that allow conversions of
  *       any result to void. This is sane, because it means that the result is
  *       simply discarded.
  *
- * @note The compiler shall issue a warning if a void var/val/Ref is created.
+ * @note  The compiler shall issue a warning if a void var/val/Ref is created.
+ *
+ * @todo 0.8  Think about removing final and having non-interface types without
+ *   fields void as an implicit super type. If I do this, I should also check
+ *   that the compiler does not perform equivalence checks agains void.
+ *   Note to self: that rule is required anyway because throwing bottom types
+ *   should require that these values are implicitly void.
+ *
+ * @todo 0.9  Entities becoming void shall be discarded.
+ *   Note to self: I might need to defer that rule because it changes signatures
+ *   of generic types on instantiation. This is kind of a SFINAE thing. It might
+ *   be that I need to preserve those entities but delete all their uses.
  */
 public type void <: final, any, reflection.native;

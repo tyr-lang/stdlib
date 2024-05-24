@@ -1,0 +1,5 @@
+/**
+ * Throwing an instance of this class will terminate the current thread by
+ * unwinding its entire stack.
+ */
+public class Fatal <: Throwable, abstract;

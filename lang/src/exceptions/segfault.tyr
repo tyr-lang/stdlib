@@ -14,8 +14,30 @@ public class SegFault <: Exception {
 }
 
 /**
+ * The fatal variant of SegFaults. By default, implicit segfaults are
+ * represented as errors. This may change in the future.
+ *
+ * The rationale behind having segfaults errors is that they are bugs in the
+ * code. Also, resources could be leaked if an implicit exception is raised.
+ * This could happen in the middle of a finally block that would otherwise not
+ * throw.
+ *
+ * @see  SegFault
+ */
+public class FatalSegFault <: Fatal {
+  override def message = "fatal invalid pointer access"
+}
+
+/**
  * Trying to load null is a common mistake. Hence, it deserves its own class.
  */
 public class NullAccess <: SegFault, final {
   override def message = "null pointer access"
+}
+
+/**
+ * @see  NullAccess
+ */
+public class FatalNullAccess <: FatalSegFault, final {
+  override def message = "fatal null pointer access"
 }
