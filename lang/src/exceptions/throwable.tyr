@@ -47,9 +47,13 @@ class Throwable <: abstract {
    *
    * @note  Anything about exception handling is expensive. So, performing
    *   checks really isn't an issue.
+   *
+   * @suppressCompilerMessage W_OOP_UNLIKELY_CAST  the cast converts between C
+   *   and tyr types
    */
   private
-  type def `throw`(this : Throwable) : WillThrow[Throwable] <: final, inline {
+  type def `throw`(this : Throwable) : WillThrow[Throwable] <: final, inline,
+    suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
     val t =
       if (null == this)
          new NullAccess
