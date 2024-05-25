@@ -13,6 +13,12 @@ class Throwable <: abstract {
    */
   public var suppressed : Throwable;
 
+  /**
+   * Produce a message that can be shown to explain what has happened.
+   */
+  public def message : String;
+
+
   protected[tyr.lang] new {
     suppressed = null
     // TODO Throwable should gather a stack trace on *allocation*
@@ -108,7 +114,7 @@ class Throwable <: abstract {
    *
    * @note to self: I guess it could be that the exception is fresh if it is a foreign exception
    */
-  public
+  private
   type def rethrow(this : Throwable) : WillThrow[Throwable] <:
       reflection.native, final;
 
@@ -130,15 +136,11 @@ class Throwable <: abstract {
    *
    * @todo  should be private and might not exist at all if it's just one cxa call
    */
-  public
-  type def cancel(this : Throwable) : void <: final {
+  private
+  type def cancel(this : Throwable) : void <: mem.consumed, final {
     __cxa_end_catch()
+    delete this
   }
-
-  /**
-   * Produce a message that can be shown to explain what has happened.
-   */
-  public def message : String;
 
   /** declare i8* @__cxa_allocate_exception(i64) */
   private
