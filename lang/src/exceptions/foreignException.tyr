@@ -1,0 +1,13 @@
+/**
+ * An exception that is created is something is thrown that isn't a Throwable.
+ * This can only happen by calling C++ code that throws an uncaught exception.
+ *
+ * @todo  really implement this correctly ensuring that the exception stack
+ *   remains balanced under all circumstances
+ */
+public class ForeignException <: Exception, final {
+    new;
+
+    override
+    def message = "caught a non-Tyr exception"
+}

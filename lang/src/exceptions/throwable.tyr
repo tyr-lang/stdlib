@@ -1,6 +1,8 @@
 /**
  * The base class of all exception handling. It is not allowed to be used
  * directly.
+ *
+ * TODO 0.8 check what is really used and delete all the rest again
  */
 class Throwable <: abstract {
 
@@ -101,21 +103,35 @@ class Throwable <: abstract {
    * @note  rethrow does not strictly require that this has been thrown before;
    *   if this has been subject to local throw optimization, the exception can
    *   be fresh.
+   *
+   * @note to self: I guess it could be that the exception is fresh if it is a foreign exception
    */
   public
   type def rethrow(this : Throwable) : WillThrow[Throwable] <:
       reflection.native, final;
 
+  // TODO implement once I can ensure that throw/rethrow and cancelation will
+  // work correctly here
+  // private
+  // type def handleForeign() : ForeignException {
+  //   // delete the current exception
+  //   __cxa_end_catch()
+  //   return new ForeignException
+  // }
+
   /**
    * Let a caught exception stop in the current handler. This function is called
-   * implicitly at the end of the handler and idempotent.
+   * implicitly at the end of the handler.
    *
    * @todo  implement suppression as intended; this requires checking if there
    *   is an exception below the current top.
+   *
+   * @todo  should be private and might not exist at all if it's just one cxa call
    */
   public
-  type def cancel(this : Throwable) : WillThrow[Throwable] <:
-      reflection.native, final;
+  type def cancel(this : Throwable) : void <: final {
+    __cxa_end_catch()
+  }
 
   /**
    * Produce a message that can be shown to explain what has happened.
@@ -126,6 +142,16 @@ class Throwable <: abstract {
   private
   type def __cxa_allocate_exception(size : long) : UntypedException
     extern cxa.__cxa_allocate_exception;
+
+  /** declare i8* @__cxa_begin_catch(i8*) */
+  private
+  type def __cxa_begin_catch(exV : pointer) : pointer
+    extern cxa.__cxa_begin_catch;
+
+  /** declare void @__cxa_end_catch() */
+  private
+  type def __cxa_end_catch() : void
+    extern cxa.__cxa_end_catch;
 
   /**
    * If there is an enclosing catch handler, jump to it and continue from there.
@@ -141,7 +167,7 @@ class Throwable <: abstract {
 
   /** declare void @__cxa_throw(i8*, i8*, i8*) */
   private
-  type def __cxa_throw(e : pointer, t : pointer, dest : pointer)
+  type def __cxa_throw(e : UntypedException, t : pointer, dest : pointer)
     : WillThrow[Throwable]
     extern cxa.__cxa_throw;
 
