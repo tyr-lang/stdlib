@@ -8,6 +8,8 @@ class Throwable <: abstract {
 
   /**
    * A linked list of suppressed exceptions.
+   *
+   * @note if you create a cycle here, the program might crash eventually
    */
   public var suppressed : Throwable;
 
@@ -40,8 +42,8 @@ class Throwable <: abstract {
    * @note  Anything about exception handling is expensive. So, performing
    *   checks really isn't an issue.
    */
-  public
-  type def throw(this : Throwable) : WillThrow[Throwable] <: final, inline {
+  private
+  type def `throw`(this : Throwable) : WillThrow[Throwable] <: final, inline {
     val t =
       if (null == this)
          new NullAccess
