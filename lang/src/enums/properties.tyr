@@ -1,0 +1,24 @@
+/**
+ * Let the implicit values of an enum act like a set of flags that can be
+ * combined with bit operations like &, | and ^.
+ * Thus, change the default value creation strategy from linear to exponential.
+ *
+ * More specifically, the previous value is taken, multiplied by two and all
+ * bits except the highest one are set to zero.
+ * The first value is 1.
+ *
+ * Also, the enum will implicitly inherit FlagSetOps providing shorthand
+ * operations for that specific enum.
+ *
+ * @note  The base type must be Unsigned and the implicit base type is an
+ *   unsigned that is just big enough to hold the largest flag. Hence, comparing
+ *   values with unsigned literals should be avoided.
+ *
+ * @note  If no implicit base type is set, the literal type for explicit values
+ *   is still IntegerLiteral[32]. This is because the implicit base type in this
+ *   case can only be computed after evaluating explicit values.
+ *
+ * @todo 0.9  If we introduce unsized literals, we should change the literal
+ *   type to unsized here.
+ */
+public property flagsSet <: reflection.TypeProperty;
