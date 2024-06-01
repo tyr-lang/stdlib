@@ -1,0 +1,5 @@
+/**
+ * Tell the user that calling the target function may throw the expected
+ * exception. The property should be accompanied with a doc comment `@throws T`.
+ */
+property mayThrow[T : Class[Throwable]] <: reflection.FunctionProperty;
