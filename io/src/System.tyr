@@ -7,6 +7,15 @@ public type System {
   public type val in : CFile extern c.stdin;
 
   /**
+   * Exit the current process with the argument return code
+   */
+  public type def exit(code : int) : NoReturn extern c.exit;
+  /**
+   * Register an exit handler.
+   */
+  public type def atExit(handler : def () : void) : int extern c.__cxa_atexit;
+
+  /**
    * The process ID.
    *
    * @note Tyr assumes the host OS to be POSIX-compliant
