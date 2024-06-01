@@ -21,4 +21,4 @@
  * @todo 0.9  If we introduce unsized literals, we should change the literal
  *   type to unsized here.
  */
-public property flagsSet <: reflection.TypeProperty;
+public property flagSet <: reflection.TypeProperty;
