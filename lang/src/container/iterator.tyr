@@ -144,7 +144,7 @@ public class Iterator[+T : Type[any]] <: abstract {
    * Check if this and other return the same number of elements that compare
    * all to true in order.
    *
-   * @note consumes this and other irrespective of the number of elements
+   * @note  consumes this and other irrespective of the number of elements
    *   compared.
    */
   public
@@ -155,7 +155,7 @@ public class Iterator[+T : Type[any]] <: abstract {
   ) : bool
    <: mem.consumed {
     // ensure that an iterator can be compared to itself
-    if(other == this) {
+    if (other == this) {
       delete this // == other
       return true
     }
@@ -164,7 +164,7 @@ public class Iterator[+T : Type[any]] <: abstract {
     var hn : bool
     var on : bool
 
-    while(r && ((hn=hasNext()) &! (on=other.hasNext()))) {
+    while (r && ((hn = hasNext()) &! (on = other.hasNext()))) {
       r = eq(next(), other.next())
     }
     if r {
