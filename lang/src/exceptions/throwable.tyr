@@ -2,14 +2,25 @@
  * The base class of all exception handling. It is not allowed to be used
  * directly.
  *
+ * Exceptions can be allocated and passed around but, once thrown, they will
+ * be deleted when handling them stops regardless of escaping.
+ *
  * TODO 0.8 check what is really used and delete all the rest again
+ *
+ * @note  The current exception handling is implemented on top of C++ exception
+ *   handling. This is not really efficient and also not entirely correct
+ *   regarding corner cases. Eventually, we need to implement Tyr exceptions on
+ *   top of the Exception ABI. A consequence of this is that there is currently
+ *   no such thing as rethrow.
  */
 class Throwable <: abstract {
 
   /**
    * A linked list of suppressed exceptions.
    *
-   * @note if you create a cycle here, the program might crash eventually
+   * @note  if you create a cycle here, the program might crash eventually
+   *
+   * @note  throwing a suppressed exception is an error (TODO 0.8 ???)
    */
   public var suppressed : Throwable;
 
@@ -38,12 +49,22 @@ class Throwable <: abstract {
     delete suppressed
   }
 
+  private
+  type def ensureException(this : Throwable) : Throwable <: final, inline {
+    if (null == this)
+      new NullAccess
+    else
+      this
+  }
+
   /**
    * Throw this exceptions.
    *
    * @throws NullAccess  if null == this
    *
    * @note  this must be a fresh not null exception that is deleted once caught
+   *
+   * @note  throwing exceptions that have been caught or suppressed is forbidden
    *
    * @note  Anything about exception handling is expensive. So, performing
    *   checks really isn't an issue.
@@ -53,21 +74,17 @@ class Throwable <: abstract {
    */
   private
   type def `throw`(this : Throwable) : WillThrow[Throwable] <: final, inline,
+    mem.consumed,
     suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
-    val t =
-      if (null == this)
-         new NullAccess
-       else
-         this
+
+    // note: at the moment cxa throw and allocate come at a pair as each of our
+    // handlers catches, terminates and deallocates the cxa part of exception
+    // handling in order to allow us to completely avoid it in local-only cases
 
     // allocate an exception container for Throwable which is a pointer
     val ex = __cxa_allocate_exception(8L);
 
-    (Ref[Throwable] !! (ex : Ref[byte])) = t;
-
-    // note: the code below is likely rethrow
-
-    // TODO if there is a local handler, jump directly to that handler
+    (Ref[Throwable] !! (ex : cxaException)) = this;
 
     __cxa_throw(ex, mkTypeID(), null);
   }
@@ -106,22 +123,6 @@ class Throwable <: abstract {
   //   }
   // }
 
-  /**
-   * Let a caught exception continue as if it had not been caught.
-   *
-   * @todo  implement suppression as intended; this requires checking if there
-   *   is an exception below the current top.
-   *
-   * @note  rethrow does not strictly require that this has been thrown before;
-   *   if this has been subject to local throw optimization, the exception can
-   *   be fresh.
-   *
-   * @note to self: I guess it could be that the exception is fresh if it is a foreign exception
-   */
-  private
-  type def rethrow(this : Throwable) : WillThrow[Throwable] <:
-      reflection.native, final;
-
   // TODO implement once I can ensure that throw/rethrow and cancelation will
   // work correctly here
   // private
@@ -138,22 +139,28 @@ class Throwable <: abstract {
    * @todo  implement suppression as intended; this requires checking if there
    *   is an exception below the current top.
    *
-   * @todo  should be private and might not exist at all if it's just one cxa call
+   * @todo  ensure that the argument is untyped exception; I guess it needs to
+   *   be inline to reach this goal
    */
   private
   type def cancel(this : Throwable) : void <: mem.consumed, final {
-    __cxa_end_catch()
+    // note:  __cxa_free_exception(this) happens at the beginning of the handler
     delete this
   }
 
   /** declare i8* @__cxa_allocate_exception(i64) */
   private
-  type def __cxa_allocate_exception(size : long) : UntypedException
+  type def __cxa_allocate_exception(size : long) : cxaException
     extern cxa.__cxa_allocate_exception;
+
+  /** declare void __cxa_free_exception(void *thrown_object) */
+  private
+  type def __cxa_free_exception(exV : cxaException) : void
+    extern cxa.__cxa_free_exception;
 
   /** declare i8* @__cxa_begin_catch(i8*) */
   private
-  type def __cxa_begin_catch(exV : pointer) : pointer
+  type def __cxa_begin_catch(exV : observablePointer) : observablePointer
     extern cxa.__cxa_begin_catch;
 
   /** declare void @__cxa_end_catch() */
@@ -161,28 +168,30 @@ class Throwable <: abstract {
   type def __cxa_end_catch() : void
     extern cxa.__cxa_end_catch;
 
-  /**
-   * If there is an enclosing catch handler, jump to it and continue from there.
-   *
-   * @note  does nothing if none exists
-   *
-   * @note  this will result in stack traces getting a bit weird in this case
-   *   but we accept that given that it will actually allow us to optimize a lot
-   *   of resource handling code
-   */
+  /** declare i8* @__cxa_current_primary_exception() */
   private
-  type def __local_throw(e : pointer) : void <: reflection.native, final;
+  type def __cxa_current_primary_exception() : cxaException
+    extern cxa.__cxa_current_primary_exception;
 
   /** declare void @__cxa_throw(i8*, i8*, i8*) */
   private
-  type def __cxa_throw(e : UntypedException, t : pointer, dest : pointer)
+  type def __cxa_throw(
+    e : cxaException,
+    t : observablePointer,
+    dest : observablePointer
+  )
     : WillThrow[Throwable]
     extern cxa.__cxa_throw;
+
+  /** declare void @__cxa_rethrow() */
+  private
+  type def __cxa_rethrow() : WillThrow[Throwable]
+    extern cxa.__cxa_rethrow;
 
   /**
    * Create the C++ typeID structure pased to throw
    */
-  private type def mkTypeID() : pointer <: reflection.native;
+  private type def mkTypeID() : observablePointer <: reflection.native;
 
   /**
    * Read the current exception; null if not currently handling an exception
@@ -190,4 +199,4 @@ class Throwable <: abstract {
   private type def currentException() : Throwable <: reflection.native;
 }
 
-private type UntypedException := Ref[byte]
+private type cxaException <: observablePointer;
