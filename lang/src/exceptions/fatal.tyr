@@ -1,5 +1,18 @@
 /**
  * Throwing an instance of this class will terminate the current thread by
  * unwinding its entire stack.
+ *
+ * @note  the current implementation might be shaky; it is, however, an error
+ *   to think that there will forever be workarounds preventing unwinding of
+ *   Fatals
  */
-public class Fatal <: Throwable, abstract;
+public class Fatal <: Throwable, abstract {
+  /**
+   * Fatal exceptions cannot be deleted and must not rely on destructors, i.e.
+   * they must not hold memory references
+   */
+  delete {
+    // prevent deleting a fatal exception
+    throw this
+  }
+}
