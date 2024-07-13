@@ -132,22 +132,6 @@ class Throwable <: abstract {
   //   return new ForeignException
   // }
 
-  /**
-   * Let a caught exception stop in the current handler. This function is called
-   * implicitly at the end of the handler.
-   *
-   * @todo  implement suppression as intended; this requires checking if there
-   *   is an exception below the current top.
-   *
-   * @todo  ensure that the argument is untyped exception; I guess it needs to
-   *   be inline to reach this goal
-   */
-  private
-  type def cancel(this : Throwable) : void <: mem.consumed, inline, final {
-    // note:  __cxa_free_exception(this) happens at the beginning of the handler
-    delete this
-  }
-
   /** declare i8* @__cxa_allocate_exception(i64) */
   private
   type def __cxa_allocate_exception(size : long) : cxaException
