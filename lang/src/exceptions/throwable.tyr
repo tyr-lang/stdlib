@@ -73,9 +73,8 @@ class Throwable <: abstract {
    *   and tyr types
    */
   private
-  type def `throw`(this : Throwable) : WillThrow[Throwable] <: final, inline,
-    mem.consumed,
-    suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
+  type def `throw`(this : Throwable) : WillThrow[Throwable] <: final,
+    mem.consumed, suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
 
     // note: at the moment cxa throw and allocate come at a pair as each of our
     // handlers catches, terminates and deallocates the cxa part of exception
