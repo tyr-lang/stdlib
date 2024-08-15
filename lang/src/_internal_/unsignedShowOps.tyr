@@ -24,7 +24,7 @@ class UnsignedShowOps <: ConsumedStringReceiverTarget /* TODO mem.stackAllocated
     }
 
     // worst case buffer size is base 2: one sign and 64 digits
-    val bufferSize = 65U;
+    let bufferSize = 65U;
 
     var b = new container.FlatSizedArray[byte, bufferSize];
     // insert chars in reverse
