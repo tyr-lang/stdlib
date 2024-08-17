@@ -152,7 +152,7 @@ public type Heapsort[
   }
 
   test "sort3" {
-    val sort = Heapsort[int, int.`<`].flatArray
+    let sort = Heapsort[int, int.`<`].flatArray
     var arr = new FlatArray[int](4)
 
     arr(0) = 7
@@ -171,7 +171,7 @@ public type Heapsort[
 
   test "sort" {
     var arr = new FlatArray[int](4)
-    val sort =
+    let sort =
       Heapsort[int, int.`<`].apply : def (FlatArray[int], index_t) : void
 
     arr(0) = 7
