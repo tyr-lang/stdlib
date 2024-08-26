@@ -274,7 +274,7 @@ public type base64 {
     {
       91U == coded.size()
     } && {
-      val expected = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms"
+      let expected = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms"
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded
@@ -288,7 +288,7 @@ public type base64 {
     {
       68U == coded.size()
     } && {
-      val expected = "Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark"
+      let expected = "Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark"
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded
