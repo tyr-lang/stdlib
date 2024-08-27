@@ -14,7 +14,7 @@ type base64encode {
     {
       0U == coded.size()
     } && {
-      val expected = ""
+      let expected = ""
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded
@@ -32,7 +32,7 @@ type base64encode {
     {
       2U == coded.size()
     } && {
-      val expected = "TQ"
+      let expected = "TQ"
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded
@@ -50,7 +50,7 @@ type base64encode {
     {
       3U == coded.size()
     } && {
-      val expected = "TWE"
+      let expected = "TWE"
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded
@@ -68,7 +68,7 @@ type base64encode {
     {
       4U == coded.size()
     } && {
-      val expected = "UG9s"
+      let expected = "UG9s"
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded
@@ -86,7 +86,7 @@ type base64encode {
     {
       91U == coded.size()
     } && {
-      val expected = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms"
+      let expected = "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms"
       expected.bytes().sameElements(coded.iterator())
     } && {
       delete coded

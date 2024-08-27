@@ -4,7 +4,7 @@ with tyr.lang.container.Iterator
 
 type charConversions {
   test "empty" {
-    val t = ""
+    let t = ""
     var it = t.chars()
     var bs = new UTF8Iterator(it)
     var cs = new CharacterIterator(bs)
@@ -13,7 +13,7 @@ type charConversions {
   }
 
   test "single" {
-    val t = "@"
+    let t = "@"
     var it = t.chars()
     var bs = new UTF8Iterator(it)
     var cs = new CharacterIterator(bs)
@@ -22,7 +22,7 @@ type charConversions {
   }
 
   test "some text" {
-    val t = "some text"
+    let t = "some text"
     var it = t.chars()
     var bs = new UTF8Iterator(it)
     var cs = new CharacterIterator(bs)
@@ -31,7 +31,7 @@ type charConversions {
   }
 
   test "special" {
-    val t = "aö☢💩£ह𐍈"
+    let t = "aö☢💩£ह𐍈"
     var it = t.chars()
     var bs = new UTF8Iterator(it)
     var cs = new CharacterIterator(bs)
