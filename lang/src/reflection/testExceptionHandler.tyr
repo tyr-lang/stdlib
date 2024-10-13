@@ -1,0 +1,21 @@
+/**
+ * Contains functions used by test code generation.
+ */
+private
+type testExceptionHandler:
+
+
+public
+type def expectException[expected : Class[Throwable]](body : Block[void]) {
+  try {
+    body.eval()
+  } catch e {
+    if expected passTest()
+    else {}
+  }
+  // consider all tests a failure that do not throw the expected type
+  return false
+}
+
+private
+type def passTest : NoReturn <: native;
