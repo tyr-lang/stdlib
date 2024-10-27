@@ -3,54 +3,46 @@
  * Hence, WillThrow inherits from every other type except NoReturn, as any
  * result can be produced by throwing an exception before its production.
  *
- * @param T  The type of exception that will be thrown. Note that this has
- *   mainly a documentation purpose. Reality is that this exception type is used
- *   if nothing goes wrong. Still, one can end up receiving implicit exceptions.
+ * @note  This is an interface, as value type interfaces are the only legal
+ *   subtype of anything else.
  *
- * @note  One can still get any other exception out of such a call.
+ * @note  WillThrow cannot have a type parameter since the correct
+ *   join with another type *or any call within the body not guarded by try*
+ *   would result in the parameter getting erased. Hence, the overhead of
+ *   tracking the type and implementing inference rules correctly does not
+ *   justify the benefit. (note to self: @throws should be a known tyr doc tag)
  *
- * @note  Handling exceptions from sources not defing the runtime exception type
- *   as WillThrow parameter is undefined behaviour. The reason is that such
- *   handlers can get optimized out resulting in other handlers catching the
- *   exception or no handler at all catching the exception.
+ * @note  The repr of WillThrow is void.
  *
- * @note  It should be legal to throw an exception at places where a type has to
+ * @todo  It should be legal to throw an exception at places where a type has to
  *   be supplied. The semantics of such a behaviour would be that the throw
  *   happens before the evaluation of that type. Such unevaluatable types can be
  *   replaced by Class[NoReturn].
  *
- * @note  This is an interface, as value type interfaces are the only legal
- *   subtype of anything else.
+ * @todo 0.8  Restrict explicit usage to function return types
  *
- * @note to self: there should be a rule causing all types below WillThrow[Null]
- *   to be replaced by NoReturn
- *
- * @todo  restrict explicit usage to function return types
- *
- * @todo 0.8: Class[exceptions.Throwable]
- *
- * @todo 0.8: why can this be final? it shouldn't be
+ * @todo 0.8: why can this be final? it should be
  *   private[_root_] protected[NoReturn] or sealed
- *
- * @note  The repr of WillThrow is void.
  */
 public
-interface WillThrow[+T : Class[_]] <:
-    any, reflection.native, final;
+interface WillThrow <: any, reflection.native, final;
 
 /**
  * The computation will not terminate, i.e. control flow will somehow not get to
- * this point. To some it might appear counter-intuitive that the type of a
+ * this point. To some, it might appear counter-intuitive that the type of a
  * return expression is NoReturn. This is because the evaluation of a return
  * cannot be observed from the perspective of the subsequent instruction in the
  * same function following regular control flow.
  *
- * @note  this is an interface, as value type interfaces are the only legal
- * subtype of anything else.
+ * @note  This is an interface, as value type interfaces are the only legal
+ *   subtypes of anything else.
  *
  * @note  The repr of NoReturn is void as we do not emit code for entities that
  *   are not observed.
  *
  * @note  Throwing null is already non-observable.
+ *
+ * @note  Reaching a location of type NoReturn has undefined behaviour even if
+ *   this happens via exception handling.
  */
-public interface NoReturn <: any, WillThrow[Null], reflection.native, final;
+public interface NoReturn <: any, WillThrow, reflection.native, final;

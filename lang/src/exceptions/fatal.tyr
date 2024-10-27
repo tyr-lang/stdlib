@@ -5,6 +5,10 @@
  * @note  the current implementation might be shaky; it is, however, an error
  *   to think that there will forever be workarounds preventing unwinding of
  *   Fatals
+ *
+ * @todo 0.8  check if this type's intended semantics contradicts NoReturn; it
+ *   could still be acceptable to use it as an unwind marker and render all
+ *   conflicts undefined behaviour
  */
 public class Fatal <: Throwable, abstract {
   /**

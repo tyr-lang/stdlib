@@ -73,7 +73,7 @@ class Throwable <: abstract {
    *   and tyr types
    */
   private
-  type def `throw`(this : Throwable) : WillThrow[Throwable] <: final,
+  type def `throw`(this : Throwable) : WillThrow <: final,
     mem.consumed, suppressCompilerMessage["W_OOP_UNLIKELY_CAST"] {
 
     // note: at the moment cxa throw and allocate come at a pair as each of our
@@ -163,12 +163,12 @@ class Throwable <: abstract {
     t : observablePointer,
     dest : observablePointer
   )
-    : WillThrow[Throwable]
+    : WillThrow
     extern cxa.__cxa_throw;
 
   /** declare void @__cxa_rethrow() */
   private
-  type def __cxa_rethrow() : WillThrow[Throwable]
+  type def __cxa_rethrow() : WillThrow
     extern cxa.__cxa_rethrow;
 
   /**

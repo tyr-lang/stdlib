@@ -1,0 +1,49 @@
+/**
+ * Contains functions used by test code generation.
+ *
+ * @note  needs to be public to escape garbage collection
+ *
+ * @note  this class is not considered public API and might get removed without
+ *   further notice
+ */
+public
+type __testExceptionHandler:
+
+/**
+ * @note  block is NoReturn since it is completed at this point
+ */
+private
+type def expectException[expected : Class[exceptions.Throwable]](
+    body : Block[NoReturn]) =
+  try {
+    body.eval()
+  } catch e {
+    if expected {
+      // note: delete is required for tests to be provable; this will however
+      // prevent us from expecting fatals
+      delete e
+      passTest()
+    }
+    else throw e
+  }
+
+private
+type def passTest : NoReturn <: native;
+
+
+/**
+ * @note  block is NoReturn since it is completed at this point
+ */
+private
+type def skipOnException[expected : Class[exceptions.Throwable]](
+    body : Block[NoReturn]) =
+  try {
+    body.eval()
+  } catch e {
+    // skipped tests cannot be proven anyway and the leak does not matter
+    if expected skipTest()
+    else throw e
+  }
+
+private
+type def skipTest : NoReturn <: native;
