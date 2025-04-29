@@ -40,13 +40,16 @@ type Block[+T : Type[any] <: reflection.keepGenerics]
   <: final, reflection.native, reflection.noVar {
 
   /**
-   * Implicit conversion at compile time into regular execution of an expression
+   * Insertion at compile time into regular execution of a CFG.
    *
-   * @note this function cannot be inline, as it would make function bodys using
-   *   blocks unrealizable
+   * @note  This function cannot be inline, as it would make function bodys
+   *   using blocks unrealizable.
    *
-   * @note this function cannot be called implicit because there would be no way
-   *   to create code then as the actual blocks would get automatically inserted
+   * @note  This function cannot be called implicit since this would result in
+   *   actual blocks getting automatically inserted into the caller's CFG.
+   *
+   * @note  This function has the CT property since it is CT-evaluated. It is
+   *   also treated by other mechanisms.
    */
   public def eval : T <: reflection.CT, reflection.native;
 }
