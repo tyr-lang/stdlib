@@ -1,0 +1,9 @@
+/**
+ * Thrown in case of non-recoverable API contract violations to avoid
+ *  unpredictable behavior of reaching unreachable places in code.
+ *
+ * @note  catching and reacting to this error class is always a coding error
+ */
+private[tyr] class ContractViolation <: Fatal {
+  override def message = "fatal contract violation"
+}
