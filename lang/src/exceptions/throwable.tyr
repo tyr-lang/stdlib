@@ -49,6 +49,9 @@ class Throwable <: abstract {
     delete suppressed
   }
 
+  // TODO 0.8 check if implicit null access already does this at lower cost or
+  // if what it really does is sufficient and having this is not justified given
+  // the extra cost and code size
   private
   type def ensureException(this : Throwable) : Throwable <: final, inline {
     if (null == this)
