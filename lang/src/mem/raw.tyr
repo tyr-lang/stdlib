@@ -42,4 +42,9 @@ type raw {
   public
   type def copy(dest : pointer, source : pointer, size : container.size_t)
                : void <: reflection.native;
+
+  /**
+   * Overwrite ref with zeroes ensuring that it behaves as if zero-allocated.
+   */
+  public type def zero[T : Type[_]](ref : Ref[T]) : void <: reflection.native;
 }
