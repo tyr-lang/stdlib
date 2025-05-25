@@ -1,0 +1,27 @@
+/**
+ * Tell the backend to avoid inlining of the function.
+ *
+ * @note  As of today, there are no guarantees that this is realy not happening.
+ *
+ * @author Timm Felden
+ */
+property avoidInline <: FunctionProperty;
+
+/**
+ * Tell the backend to avoid optimizing the function.
+ *
+ * @note  As of today, there are no guarantees that this is realy not happening.
+ *
+ * @note  Using this property is an outright stupid idea. Semantic analysis is
+ *  built under the assumption that certain optimizations are always done. So,
+ *  the resulting code can be very slow.
+ *
+ * @note  This does intentionally not prevent the semantic analysis from
+ *  performing any optimizations. The optimizations done there are done with Tyr
+ *  semantics in mind. Whereas, the optimizations done by the frontend are done
+ *  with C++ semantics. Also, some optimizations done by the frontend are done
+ *  unconditionally because code would not compile otherwise in general.
+ *
+ * @author Timm Felden
+ */
+property avoidOptimization <: FunctionProperty;
