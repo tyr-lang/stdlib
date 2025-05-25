@@ -5,7 +5,7 @@
  *
  * @author Timm Felden
  */
-property avoidInline <: FunctionProperty;
+public property avoidInline <: FunctionProperty;
 
 /**
  * Tell the backend to avoid optimizing the function.
@@ -24,4 +24,4 @@ property avoidInline <: FunctionProperty;
  *
  * @author Timm Felden
  */
-property avoidOptimization <: FunctionProperty;
+public property avoidOptimization <: FunctionProperty;
