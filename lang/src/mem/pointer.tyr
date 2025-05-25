@@ -14,17 +14,42 @@ type OpaquePointer[Name : StringLiteral]
 
 
 /**
+ * A C-style pointer type with the sole purpose of being used in C APIs to
+ * reflect the expected behaviour. This pointer type offers arithmetic and can
+ * be constructed from pointer, i.e. also Ref and CRef which is highly unsafe in
+ * general and should be avoided wherever possible.
+ *
+ * @note  This pointer cannot take part in Tyr's autodereference system. Hence,
+ *  it offers no implicit conversion.
+ *
+ * TODO add arithmethics with C++-style semantics that make it relative to the
+ *  size of T once that size is available in the frontend. If it is really
+ *  required to implement this, it could also be native and done in the backend.
+ */
+public
+type CPointer[T : Type[_]] <: observablePointer, reflection.native {
+  public new(p : pointer) {
+    this = this.type !! p
+  }
+
+  public def * : T <: operator.precedence[210] = toRef()
+
+  public def toRef : Ref[T] = Ref[T] !! this
+}
+
+
+/**
  * A pointer to a heap-allocated object that has itself no runtime type
  * information.
  *
  * In Tyr, this type is used for type instances that cannot be passed as Ref
  * because their usage outlives their declaration and that should not be copied.
  *
- * Furthermore, it is used to C APIs with structs that have Tyr equivalents.
+ * Further, it is used to type C APIs with structs that have Tyr equivalents.
  *
- * @note at first glance, it might be surprising that this is called pointer
- * instead of object. But, in fact, malloc creates new valid pointers and free
- * ends their validity, i.e. lifetime.
+ * @note  At first glance, it might be surprising that this is called pointer
+ *  instead of object. But, in fact, malloc creates new valid pointers and free
+ *  ends their validity, i.e. lifetime.
  *
  * @TODO there should be a ConstantHeapPointer converting to CRef once we have it
  */

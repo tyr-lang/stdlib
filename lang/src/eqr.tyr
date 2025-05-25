@@ -20,9 +20,9 @@
  *
  * @note to self: we still could use ~~ for inherited eqr
  *
- * @note in contrast to other languages, a user is not expected to perform an
- * identity check first. The identity check has to be performed by the EQR
- * implementation if desired.
+ * @note  In contrast to other languages, a user is not expected to perform an
+ *  identity check first. The identity check has to be performed by the EQR
+ *  implementation if desired.
  */
 public interface EQR[T : Type[any]] <: any {
   /**
