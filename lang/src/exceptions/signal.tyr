@@ -1,0 +1,125 @@
+with arr := container.FlatSizedArray
+
+/**
+ * This file provides integration with POSIX signal.h.
+ *
+ * @note  Defining a signal handler for any signal with a default action that
+ *  would terminate a program has currently undefined behavior.
+ *
+ * @note  Throwing a signal from a handler has currently undefined behavior.
+ *  This will likely be narrowed in a future revision.
+ *
+ * @note  As of today, SIGILL and SIGSEGV are handeled by tyr.lang and cannot be
+ *  changed without changing the semantics of associated implicit exceptions.
+ *
+ * @note  The current implementation is incomplete. If you need to register
+ *  signal handlers, feel free to provide a patch.
+ *
+ * @see  https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/signal.h.html
+ */
+public type signal {
+  type def handler(id : sig, info : CRef[siginfo], context : observablePointer)
+   : void {
+    switch info {
+      if ILL {
+        // treat sig ill as fatal since it usually reasults from corrupting
+        // vtables or itables or similar errors that are unrecoverable coding
+        // issues
+        if (null == info.addr)
+          throw new FatalNullAccess
+        throw new FatalSegFault
+      }
+      if SEGV {
+        if (null == info.addr)
+          throw new NullAccess
+        throw new SegFault
+      }
+      else throw new ContractViolation
+    }
+  }
+
+  type val handlerRegistered =
+    register(sig.ILL, handler) && register(sig.SEGV, handler)
+
+  type def register(s : sig, h : handler.type) : bool {
+    val sa = new sigaction(h)
+    0 == sigaction.register(s, sa, null)
+  }
+}
+
+public enum sig <: int {
+  none = 0,
+  BUS = 7,
+  FPE = 8,
+  HUP = 1,
+  ILL = 4,
+  SEGV = 11
+}
+
+/**
+ * In contrast to POSIX, we define this as a tagged enum. Unfortunately for us,
+ * C does not have the concept. However, the structure is built like that and
+ * the first int is in fact the sig value. Hence, we must repeat the common
+ * parts as header in every type to ensure the correct layout.
+ *
+ * @note to self: this is actually a good point to review my opposition against
+ *  inheritance of flat types
+ */
+public enum siginfo <: sig {
+  if BUS, FPE, ILL, SEGV siginfo_addr
+  else siginfo_pad
+}
+
+public type siginfo_common {
+  public var errno : int
+  public var code : int
+  private val dead_padding : int
+}
+
+public type siginfo_addr {
+  public var common : siginfo_common
+
+  public var addr : observablePointer
+  public var addr_lsb : short
+
+  // the fields below seem to be incorrect and likely require some sort of union
+  // between two more named struct types
+  // note: this was not addressed since addr is all required for throwing
+  //  implicit exceptions here
+  public var lower : observablePointer
+  public var upper : observablePointer
+}
+
+public type siginfo_pad {
+  public var common : siginfo_common
+  private val dead_padding : arr[byte, 80U]
+}
+
+public type sigaction {
+  var handler : signal.handler.type;
+  var mask : sigset_t;
+  var flags : int;
+  var restorer : (def () : void);
+
+  public new(h : signal.handler.type) {
+    mem.raw.zero[sigaction](this)
+    mask.sigemptyset()
+    flags = 0x40000004i
+    handler = h
+  }
+
+  /**
+   * @see
+   *  https://pubs.opengroup.org/onlinepubs/9799919799/functions/sigaction.html
+   */
+  public
+  type def register(id : sig, act : CRef[sigaction],
+      oact : mem.CPointer[sigaction])
+   : int extern c.sigaction
+}
+
+public type sigset_t {
+  private val dead_padding : arr[long, 16U]
+
+  public def sigemptyset(this : Ref[sigset_t]) : int extern c.sigemptyset
+}
