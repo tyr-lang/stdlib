@@ -41,13 +41,12 @@ public class Iterator[+T : Type[any]] <: abstract {
    * @post !hasNext
    */
   public def foreach (x : BlockParameter[T], action : Block[any]) : void
-          <: mem.consumed  {
+          <: mem.consumed = try {
     while(hasNext()) {
       x = next()
       action.eval()
     }
-    delete this
-  }
+  } finally delete this
 
   /**
    * Count the number of elements fulfilling predicate and delete the iterator
@@ -55,16 +54,15 @@ public class Iterator[+T : Type[any]] <: abstract {
    * @post !hasNext
    */
   public def count (x : BlockParameter[T], predicate : Block[bool]) : size_t
-          <: mem.consumed  {
+          <: mem.consumed = try {
     var r = 0U
     while(hasNext()) {
       x = next()
       if(predicate.eval())
         ++r;
     }
-    delete this
-    return r
-  }
+    r
+  } finally delete this
 
   /**
    * Check predicate until the predicate is false or the iterator is empty
@@ -129,16 +127,15 @@ public class Iterator[+T : Type[any]] <: abstract {
    */
   public def fold (initial : T,
                    left : BlockParameter[T], right : BlockParameter[T],
-                   step : Block[T]) : T <: mem.consumed  {
+                   step : Block[T]) : T <: mem.consumed = try {
     var r = initial;
     while(hasNext()) {
       left = r;
       right = next();
       r = step.eval();
     }
-    delete this
     r
-  }
+  } finally delete this
 
   /**
    * Check if this and other return the same number of elements that compare
@@ -153,7 +150,7 @@ public class Iterator[+T : Type[any]] <: abstract {
   ](
     other : Iterator[T] <: mem.free
   ) : bool
-   <: mem.consumed {
+   <: mem.consumed = try {
     // ensure that an iterator can be compared to itself
     if (other == this) {
       delete this // == other
@@ -170,23 +167,20 @@ public class Iterator[+T : Type[any]] <: abstract {
     if r {
       r = (hn == on)
     }
-
-    delete this, other
-    return r
-  }
+    r
+  } finally delete this, other
 
   /**
    * Take all elements from this iterator, add them to an ArrayBuffer and delete
    * the iterator.
    */
-  public def toBuffer : ArrayBuffer[T] <: mem.consumed {
+  public def toBuffer : ArrayBuffer[T] <: mem.consumed = try {
     var r = new ArrayBuffer[T]
     while(hasNext()) {
       r += next()
     }
-    delete this
     r
-  }
+  } finally delete this
 
   /**
    * Wrap this iterator in a buffered iterator owning this.
