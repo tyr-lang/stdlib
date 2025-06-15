@@ -92,38 +92,49 @@ class Throwable <: abstract {
   }
 
   /**
-   * Suppress the current exception and throw the survivor.
-   *
-   * @note if the current exception is Fatal, the current exception stays and
-   *   this is suppressed instead, even if it is also Fatal
+   * Execute a block and ensure that the current exception is rethrown
+   * afterwards applying supression logic if required.
    */
-  // public
-  // type def suppress(this : Throwable) : WillThrow[Throwable] <: final, inline {
-  //   val t =
-  //     if (null == this)
-  //       new NullAccess
-  //      else
-  //        this
+  private
+  type def guard(c : Throwable, b : Block[any]) : WillThrow {
+    throw try {
+      b.eval()
+      c
+    } catch e {
+      else suppress(c, e)
+    }
+  }
 
-  //   val current = currentException()
-  //   if (null == current)
-  //     t.throw()
+  /**
+   * Suppress the thrown exception and return the survivor.
+   *
+   * @note  if the current exception is Fatal, the current exception stays and
+   *  thrown is suppressed instead, even if it is also Fatal
+   *
+   * @note  returns null if both are null
+   */
+  private
+  type def suppress(this : Throwable, thrown : Throwable) : Throwable <: final {
+    if (null == this)
+      return thrown
 
-  //   if (Fatal ? current) {
-  //     // note: strictly speaking, this is more complex; wait for exact rules
-  //     // until someone really runs into that issue
-  //     suppressed = current.suppressed
-  //     current.suppressed = t
-  //     t.cancel()
-  //     current.rethrow()
-  //   } else {
-  //     // note: strictly speaking, this is more complex; wait for exact rules
-  //     // until someone really runs into that issue
-  //     t.suppressed = current
-  //     current.cancel();
-  //     t.rethrow()
-  //   }
-  // }
+    if (null == thrown)
+      return this
+
+    if (!Fatal ? this && Fatal ? thrown) {
+      // note: strictly speaking, this is more complex; wait for exact rules
+      // until someone really runs into that issue
+      suppressed = thrown.suppressed
+      thrown.suppressed = this
+      thrown
+    } else {
+      // note: strictly speaking, this is more complex; wait for exact rules
+      // until someone really runs into that issue
+      thrown.suppressed = suppressed
+      suppressed = thrown
+      this
+    }
+  }
 
   // TODO implement once I can ensure that throw/rethrow and cancelation will
   // work correctly here
@@ -178,11 +189,6 @@ class Throwable <: abstract {
    * Create the C++ typeID structure pased to throw
    */
   private type def mkTypeID() : observablePointer <: reflection.native;
-
-  /**
-   * Read the current exception; null if not currently handling an exception
-   */
-  private type def currentException() : Throwable <: reflection.native;
 }
 
 private type cxaException <: observablePointer;
