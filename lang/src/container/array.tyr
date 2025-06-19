@@ -27,17 +27,22 @@ public class Array[T : Type[any]] <: IndexedSeq[T] {
     delete data;
   }
 
-  public def iterator : FlatArrayIterator[T] = new FlatArrayIterator[T](data, length)
+  public
+  def iterator : FlatArrayIterator[T] <: final
+    = new FlatArrayIterator[T](data, length)
 
   public def apply(index : index_t) : Ref[T] = data(index);
   public def update(index : index_t, v : T) : T = data.update(index, v);
 
-  public def isDefined(index : index_t) : bool = 0U <= index.unpack && index.unpack < length
+  public
+  def isDefined(index : index_t) : bool
+    = 0U <= index.unpack && index.unpack < length
 
   public def size : size_t = length
 
-  public def view (offset : index_t = 0.implicit())
-                  = ArrayView[T].from(data.shift(offset))
+  public
+  def view (offset : index_t = 0.implicit())
+    = ArrayView[T].from(data.shift(offset))
 
   /**
    * Perform action for each remaining element of the array. Allow the block to
@@ -51,4 +56,14 @@ public class Array[T : Type[any]] <: IndexedSeq[T] {
       action.eval()
     }
   }
+
+  /**
+   * @note this has been explicitly inherited from Iterable to make a point wrt.
+   *  optimizability; we could also implement it without iterator
+   */
+  public
+  def fold (initial : T,
+            left : BlockParameter[T], right : BlockParameter[T],
+            step : Block[T]) : T
+    = iterator().fold(initial, left, right, step)
 }
