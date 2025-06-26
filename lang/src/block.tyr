@@ -51,7 +51,7 @@ type Block[+T : Type[any] <: reflection.keepGenerics]
    * @note  This function has the CT property since it is CT-evaluated. It is
    *   also treated by other mechanisms.
    */
-  public def eval : T <: reflection.CT, reflection.native;
+  public type def eval(this : Block[T]) : T <: reflection.CT, reflection.native
 }
 
 /**
