@@ -58,23 +58,26 @@ type Block[+T : Type[any] <: reflection.keepGenerics]
  * Block parameters are invariant in T. Hence, the shape in matching parameters
  * with inferred type requires a marker type.
  *
- * @todo could be replaced by an existantial type BlockParameter[Type.some(true)]
+ * @todo  could be replaced by an existantial type or some variable passed into
+ *   type inference.
  *
  * @author Timm Felden
  */
-public interface ABlockParameter <: any, reflection.noVar;
+private interface ABlockParameter <: any, reflection.noVar;
 
 /**
  * A block prameter can be constructed from the name of a local variable.
  *
- * @note The name introduced by a generalized binder is a variable.
+ * @note  The name introduced by a generalized binder is a variable.
  *
- * @note A BlockParameter is constructed automatically on overload resolution
- *       iff the argument is a direct usage of a local variable.
+ * @note  A BlockParameter is constructed automatically on overload resolution
+ *   iff the argument is a direct usage of a local variable.
  *
- * @note Multiple blocks may depend on the same block parameter
+ * @note  Multiple blocks may depend on the same block parameter
  *
- * @note The dependency on the block cannot be typed with sane effort atm.
+ * @note  The dependency on the block cannot be typed and should be tracked with
+ *   dedicated tooling instead. The type system is simply no place to track such
+ *   information efficiently.
  *
  * @author Timm Felden
  */
