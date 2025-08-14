@@ -138,6 +138,27 @@ public class Iterator[+T : Type[any]] <: abstract {
   } finally delete this
 
   /**
+   * fold left on all remaining elements and delete the iterator
+   *
+   * @post  !hasNext
+   *
+   * @note  in the long run, we intend to replace the other fold by this one
+   *
+   * @todo 0.11  the migration strategy should be deprecation + := fold[T]
+   */
+  public def fold[R : Type[_] = T] (initial : R,
+      result : BlockParameter[R], current : BlockParameter[T],
+      step : Block[R]) : R <: mem.consumed = try {
+    var r = initial
+    while (hasNext()) {
+      result = r
+      current = next()
+      r = step.eval()
+    }
+    r
+  } finally delete this
+
+  /**
    * Check if this and other return the same number of elements that compare
    * all to true in order.
    *
