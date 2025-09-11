@@ -1,0 +1,23 @@
+/**
+ * Mark a temporary end of the road, i.e. a point in the CFG that is
+ * intentionally not yet passable because something is still missing. Reaching
+ * it is a fatal error when executing the current version of a piece of
+ * software.
+ */
+public class TODO <: exceptions.Fatal, final:
+
+public type def - (this : Class[TODO], msg : String) <: inline
+  = throw new TODO(msg)
+
+public type def ! (this : Class[TODO]) <: inline, operator.postfix
+  = throw new TODO
+
+private val msg : String;
+
+private new(msg := msg : String = "dead code");
+
+delete {
+  delete msg
+}
+
+override def message = msg;

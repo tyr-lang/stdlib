@@ -1,0 +1,27 @@
+/**
+ * Mark a permanent end of the road, i.e. a point in the CFG that is
+ * intentionally not reachable and not passable. Reaching it is a fundamental
+ * flaw.
+ *
+ * @note  DeadCode is an exception because life shows that architecture changes
+ *   can turn former dead code life. Debugging this with an exception is a lot
+ *   easier than going after whatever happens if the backend simply assumes that
+ *   nothing is there resulting in random code execution.
+ */
+public class DeadCode <: Fatal, final:
+
+public type def - (this : Class[DeadCode], msg : String) <: inline
+  = throw new DeadCode(msg)
+
+public type def ! (this : Class[DeadCode]) <: inline, operator.postfix
+  = throw new DeadCode
+
+private val msg : String;
+
+private new(msg := msg : String = "dead code");
+
+delete {
+  delete msg
+}
+
+override def message = msg;
