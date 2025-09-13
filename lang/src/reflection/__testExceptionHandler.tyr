@@ -19,9 +19,10 @@ type def expectException[expected : Class[exceptions.Throwable]](
     body.eval()
   } catch e {
     if expected {
-      // note: delete is required for tests to be provable; this will however
-      // prevent us from expecting fatals
-      delete e
+      // note: delete is required for tests to be provable; Fatals cannot be
+      // deleted and will hence not be provable with this approach
+      if(!exceptions.Fatal ? e)
+        delete e
       passTest()
     }
     else throw e
