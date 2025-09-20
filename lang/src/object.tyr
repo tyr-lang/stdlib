@@ -38,22 +38,24 @@ public class Object <: observablePointer, abstract {
   /**
    * Release resources held by this object including its memory.
    *
-   * @note memory management is detatched from new/delete to allow local
-   *       overrides such as placement new or may-ownership-based automatic
-   *       memory management (Rust must-ownership type system will never be
-   *       added to Tyr as it is inherently broken).
-   *       Also, this allows to call parent destructors explicitly in the middle
-   *       of a child destructor.
+   * @note  memory management is detatched from new/delete to allow local
+   *        overrides such as placement new or may-ownership-based automatic
+   *   memory management (Rust must-ownership type system will never be added to
+   *   Tyr as it is inherently broken).
+   *   Also, this allows to call parent destructors explicitly in the middle
+   *   of a child destructor.
    *
-   * @note delete is always a dispatching call
+   * @note  delete is always a dispatching call
    *
-   * @note it is always an error to use a deleted object, even if its memory is
-   *       not returned to the OS
+   * @note  it is always an error to use a deleted object, even if its memory is
+   *        not returned to the OS
    *
-   * @note delete is the only dispatching function in Object and has, hence,
-   *       always the ID 0
+   * @note  delete is the only dispatching function in Object and has, hence,
+   *        always the ID 0
+   *
+   * @note  to simplify translation, delete must be implemented with a return
    */
-  public delete;
+  public delete {return}
 
   /**
    * Check if this is exactly of the argument type
