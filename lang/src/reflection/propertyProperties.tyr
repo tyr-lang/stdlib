@@ -1,0 +1,36 @@
+/**
+ * The base of properties of properties.
+ *
+ * @note  It is an error to use a property property on a non-property definition
+ *        directly.
+ *
+ * @author Timm Felden
+ */
+property PropertyProperty <: BaseProperty;
+
+/**
+ * This property is inherited from super types and classes.
+ *
+ * @author Timm Felden
+ */
+public property InheritedFromParentProperty <: TypeProperty, PropertyProperty;
+
+/**
+ * This property is inherited from all super types, classes and interfaces.
+ *
+ * @author Timm Felden
+ */
+public property InheritedFromAllProperty <: TypeProperty, PropertyProperty;
+
+/**
+ * Base type for implies used for faster detection and easier handling of
+ * properties with multiple implies and different sources of them.
+ */
+private property ImpliesBaseProperty <: PropertyProperty;
+
+/**
+ * This property is inherited from all super types, classes and interfaces.
+ *
+ * @author Timm Felden
+ */
+public property ImpliesProperty[P : BaseProperty] <: ImpliesBaseProperty;
