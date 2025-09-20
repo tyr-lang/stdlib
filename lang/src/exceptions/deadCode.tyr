@@ -10,7 +10,9 @@
  */
 public class DeadCode <: Fatal, final:
 
-public type def - (this : Class[DeadCode], msg : String) <: inline
+public
+type def - (this : Class[DeadCode], msg : String)
+    <: inline, operator.precedence[1]
   = throw new DeadCode(msg)
 
 public type def ! (this : Class[DeadCode]) <: inline, operator.postfix

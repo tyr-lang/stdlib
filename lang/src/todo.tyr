@@ -6,7 +6,8 @@
  */
 public class TODO <: exceptions.Fatal, final:
 
-public type def - (this : Class[TODO], msg : String) <: inline
+public
+type def - (this : Class[TODO], msg : String) <: inline, operator.precedence[1]
   = throw new TODO(msg)
 
 public type def ! (this : Class[TODO]) <: inline, operator.postfix
@@ -14,7 +15,7 @@ public type def ! (this : Class[TODO]) <: inline, operator.postfix
 
 private val msg : String;
 
-private new(msg := msg : String = "dead code");
+private new(msg := msg : String = "");
 
 delete {
   delete msg
