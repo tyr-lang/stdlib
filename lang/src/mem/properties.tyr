@@ -3,13 +3,13 @@
 /**
  * Instances of this type cannot or must not be deleted.
  *
- * @note For classes, delete remains abstract, but will not count as abstract
- *       member. That way, one will get an NPE at runtime when trying to delete
- *       an eternal object.
+ * @note  For classes, delete remains abstract, but will not count as abstract
+ *        member. That way, one will get an NPE at runtime when trying to delete
+ *   an eternal object.
  *
- * @appliesTo type, class
+ * @appliesTo  type, class
  */
-public property eternal <: reflection.TypeProperty;
+public property eternal <: reflection.TypeProperty, reflection.InheritedFromAllProperty;
 
 /**
  * If applied to a type, the instances of that type cannot be created and exist
@@ -17,10 +17,12 @@ public property eternal <: reflection.TypeProperty;
  * If applied to an object field, the field is initialized before evaluation of
  *  the constructor's body.
  *
- * @appliesTo type, class if native or new is native
- * @appliesTo field if lifetime is object
+ * @appliesTo  type, class if native or new is native
+ * @appliesTo  field if lifetime is object
  */
-public property primordial <: reflection.TypeProperty, reflection.FieldProperty;
+public
+property primordial <: reflection.TypeProperty, reflection.FieldProperty,
+  reflection.InheritedFromAllProperty;
 
 /**
  * An object returned by the function is new and it is the responsibility of the
